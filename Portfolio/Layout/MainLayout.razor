@@ -10,7 +10,8 @@
         <MudIconButton OnClick="ToggleNavMenu" Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" />
         <SectionOutlet SectionName="page-name" />
         <MudSpacer />
-        <MudToggleIconButton @bind-Toggled="IsDarkMode"
+        <MudToggleIconButton Toggled="@IsDarkMode"
+                             ToggledChanged="@DarkModeChanged"
                              Icon="@Icons.Material.Outlined.WbSunny"
                              Color="Color.Inherit"
                              ToggledIcon="@Icons.Material.Outlined.ModeNight"

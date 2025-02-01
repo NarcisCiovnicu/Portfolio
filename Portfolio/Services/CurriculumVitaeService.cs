@@ -19,8 +19,6 @@ namespace Portfolio.Services
         private readonly HttpClient _httpClient = httpClient;
         private readonly ILocalStorageService _localStorage = localStorage;
 
-        private const string _cvKey = "CurriculumVitae";
-
         public async Task<Response<CurriculumVitae>> GetCVAsync()
         {
             CurriculumVitae? cv = await TryToGetFromLocalStorageAsync();
@@ -71,7 +69,7 @@ namespace Portfolio.Services
             try
             {
                 cv.LastUpdate = DateHelper.Today();
-                await _localStorage.SetItemAsync(_cvKey, cv);
+                await _localStorage.SetItemAsync(Constants.LocalStorage.CvKey, cv);
             }
             catch (Exception ex)
             {
@@ -83,7 +81,7 @@ namespace Portfolio.Services
         {
             try
             {
-                return await _localStorage.GetItemAsync<CurriculumVitae>(_cvKey);
+                return await _localStorage.GetItemAsync<CurriculumVitae>(Constants.LocalStorage.CvKey);
             }
             catch (Exception ex)
             {
