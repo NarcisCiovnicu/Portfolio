@@ -1,0 +1,41 @@
+﻿@inherits LayoutComponentBase
+
+<MudThemeProvider @ref="@_mudThemeProvider" @bind-IsDarkMode="@_isDarkMode" />
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudAppBar Elevation="1" Color="Color.Default" Fixed="true" Dense="true">
+        <MudIconButton OnClick="ToggleNavMenu" Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" />
+        <SectionOutlet SectionName="page-name" />
+        <MudSpacer />
+        <MudToggleIconButton @bind-Toggled="_isDarkMode"
+                             Icon="@Icons.Material.Outlined.WbSunny"
+                             Color="Color.Inherit"
+                             ToggledIcon="@Icons.Material.Outlined.ModeNight"
+                             ToggledColor="@Color.Inherit"
+                             title="@_themeName" />
+        <MudText>@_themeName mode </MudText>
+    </MudAppBar>
+
+    <MudDrawer Elevation="2" @bind-Open="@_isNavMenuOpen" Breakpoint="Breakpoint.Xxl" ClipMode="DrawerClipMode.Always">
+        <NavMenu OnClose="CloseNavMenu"></NavMenu>
+    </MudDrawer>
+
+    <MudMainContent>
+        <MudContainer Class="mb-15" MaxWidth="MaxWidth.Medium">
+            <GlobalErrorBoundary @ref="@_globalErrorBoundary">
+                <ChildContent>
+                    @Body
+                </ChildContent>
+                <ErrorContent>
+                    <MudAlert Severity="Severity.Error" Elevation="10" Class="mt-4" ShowCloseIcon="true" CloseIconClicked="() => _globalErrorBoundary?.Recover()">
+                        <MudText>Critical error! Sorry, 🐀🐁🐀 are eating my website...</MudText>
+                    </MudAlert>
+                </ErrorContent>
+            </GlobalErrorBoundary>
+        </MudContainer>
+    </MudMainContent>
+
+</MudLayout>

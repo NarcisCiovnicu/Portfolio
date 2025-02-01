@@ -1,0 +1,36 @@
+﻿@page "/cv"
+@using Portfolio.Components.CVDesigns.One
+@using Portfolio.Components.CVDesigns.Two
+
+<SectionContent SectionName="page-name">
+    <MudText>CV</MudText>
+</SectionContent>
+
+@if (_curriculumVitae != null)
+{
+    if (_warningMessage != null)
+    {
+        <WarningAlert Message="@_warningMessage"></WarningAlert>
+    }
+
+    switch (_cvDesignType)
+    {
+        case CVDesignType.DesignOne:
+            <RenderDesignOne CurriculumVitae="@_curriculumVitae"></RenderDesignOne>
+            break;
+        case CVDesignType.DesignTwo:
+            <RenderDesignTwo CurriculumVitae="@_curriculumVitae"></RenderDesignTwo>
+            break;
+        default:
+            <RenderDesignOne CurriculumVitae="@_curriculumVitae"></RenderDesignOne>
+            break;
+    }
+}
+else if (_isCvLoading)
+{
+    <LoadingSpinner Message="Loading CV"></LoadingSpinner>
+}
+else if (_errorMessage != null)
+{
+    <ErrorAlert Message="@_errorMessage"></ErrorAlert>
+}

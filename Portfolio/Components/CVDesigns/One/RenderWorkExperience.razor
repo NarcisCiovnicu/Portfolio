@@ -1,0 +1,17 @@
+﻿
+<RenderSection Title="WORK EXPERIENCE">
+    @{
+        bool isNotFirst = false;
+        foreach (WorkExperience workExperience in WorkExperienceList)
+        {
+            <MudContainer Class="@(isNotFirst ? "mt-4" : "mt-1")">
+                <WorkExperienceHeader WorkExperience="workExperience"></WorkExperienceHeader>
+
+                <NoWrapText Class="fw-bold" Text="@workExperience.Title" />
+
+                <TextDetails Details="@workExperience.Description" />
+            </MudContainer>
+            isNotFirst = true;
+        }
+    }
+</RenderSection>

@@ -1,0 +1,24 @@
+﻿@using Portfolio.Components.CVDesigns.One
+@inherits BaseRenderDesign
+
+<RenderStartSection CurriculumVitae="CurriculumVitae"></RenderStartSection>
+
+@if (CurriculumVitae.EducationHistory != null)
+{
+    <RenderSection Title="EDUCATION"></RenderSection>
+}
+
+@if (CurriculumVitae.WorkExperienceList != null)
+{
+    <RenderWorkExperience WorkExperienceList="@CurriculumVitae.WorkExperienceList"></RenderWorkExperience>
+}
+
+@if (CurriculumVitae.PersonalProjects != null)
+{
+    <RenderSection Title="PERSONAL PROJECTS"></RenderSection>
+}
+
+@if (CurriculumVitae.Skills != null)
+{
+    <RenderSkills Skills="CurriculumVitae.Skills"></RenderSkills>
+}

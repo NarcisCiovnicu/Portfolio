@@ -1,0 +1,25 @@
+﻿<h1 Class="d-flex justify-content-center mt-5">@CurriculumVitae.Name</h1>
+
+<MudContainer Class="d-flex justify-content-around flex-wrap">
+    <NoWrapText Text="@CurriculumVitae.Phone"></NoWrapText>
+
+    <MudText Class="mx-2">|</MudText>
+    <NoWrapText Text="@CurriculumVitae.Email"></NoWrapText>
+
+    <MudText Class="mx-2">|</MudText>
+    <NoWrapText Text="@CurriculumVitae.Location"></NoWrapText>
+</MudContainer>
+
+<MudDivider Class="mt-5 mb-2" DividerType="DividerType.Middle"></MudDivider>
+
+@if (CurriculumVitae.LinkedInProfile != null)
+{
+    <MudContainer Class="mb-3">
+        <MudIcon Icon="@Icons.Custom.Brands.LinkedIn" Size="Size.Large" Color="Color.Info" />
+        <a href="@CurriculumVitae.LinkedInProfile.Uri" target="_blank" rel="noopener noreferrer">@CurriculumVitae.LinkedInProfile.Label</a>
+    </MudContainer>
+}
+
+<MudContainer>
+    <TextDetails Details="@CurriculumVitae.About"></TextDetails>
+</MudContainer>

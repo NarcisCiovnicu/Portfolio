@@ -1,0 +1,16 @@
+﻿<RenderSection Title="SKILLS">
+    <MudContainer Class="d-flex justify-content-around flex-wrap">
+        @{
+            bool isNotFirst = false;
+            foreach (string skill in Skills)
+            {
+                if (isNotFirst)
+                {
+                    <MudText Class="mx-1">•</MudText>
+                }
+                <MudText>@skill</MudText>
+                isNotFirst = true;
+            }
+        }
+    </MudContainer>
+</RenderSection>
