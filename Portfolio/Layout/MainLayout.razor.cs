@@ -1,37 +1,42 @@
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor;
 using Portfolio.Errors;
 
 namespace Portfolio.Layout
 {
-    public partial class MainLayout()
+    public partial class MainLayout(IWebAssemblyHostEnvironment hostEnvironment, ILogger<MainLayout> logger)
     {
-        private bool _isNavMenuOpen { get; set; } = false;
-        private bool _isDarkMode { get; set; } = false;
-        private string _themeName
+        private readonly IWebAssemblyHostEnvironment _hostEnvironment = hostEnvironment;
+        private readonly ILogger<MainLayout> _logger = logger;
+
+        private bool IsNavMenuOpen { get; set; } = false;
+        private bool IsDarkMode { get; set; } = false;
+        private string ThemeName
         {
-            get { return _isDarkMode ? "Dark" : "Light"; }
+            get { return IsDarkMode ? "Dark" : "Light"; }
         }
 
-        private MudThemeProvider? _mudThemeProvider { get; set; }
-        private GlobalErrorBoundary? _globalErrorBoundary { get; set; }
+        private MudThemeProvider? MudThemeProvider { get; set; }
+        private GlobalErrorBoundary? GlobalErrorBoundary { get; set; }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
             {
-                _isDarkMode = await _mudThemeProvider!.GetSystemPreference();
+                _logger.LogInformation("Current environment: {Environment}", _hostEnvironment.Environment);
+                IsDarkMode = await MudThemeProvider!.GetSystemPreference();
                 StateHasChanged();
             }
         }
 
         private void ToggleNavMenu()
         {
-            _isNavMenuOpen = !_isNavMenuOpen;
+            IsNavMenuOpen = !IsNavMenuOpen;
         }
 
         private void CloseNavMenu()
         {
-            _isNavMenuOpen = false;
+            IsNavMenuOpen = false;
         }
     }
 }

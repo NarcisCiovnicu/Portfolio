@@ -1,6 +1,6 @@
 ﻿@inherits LayoutComponentBase
 
-<MudThemeProvider @ref="@_mudThemeProvider" @bind-IsDarkMode="@_isDarkMode" />
+<MudThemeProvider @ref="@MudThemeProvider" @bind-IsDarkMode="@IsDarkMode" />
 <MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
@@ -10,27 +10,27 @@
         <MudIconButton OnClick="ToggleNavMenu" Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" />
         <SectionOutlet SectionName="page-name" />
         <MudSpacer />
-        <MudToggleIconButton @bind-Toggled="_isDarkMode"
+        <MudToggleIconButton @bind-Toggled="IsDarkMode"
                              Icon="@Icons.Material.Outlined.WbSunny"
                              Color="Color.Inherit"
                              ToggledIcon="@Icons.Material.Outlined.ModeNight"
                              ToggledColor="@Color.Inherit"
-                             title="@_themeName" />
-        <MudText>@_themeName mode </MudText>
+                             title="@ThemeName" />
+        <MudText>@ThemeName mode </MudText>
     </MudAppBar>
 
-    <MudDrawer Elevation="2" @bind-Open="@_isNavMenuOpen" Breakpoint="Breakpoint.Xxl" ClipMode="DrawerClipMode.Always">
+    <MudDrawer Elevation="2" @bind-Open="@IsNavMenuOpen" Breakpoint="Breakpoint.Xxl" ClipMode="DrawerClipMode.Always">
         <NavMenu OnClose="CloseNavMenu"></NavMenu>
     </MudDrawer>
 
     <MudMainContent>
         <MudContainer Class="mb-15" MaxWidth="MaxWidth.Medium">
-            <GlobalErrorBoundary @ref="@_globalErrorBoundary">
+            <GlobalErrorBoundary @ref="@GlobalErrorBoundary">
                 <ChildContent>
                     @Body
                 </ChildContent>
                 <ErrorContent>
-                    <MudAlert Severity="Severity.Error" Elevation="10" Class="mt-4" ShowCloseIcon="true" CloseIconClicked="() => _globalErrorBoundary?.Recover()">
+                    <MudAlert Severity="Severity.Error" Elevation="10" Class="mt-4" ShowCloseIcon="true" CloseIconClicked="() => GlobalErrorBoundary?.Recover()">
                         <MudText>Critical error! Sorry, 🐀🐁🐀 are eating my website...</MudText>
                     </MudAlert>
                 </ErrorContent>
