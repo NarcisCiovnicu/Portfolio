@@ -5,7 +5,7 @@
 For Client Prod deployment:  
 - add a new file to `Portfolio/wwwroot/appsettings.Production.json`
 - insert and update these settings
-```
+```json
 {
   "ApiUrl": "https://TODO/api",
   "ClientAppConfig": {
@@ -14,3 +14,6 @@ For Client Prod deployment:
   }
 }
 ```
+- az login
+- swa deploy
+

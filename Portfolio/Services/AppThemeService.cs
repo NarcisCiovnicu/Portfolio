@@ -19,7 +19,7 @@ namespace Portfolio.Services
         {
             try
             {
-                return await _localStorage.GetItemAsync<bool?>(Constants.LocalStorage.IsDarkTheme);
+                return await _localStorage.GetItemAsync<bool?>(Constants.LocalStorage.IsDarkThemeKey);
             }
             catch (Exception ex)
             {
@@ -32,7 +32,7 @@ namespace Portfolio.Services
         {
             try
             {
-                await _localStorage.SetItemAsync(Constants.LocalStorage.IsDarkTheme, isDarkMode);
+                await _localStorage.SetItemAsync(Constants.LocalStorage.IsDarkThemeKey, isDarkMode);
             }
             catch (Exception ex)
             {

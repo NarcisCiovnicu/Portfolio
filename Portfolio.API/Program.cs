@@ -2,14 +2,15 @@ using Portfolio.API;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
+builder.Services.SetupWebApi(builder.Configuration);
 builder.Services.AddCorsPolicies(builder.Configuration);
 builder.Services.AddServices(builder.Configuration);
 
 var app = builder.Build();
+
+app.UseRateLimiter();
+
+app.UseHttpLogging();
 
 if (app.Environment.IsDevelopment())
 {

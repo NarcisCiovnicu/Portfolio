@@ -13,7 +13,7 @@
         public static class LocalStorage
         {
             public const string CvKey = "CurriculumVitae";
-            public const string IsDarkTheme = "IsDarkThemePreferred";
+            public const string IsDarkThemeKey = "IsDarkThemePreferred";
         }
     }
 }

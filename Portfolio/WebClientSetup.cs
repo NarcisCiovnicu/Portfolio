@@ -1,7 +1,7 @@
 ﻿using Blazored.LocalStorage;
+using Common.Utils;
 using MudBlazor;
 using MudBlazor.Services;
-using Portfolio.Errors;
 using Portfolio.Models;
 using Portfolio.Services;
 
@@ -11,7 +11,7 @@ namespace Portfolio
     {
         public static void AddServices(this IServiceCollection services, IConfiguration configuration)
         {
-            string apiUrl = configuration.GetValue<string>(Constants.Config.ApiUrl) ?? throw new ConfigMissingException(Constants.Config.ApiUrl);
+            string apiUrl = configuration.TryGetValue<string>(Constants.Config.ApiUrl);
 
             services.AddMudServices(config =>
             {
