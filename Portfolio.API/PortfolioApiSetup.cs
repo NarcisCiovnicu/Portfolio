@@ -1,5 +1,6 @@
 ﻿using Common.Utils;
 using Microsoft.AspNetCore.HttpLogging;
+using Portfolio.API.AppLogic;
 using Portfolio.API.Domain;
 using System.Net;
 using System.Threading.RateLimiting;
@@ -76,7 +77,7 @@ namespace Portfolio.API
 
         public static void AddServices(this IServiceCollection services, IConfiguration configuration)
         {
-            //
+            AppLogicSetup.AddServices(services, configuration);
         }
     }
 }

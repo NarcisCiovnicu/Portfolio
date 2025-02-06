@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portfolio.API.AppLogic", "Portfolio.API.AppLogic\Portfolio.API.AppLogic.csproj", "{EAFA532E-DFBA-4F04-86F8-FFAAF6E0D89D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portfolio.API.DataAccess.SQLServer", "Portfolio.API.DataAccess.SQLServer\Portfolio.API.DataAccess.SQLServer.csproj", "{DF2C2B59-3BFF-4147-B341-F22363073E8C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{EAFA532E-DFBA-4F04-86F8-FFAAF6E0D89D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAFA532E-DFBA-4F04-86F8-FFAAF6E0D89D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAFA532E-DFBA-4F04-86F8-FFAAF6E0D89D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF2C2B59-3BFF-4147-B341-F22363073E8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF2C2B59-3BFF-4147-B341-F22363073E8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF2C2B59-3BFF-4147-B341-F22363073E8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF2C2B59-3BFF-4147-B341-F22363073E8C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -2,9 +2,13 @@
 {
     public static class Constants
     {
+        public const string IpLocationAPI = "http://ip-api.com/json/";
+
         public static class Config
         {
             public const string WebClientOrigin = "WebClientOrigin";
+            public const string DatabaseProvider = "DatabaseProvider";
+            public const string PortfolioDbConnectionString = "PortfolioDB";
 
             public static class RateLimit
             {

@@ -38,7 +38,7 @@ bld/
 .vs/
 ServiceDependencies/
 serviceDependencies.*
-appsettings.Production.json
+**/wwwroot/appsettings.Production.json
 
 # Uncomment if you have tasks that create the project's static files in wwwroot
 #wwwroot/
@@ -244,6 +244,9 @@ ClientBin/
 *.pfx
 *.publishsettings
 orleans.codegen.cs
+**/*.db
+**/*.db-wal
+**/*.db-shm
 
 # Including strong name files can present a security risk
 # (https://github.com/github/gitignore/pull/2483#issue-259490424)

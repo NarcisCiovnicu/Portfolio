@@ -1,4 +1,6 @@
 using Portfolio.API;
+using Portfolio.API.AppLogic;
+using Portfolio.API.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,8 +10,9 @@ builder.Services.AddServices(builder.Configuration);
 
 var app = builder.Build();
 
-app.UseRateLimiter();
+AppLogicSetup.Initialize(app.Services);
 
+app.UseRateLimiter();
 app.UseHttpLogging();
 
 if (app.Environment.IsDevelopment())
@@ -19,11 +22,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseCors();
-
 app.UseAuthorization();
-
 app.MapControllers();
+app.UseMiddleware<TrackingMiddleware>();
 
 app.Run();

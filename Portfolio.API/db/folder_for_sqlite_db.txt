@@ -1,0 +1,4 @@
+﻿Empty file for folder to be added on GitHub.
+
+Don't forget to add here a db and run migrations on it
+(Running the project on Debug mode it will do that automatically)
