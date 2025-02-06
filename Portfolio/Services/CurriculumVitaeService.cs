@@ -4,6 +4,7 @@ using Portfolio.Models;
 using Portfolio.Utils;
 using System.Net;
 using System.Net.Http.Json;
+using System.Text;
 
 namespace Portfolio.Services
 {
@@ -28,7 +29,7 @@ namespace Portfolio.Services
                 return new Response<CurriculumVitae>(cv);
             }
 
-            string? errorMessage = null;
+            StringBuilder? errorMessage = null;
             string? warningMessage = null;
             try
             {
@@ -46,7 +47,7 @@ namespace Portfolio.Services
             }
             catch (Exception ex)
             {
-                errorMessage = "Request failed to load the CV.";
+                errorMessage = new("Request failed to load the CV.");
                 TryAddStatusCodeToErrorMessage(ex, ref errorMessage);
                 _logger.LogError(ex, "[Request failed] to [GET] CV");
 
@@ -56,7 +57,7 @@ namespace Portfolio.Services
                 }
             }
 
-            return new Response<CurriculumVitae>(cv, errorMessage, warningMessage);
+            return new Response<CurriculumVitae>(cv, errorMessage?.ToString(), warningMessage);
         }
 
         public Task<Response<bool>> SaveCVAsync(CurriculumVitae cv)
@@ -90,14 +91,14 @@ namespace Portfolio.Services
             }
         }
 
-        private static void TryAddStatusCodeToErrorMessage(Exception ex, ref string errorMessage)
+        private static void TryAddStatusCodeToErrorMessage(Exception ex, ref StringBuilder errorMessage)
         {
             if (ex is HttpRequestException)
             {
                 HttpStatusCode? statusCode = (ex as HttpRequestException)?.StatusCode;
                 if (statusCode != null)
                 {
-                    errorMessage += $" (Status code: {(int)statusCode})";
+                    errorMessage.Append($" (Status code: {(int)statusCode})");
                 }
             }
         }
