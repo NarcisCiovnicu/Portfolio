@@ -10,7 +10,7 @@ namespace Portfolio.API.Domain.DataTransferObjects
         [property: JsonPropertyName("lat")] double? Latitude = null,
         [property: JsonPropertyName("lon")] double? Longitude = null,
         [property: JsonPropertyName("isp")] string? InternetProvider = null,
-        [property: JsonPropertyName("proxy")] bool? IsMobile = null,
-        [property: JsonPropertyName("mobile")] bool? IsProxy = null
+        [property: JsonPropertyName("mobile")] bool? IsMobile = null,
+        [property: JsonPropertyName("proxy")] bool? IsProxy = null
     );
 }
