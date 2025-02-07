@@ -76,6 +76,17 @@ namespace Portfolio.API.DataAccess.SQLite.Migrations
 
                     b.ToTable("Tracking");
                 });
+
+            modelBuilder.Entity("Portfolio.API.DataAccess.Entities.Password", b =>
+                {
+                    b.Property<string>("HashValue")
+                        .HasMaxLength(64)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("HashValue");
+
+                    b.ToTable("Passwords");
+                });
 #pragma warning restore 612, 618
         }
     }

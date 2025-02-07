@@ -22,6 +22,7 @@ namespace Portfolio.API.AppLogic
             services.AddSingleton<IIpLocationService, IpLocationService>();
 
             services.AddScoped<ITrackingService, TrackingService>();
+            services.AddScoped<IPasswordService, PasswordService>();
         }
 
         public static void Initialize(IServiceProvider serviceProvider)

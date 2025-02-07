@@ -31,6 +31,7 @@ namespace Portfolio.API.DataAccess
             services.AddAutoMapper(typeof(PortfolioDataAccessMappingProfile));
 
             services.AddScoped<ITrackingRepository, TrackingRepository>();
+            services.AddScoped<IPasswordRepository, PasswordRepository>();
         }
 
 
