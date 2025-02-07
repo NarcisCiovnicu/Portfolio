@@ -7,15 +7,11 @@ using System.Net.Http.Json;
 
 namespace Portfolio.API.AppLogic.Services
 {
-    internal class IpLocationService(ILogger<IpLocationService> logger) : IIpLocationService
+    internal class IpLocationService(ILogger<IpLocationService> logger, IHttpClientFactory httpClientFactory) : IIpLocationService
     {
         private const string IncludeFields = "message,country,city,zip,lat,lon,isp,mobile,proxy";
 
-        private readonly HttpClient _httpClient = new()
-        {
-            BaseAddress = new Uri(Constants.IpLocationAPI),
-            Timeout = TimeSpan.FromSeconds(10)
-        };
+        private readonly HttpClient _httpClient = httpClientFactory.CreateClient(Constants.IpLocationApi.Name);
         private readonly ILogger<IpLocationService> _logger = logger;
 
         public async Task<IpLocationResponseDTO> GetLocation(string ip)

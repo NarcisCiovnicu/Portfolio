@@ -2,7 +2,11 @@
 {
     public static class Constants
     {
-        public const string IpLocationAPI = "http://ip-api.com/json/";
+        public static class IpLocationApi
+        {
+            public const string Name = "IpLocation";
+            public const string BaseUrl = "http://ip-api.com/json/";
+        }
 
         public static class Config
         {
