@@ -16,7 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Common\Common.csproj" />
     <ProjectReference Include="..\Portfolio.API.AppLogic\Portfolio.API.AppLogic.csproj" />
     <ProjectReference Include="..\Portfolio.API.DataAccess.SQLite\Portfolio.API.DataAccess.SQLite.csproj" />
     <ProjectReference Include="..\Portfolio.API.DataAccess.SQLServer\Portfolio.API.DataAccess.SQLServer.csproj" />

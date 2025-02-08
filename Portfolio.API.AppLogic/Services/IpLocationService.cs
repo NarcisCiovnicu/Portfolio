@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Portfolio.API.Domain;
 using Portfolio.API.Domain.CustomExceptions;
 using Portfolio.API.Domain.DataTransferObjects;
@@ -20,7 +21,7 @@ namespace Portfolio.API.AppLogic.Services
             {
                 IpLocationResponseDTO? ipLocation = await _httpClient.GetFromJsonAsync<IpLocationResponseDTO>($"{ip}?fields={IncludeFields}").ConfigureAwait(false);
 
-                return ipLocation ?? throw new ApiException($"{nameof(IpLocationResponseDTO)} was null");
+                return ipLocation ?? throw new ApiException(StatusCodes.Status404NotFound, $"{nameof(IpLocationResponseDTO)} was null");
             }
             catch (Exception ex)
             {

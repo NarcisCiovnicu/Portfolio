@@ -25,5 +25,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.UseMiddleware<TrackingMiddleware>();
+app.UseExceptionHandler();
 
 await app.RunAsync();

@@ -2,6 +2,7 @@
 using Portfolio.API.AppLogic;
 using Portfolio.API.Domain;
 using Portfolio.API.Domain.ConfigOptions;
+using Portfolio.API.Middlewares;
 using Portfolio.API.OptionsSetup;
 
 namespace Portfolio.API
@@ -29,6 +30,9 @@ namespace Portfolio.API
             services.AddRateLimiter(opt => { });
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
             services.AddCors();
+
+            services.AddExceptionHandler<GlobalExceptionHandler>();
+            services.AddProblemDetails();
 
             AppLogicSetup.AddServices(services, configuration);
         }

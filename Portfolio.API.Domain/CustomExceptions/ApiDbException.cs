@@ -1,4 +1,6 @@
-﻿namespace Portfolio.API.Domain.CustomExceptions
+﻿using Microsoft.AspNetCore.Http;
+
+namespace Portfolio.API.Domain.CustomExceptions
 {
-    public class ApiDbException(string message) : ApiException(message) { }
+    public class ApiDbException(string message) : ApiException(StatusCodes.Status500InternalServerError, message) { }
 }
