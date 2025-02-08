@@ -13,10 +13,10 @@ namespace Portfolio.API.AppLogic
         {
             DataAccessSetup.AddServices(services, configuration);
 
-            services.AddHttpClient(Constants.IpLocationApi.Name, config =>
+            services.AddHttpClient(Constants.IpLocationApi.Name, (_, httpClient) =>
             {
-                config.BaseAddress = new Uri(Constants.IpLocationApi.BaseUrl);
-                config.Timeout = TimeSpan.FromSeconds(10);
+                httpClient.BaseAddress = new Uri(Constants.IpLocationApi.BaseUrl);
+                httpClient.Timeout = TimeSpan.FromSeconds(10);
             });
 
             services.AddSingleton<IIpLocationService, IpLocationService>();

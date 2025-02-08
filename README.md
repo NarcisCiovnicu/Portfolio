@@ -7,10 +7,11 @@ For Client Prod deployment:
 - insert and update these settings
 ```json
 {
-  "ApiUrl": "https://TODO/api",
   "ClientAppConfig": {
+    "ApiUrl": "https://TODO/api",
     "OwnerName": "TODO",
-    "CVDesignType": 1
+    "CVDesignType": 1,
+    "EmailContact": "TODO"
   }
 }
 ```

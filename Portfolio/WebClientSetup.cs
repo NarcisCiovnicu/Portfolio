@@ -1,5 +1,5 @@
 ﻿using Blazored.LocalStorage;
-using Common.Utils;
+using Microsoft.Extensions.Options;
 using MudBlazor;
 using MudBlazor.Services;
 using Portfolio.Models;
@@ -11,8 +11,6 @@ namespace Portfolio
     {
         public static void AddServices(this IServiceCollection services, IConfiguration configuration)
         {
-            string apiUrl = configuration.TryGetValue<string>(Constants.Config.ApiUrl);
-
             services.AddMudServices(config =>
             {
                 config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomCenter;
@@ -25,9 +23,13 @@ namespace Portfolio
                 config.SnackbarConfiguration.SnackbarVariant = Variant.Filled;
             });
             services.AddBlazoredLocalStorage();
-            services.Configure<ClientAppConfig>(configuration.GetSection(Constants.Config.ClientAppConfig));
+            services.AddOptionsWithValidateOnStart<ClientAppConfig>().BindConfiguration(Constants.Config.ClientAppConfig).ValidateDataAnnotations();
 
-            services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(apiUrl) });
+            services.AddScoped(sp =>
+            {
+                string apiUrl = sp.GetRequiredService<IOptions<ClientAppConfig>>().Value.ApiUrl;
+                return new HttpClient { BaseAddress = new Uri(apiUrl) };
+            });
             services.AddScoped<ICurriculumVitaeService, CurriculumVitaeService>();
             services.AddScoped<IAppThemeService, AppThemeService>();
         }

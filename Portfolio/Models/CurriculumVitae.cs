@@ -45,6 +45,7 @@ namespace Portfolio.Models
     public class Education
     {
         public required string SchoolName { get; set; }
+        public required string DegreeName { get; set; }
         public required DateOnly StartDate { get; set; }
         public required DateOnly EndDate { get; set; }
     }

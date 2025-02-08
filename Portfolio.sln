@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portfolio.API.DataAccess", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portfolio.API.DataAccess.SQLite", "Portfolio.API.DataAccess.SQLite\Portfolio.API.DataAccess.SQLite.csproj", "{92D3A970-9068-4292-8205-FF3E1F7A2BF1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{A8B683B1-EC2A-43C1-9E5C-06ADA6E124C0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portfolio.API.AppLogic", "Portfolio.API.AppLogic\Portfolio.API.AppLogic.csproj", "{EAFA532E-DFBA-4F04-86F8-FFAAF6E0D89D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portfolio.API.DataAccess.SQLServer", "Portfolio.API.DataAccess.SQLServer\Portfolio.API.DataAccess.SQLServer.csproj", "{DF2C2B59-3BFF-4147-B341-F22363073E8C}"
@@ -51,10 +49,6 @@ Global
 		{92D3A970-9068-4292-8205-FF3E1F7A2BF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92D3A970-9068-4292-8205-FF3E1F7A2BF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92D3A970-9068-4292-8205-FF3E1F7A2BF1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A8B683B1-EC2A-43C1-9E5C-06ADA6E124C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A8B683B1-EC2A-43C1-9E5C-06ADA6E124C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A8B683B1-EC2A-43C1-9E5C-06ADA6E124C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A8B683B1-EC2A-43C1-9E5C-06ADA6E124C0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EAFA532E-DFBA-4F04-86F8-FFAAF6E0D89D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EAFA532E-DFBA-4F04-86F8-FFAAF6E0D89D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAFA532E-DFBA-4F04-86F8-FFAAF6E0D89D}.Release|Any CPU.ActiveCfg = Release|Any CPU
