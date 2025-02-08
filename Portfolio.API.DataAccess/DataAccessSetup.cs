@@ -1,10 +1,10 @@
-﻿using Common.CustomExceptions;
-using Common.Utils;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Portfolio.API.DataAccess.Repositories;
-using Portfolio.API.Domain;
+using Portfolio.API.Domain.ConfigOptions;
+using Portfolio.API.Domain.CustomExceptions;
 using Portfolio.API.Domain.RepositoryInterfaces;
 
 namespace Portfolio.API.DataAccess
@@ -13,19 +13,22 @@ namespace Portfolio.API.DataAccess
     {
         public static void AddServices(IServiceCollection services, IConfiguration configuration)
         {
-            string dbProvider = configuration.TryGetValue<string>(Constants.Config.DatabaseProvider);
-
-            services.AddDbContext<PortfolioDbContext>(options => _ = dbProvider switch
+            services.AddDbContext<PortfolioDbContext>((provider, options) =>
             {
-                "SQLServer" => options.UseSqlServer(
-                    configuration.GetConnectionString(Constants.Config.PortfolioDbConnectionString),
-                    opt => opt.MigrationsAssembly("Portfolio.API.DataAccess.SQLServer")),
+                DatabaseOptions databaseOptions = provider.GetRequiredService<IOptions<DatabaseOptions>>().Value;
+                string dbProvider = databaseOptions.DatabaseProvider;
+                string connString = databaseOptions.ConnectionStrings.PortfolioDB;
 
-                "SQLite" => options.UseSqlite(
-                    configuration.GetConnectionString(Constants.Config.PortfolioDbConnectionString),
-                    opt => opt.MigrationsAssembly("Portfolio.API.DataAccess.SQLite")),
+                options = dbProvider switch
+                {
+                    "SQLServer" => options.UseSqlServer(connString,
+                        opt => opt.MigrationsAssembly("Portfolio.API.DataAccess.SQLServer")),
 
-                _ => throw new ConfigException($"Unsupported DB Provider [{dbProvider}]")
+                    "SQLite" => options.UseSqlite(connString,
+                        opt => opt.MigrationsAssembly("Portfolio.API.DataAccess.SQLite")),
+
+                    _ => throw new ApiDbException($"Unsupported DB Provider [{dbProvider}]")
+                };
             });
 
             services.AddAutoMapper(typeof(PortfolioDataAccessMappingProfile));

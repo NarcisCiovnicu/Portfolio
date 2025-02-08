@@ -4,8 +4,6 @@ using Portfolio.API.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.SetupWebApi(builder.Configuration);
-builder.Services.AddCorsPolicies(builder.Configuration);
 builder.Services.AddServices(builder.Configuration);
 
 var app = builder.Build();
@@ -23,8 +21,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.UseMiddleware<TrackingMiddleware>();
 
-app.Run();
+await app.RunAsync();

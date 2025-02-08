@@ -38,3 +38,10 @@ dotnet ef database update --project Portfolio.API.DataAccess --startup-project P
 ```
 dotnet ef database update --project Portfolio.API.DataAccess --startup-project Portfolio.API -- --DatabaseProvider "SQLServer" --ConnectionStrings:PortfolioDB "Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;"
 ```
+
+### Setup DB
+#### Run query:
+- password: Test#123
+```SQL
+INSERT INTO Passwords VALUES('3cd29ab3024a695b648213a3df488e6d99ba3ca1497b6a8bf4289c7692ca5f52');
+```

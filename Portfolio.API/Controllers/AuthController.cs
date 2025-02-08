@@ -1,20 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Portfolio.API.Domain.DataTransferObjects;
 using Portfolio.API.Domain.ServiceInterfaces;
 
 namespace Portfolio.API.Controllers
 {
     [Route("api/")]
     [ApiController]
-    public class AuthController(IPasswordService passwordService) : ControllerBase
+    public class AuthController(IAuthService authService) : ControllerBase
     {
-        private readonly IPasswordService _passwordService = passwordService;
+        private readonly IAuthService _authService = authService;
 
         [Route("authenticate")]
         [HttpPost]
-        public async Task<IActionResult> Authenticate([FromBody] string password)
+        public async Task<IActionResult> Authenticate([FromBody] AuthenticationDTO authDto)
         {
-            var result = await _passwordService.HasPassword(password);
-            return Ok(result);
+            bool isValid = await _authService.IsValid(authDto);
+            return isValid ? Ok(_authService.GenerateJwtToken()) : BadRequest("Wrong password");
         }
     }
 }
