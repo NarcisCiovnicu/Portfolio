@@ -3,9 +3,9 @@ using Portfolio.Models;
 
 namespace Portfolio.Components.CVDesigns.One
 {
-    public partial class RenderStartSection
+    public partial class RenderProjects
     {
         [Parameter, EditorRequired]
-        public required CurriculumVitae CurriculumVitae { get; init; }
+        public required IList<PersonalProject> PersonalProjects { get; init; }
     }
 }

@@ -1,0 +1,14 @@
+﻿<RenderSection Title="PERSONAL PROJECTS">
+    @foreach (PersonalProject project in PersonalProjects)
+    {
+        <MudContainer>
+            <NoWrapText Class="fw-bold" Text="@project.Title" />
+            <TextDetails Details="@project.Description" />
+            @if (project.ExternalLink != null)
+            {
+                <div class="my-2"></div>
+                <ExternalLinkComponent ExternalLink="@project.ExternalLink"></ExternalLinkComponent>
+            }
+        </MudContainer>
+    }
+</RenderSection>

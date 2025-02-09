@@ -6,10 +6,13 @@
         {
             <MudContainer Class="@(isNotFirst ? "mt-4" : "mt-1")">
                 <WorkExperienceHeader WorkExperience="workExperience"></WorkExperienceHeader>
-
                 <NoWrapText Class="fw-bold" Text="@workExperience.Title" />
-
                 <TextDetails Details="@workExperience.Description" />
+                @if (workExperience.ExternalLink != null)
+                {
+                    <div class="my-2"></div>
+                    <ExternalLinkComponent ExternalLink="@workExperience.ExternalLink"></ExternalLinkComponent>
+                }
             </MudContainer>
             isNotFirst = true;
         }

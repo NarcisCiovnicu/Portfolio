@@ -41,7 +41,11 @@
       "EmploymentType": 2,
       "Location": "[Location]",
       "LocationType": 3,
-      "Description": "    \u2022  Spearheaded [specific project or initiative], resulting in [quantifiable achievement].\n    \u2022  Collaborated with cross-functional teams to [accomplishment or task].\n    \u2022  Implemented [strategy or process improvement], leading to [positive outcome].\n    \u2022  Managed [specific responsibility or duty], ensuring [desired outcome]."
+      "Description": "    \u2022  Spearheaded [specific project or initiative], resulting in [quantifiable achievement].\n    \u2022  Collaborated with cross-functional teams to [accomplishment or task].\n    \u2022  Implemented [strategy or process improvement], leading to [positive outcome].\n    \u2022  Managed [specific responsibility or duty], ensuring [desired outcome].",
+      "ExternalLink": {
+        "Label": "[www.youtube.com]",
+        "Uri": "https://www.youtube.com"
+      }
     },
     {
       "CompanyName": "[Company Name]",
@@ -54,8 +58,30 @@
       "Description": "    \u2022  Spearheaded [specific project or initiative], resulting in [quantifiable achievement].\n    \u2022  Collaborated with cross-functional teams to [accomplishment or task].\n    \u2022  Implemented [strategy or process improvement], leading to [positive outcome].\n    \u2022  Managed [specific responsibility or duty], ensuring [desired outcome]."
     }
   ],
-  "PersonalProjects": null,
-  "EducationHistory": null,
+  "PersonalProjects": [
+    {
+      "Title": "[Title]",
+      "Description": "* Design and code personal blogging site using python, HTML, and CSS\n* Create and curate engaging, culturally sensitive content about Chile, Colombia, and Argentina, tailored for American tourists\n* Receive 2,000 visitors monthly, and personally engage with 50\u002B weekly through online comments and emails\n* Design visually appealing graphics and infographics using Canva and Adobe Photoshop to enhance social media posts and improve shareability",
+      "ExternalLink": {
+        "Label": "[www.google.com]",
+        "Uri": "https://www.google.com"
+      }
+    }
+  ],
+  "EducationHistory": [
+    {
+      "SchoolName": "[School Name]",
+      "DegreeName": "[Degree]",
+      "StartDate": "2012-10-01",
+      "EndDate": "2016-06-30"
+    },
+    {
+      "SchoolName": "[School Name]",
+      "DegreeName": "[Degree]",
+      "StartDate": "2017-10-16",
+      "EndDate": "2020-06-26"
+    }
+  ],
   "Skills": [
     "Microsoft Office",
     "Adobe Photoshop",

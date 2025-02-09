@@ -1,0 +1,11 @@
+﻿<RenderSection Title="EDUCATION">
+    @foreach (Education education in EducationHistory)
+    {
+        <MudContainer Class="mb-2">
+            <h5>@education.SchoolName - @education.DegreeName</h5>
+            <div class="d-flex flex-wrap fw-light fst-italic mb-1">
+                @DateToString(education.StartDate) - @DateToString(education.EndDate)
+            </div>
+        </MudContainer>
+    }
+</RenderSection>

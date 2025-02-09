@@ -9,12 +9,12 @@
 
 @if (CurriculumVitae.PersonalProjects != null)
 {
-    <RenderSection Title="PERSONAL PROJECTS"></RenderSection>
+    <RenderProjects PersonalProjects="CurriculumVitae.PersonalProjects"></RenderProjects>
 }
 
 @if (CurriculumVitae.EducationHistory != null)
 {
-    <RenderSection Title="EDUCATION"></RenderSection>
+    <RenderEducation EducationHistory="CurriculumVitae.EducationHistory"></RenderEducation>
 }
 
 @if (CurriculumVitae.Skills != null)

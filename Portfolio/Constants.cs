@@ -2,7 +2,7 @@
 {
     public static class Constants
     {
-        public const string WorkExperienceDateFormat = "MMM yyyy";
+        public const string MonthAndYearDateFormat = "MMM yyyy";
 
         public static class Config
         {

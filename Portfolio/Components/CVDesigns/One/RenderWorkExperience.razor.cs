@@ -6,6 +6,6 @@ namespace Portfolio.Components.CVDesigns.One
     public partial class RenderWorkExperience
     {
         [Parameter, EditorRequired]
-        public required IList<WorkExperience> WorkExperienceList { get; set; }
+        public required IList<WorkExperience> WorkExperienceList { get; init; }
     }
 }
