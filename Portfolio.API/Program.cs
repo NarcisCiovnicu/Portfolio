@@ -4,6 +4,7 @@ using Portfolio.API.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Logging.ConfigureLogging();
 builder.Services.AddServices(builder.Configuration);
 
 var app = builder.Build();

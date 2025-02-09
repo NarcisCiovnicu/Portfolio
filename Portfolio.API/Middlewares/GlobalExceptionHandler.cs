@@ -12,7 +12,14 @@ namespace Portfolio.API.Middlewares
 
         public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
         {
-            _logger.LogError(exception, "[{name}]", nameof(GlobalExceptionHandler));
+            if (exception is ApiException)
+            {
+                _logger.LogError(exception, "[API Exception]");
+            }
+            else
+            {
+                _logger.LogCritical(exception, "[{name}]", nameof(GlobalExceptionHandler));
+            }
 
             ProblemDetails problem = exception switch
             {

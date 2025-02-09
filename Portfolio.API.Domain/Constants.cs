@@ -2,6 +2,11 @@
 {
     public static class Constants
     {
+        public static class Logging
+        {
+            public const string ConsoleFormatterName = "ApiFormatter";
+        }
+
         public static class IpLocationApi
         {
             public const string Name = "IpLocation";

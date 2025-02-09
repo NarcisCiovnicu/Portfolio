@@ -2,6 +2,7 @@
 using Portfolio.API.AppLogic;
 using Portfolio.API.Domain;
 using Portfolio.API.Domain.ConfigOptions;
+using Portfolio.API.Logging;
 using Portfolio.API.Middlewares;
 using Portfolio.API.OptionsSetup;
 
@@ -9,6 +10,17 @@ namespace Portfolio.API
 {
     public static class PortfolioApiSetup
     {
+        public static void ConfigureLogging(this ILoggingBuilder logging)
+        {
+            logging.ClearProviders();
+            logging.AddAzureWebAppDiagnostics();
+            logging.AddConsole(opt =>
+            {
+                opt.FormatterName = Constants.Logging.ConsoleFormatterName;
+            });
+            logging.AddConsoleFormatter<ApiConsoleFormatter, ApiLogFormatterOptions>();
+        }
+
         public static void AddServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddOptionsWithValidateOnStart<JwtTokenOptions>().BindConfiguration(Constants.Config.JwtToken).ValidateDataAnnotations();
