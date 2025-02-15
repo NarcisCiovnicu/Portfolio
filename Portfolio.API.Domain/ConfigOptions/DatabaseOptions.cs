@@ -27,6 +27,7 @@ namespace Portfolio.API.Domain.ConfigOptions
             }
             else
             {
+                //return true; // Hack - to run SQLServer migrations
                 return portfolioConnString.StartsWith("Server=");
             }
         }

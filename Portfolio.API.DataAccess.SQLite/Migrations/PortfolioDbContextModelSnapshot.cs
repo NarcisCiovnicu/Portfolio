@@ -77,6 +77,123 @@ namespace Portfolio.API.DataAccess.SQLite.Migrations
                     b.ToTable("Tracking");
                 });
 
+            modelBuilder.Entity("Portfolio.API.DataAccess.Entities.CurriculumVitae", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasColumnOrder(0);
+
+                    b.Property<string>("About")
+                        .HasMaxLength(4000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("LinkedInProfileId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Skills")
+                        .IsRequired()
+                        .HasMaxLength(611)
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("WebsiteId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LinkedInProfileId");
+
+                    b.HasIndex("WebsiteId");
+
+                    b.ToTable("CurriculumVitae");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000001"),
+                            Email = "email@email",
+                            Location = "Location",
+                            Name = "Name",
+                            Phone = "(000) 000-0000",
+                            Skills = ""
+                        });
+                });
+
+            modelBuilder.Entity("Portfolio.API.DataAccess.Entities.Education", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasColumnOrder(0);
+
+                    b.Property<Guid?>("CurriculumVitaeId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DegreeName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateOnly>("EndDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SchoolName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateOnly>("StartDate")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CurriculumVitaeId");
+
+                    b.ToTable("EducationHistory");
+                });
+
+            modelBuilder.Entity("Portfolio.API.DataAccess.Entities.Link", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasColumnOrder(0);
+
+                    b.Property<string>("Label")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Uri")
+                        .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Links");
+                });
+
             modelBuilder.Entity("Portfolio.API.DataAccess.Entities.Password", b =>
                 {
                     b.Property<string>("HashValue")
@@ -86,6 +203,149 @@ namespace Portfolio.API.DataAccess.SQLite.Migrations
                     b.HasKey("HashValue");
 
                     b.ToTable("Passwords");
+                });
+
+            modelBuilder.Entity("Portfolio.API.DataAccess.Entities.PersonalProject", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasColumnOrder(0);
+
+                    b.Property<Guid?>("CurriculumVitaeId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("ExternalLinkId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CurriculumVitaeId");
+
+                    b.HasIndex("ExternalLinkId");
+
+                    b.ToTable("PersonalProjects");
+                });
+
+            modelBuilder.Entity("Portfolio.API.DataAccess.Entities.WorkExperience", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasColumnOrder(0);
+
+                    b.Property<string>("CompanyName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("CurriculumVitaeId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(4000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EmploymentType")
+                        .HasMaxLength(16)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateOnly?>("EndDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("ExternalLinkId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Location")
+                        .HasMaxLength(30)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LocationType")
+                        .HasMaxLength(16)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateOnly>("StartDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CurriculumVitaeId");
+
+                    b.HasIndex("ExternalLinkId");
+
+                    b.ToTable("WorkExperiences");
+                });
+
+            modelBuilder.Entity("Portfolio.API.DataAccess.Entities.CurriculumVitae", b =>
+                {
+                    b.HasOne("Portfolio.API.DataAccess.Entities.Link", "LinkedInProfile")
+                        .WithMany()
+                        .HasForeignKey("LinkedInProfileId");
+
+                    b.HasOne("Portfolio.API.DataAccess.Entities.Link", "Website")
+                        .WithMany()
+                        .HasForeignKey("WebsiteId");
+
+                    b.Navigation("LinkedInProfile");
+
+                    b.Navigation("Website");
+                });
+
+            modelBuilder.Entity("Portfolio.API.DataAccess.Entities.Education", b =>
+                {
+                    b.HasOne("Portfolio.API.DataAccess.Entities.CurriculumVitae", null)
+                        .WithMany("EducationHistory")
+                        .HasForeignKey("CurriculumVitaeId");
+                });
+
+            modelBuilder.Entity("Portfolio.API.DataAccess.Entities.PersonalProject", b =>
+                {
+                    b.HasOne("Portfolio.API.DataAccess.Entities.CurriculumVitae", null)
+                        .WithMany("PersonalProjects")
+                        .HasForeignKey("CurriculumVitaeId");
+
+                    b.HasOne("Portfolio.API.DataAccess.Entities.Link", "ExternalLink")
+                        .WithMany()
+                        .HasForeignKey("ExternalLinkId");
+
+                    b.Navigation("ExternalLink");
+                });
+
+            modelBuilder.Entity("Portfolio.API.DataAccess.Entities.WorkExperience", b =>
+                {
+                    b.HasOne("Portfolio.API.DataAccess.Entities.CurriculumVitae", null)
+                        .WithMany("WorkExperienceList")
+                        .HasForeignKey("CurriculumVitaeId");
+
+                    b.HasOne("Portfolio.API.DataAccess.Entities.Link", "ExternalLink")
+                        .WithMany()
+                        .HasForeignKey("ExternalLinkId");
+
+                    b.Navigation("ExternalLink");
+                });
+
+            modelBuilder.Entity("Portfolio.API.DataAccess.Entities.CurriculumVitae", b =>
+                {
+                    b.Navigation("EducationHistory");
+
+                    b.Navigation("PersonalProjects");
+
+                    b.Navigation("WorkExperienceList");
                 });
 #pragma warning restore 612, 618
         }
