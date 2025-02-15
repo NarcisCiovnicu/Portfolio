@@ -2,22 +2,22 @@
 
 <RenderStartSection CurriculumVitae="CurriculumVitae"></RenderStartSection>
 
-@if (CurriculumVitae.WorkExperienceList != null)
+@if (CurriculumVitae.WorkExperienceList.Any())
 {
     <RenderWorkExperience WorkExperienceList="@CurriculumVitae.WorkExperienceList"></RenderWorkExperience>
 }
 
-@if (CurriculumVitae.PersonalProjects != null)
+@if (CurriculumVitae.PersonalProjects.Any())
 {
     <RenderProjects PersonalProjects="CurriculumVitae.PersonalProjects"></RenderProjects>
 }
 
-@if (CurriculumVitae.EducationHistory != null)
+@if (CurriculumVitae.EducationHistory.Any())
 {
     <RenderEducation EducationHistory="CurriculumVitae.EducationHistory"></RenderEducation>
 }
 
-@if (CurriculumVitae.Skills != null)
+@if (CurriculumVitae.Skills.Any())
 {
     <RenderSkills Skills="CurriculumVitae.Skills"></RenderSkills>
 }

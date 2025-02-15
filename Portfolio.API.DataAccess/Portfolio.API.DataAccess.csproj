@@ -17,4 +17,8 @@
     <ProjectReference Include="..\Portfolio.API.Domain\Portfolio.API.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="$(AssemblyName).Tests" />
+  </ItemGroup>
+
 </Project>

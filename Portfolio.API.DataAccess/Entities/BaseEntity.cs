@@ -3,9 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Portfolio.API.DataAccess.Entities
 {
-    public abstract class BaseEntity<T>
+    public abstract class BaseEntity
     {
         [Key, Column(Order = 0)]
-        public required T Id { get; set; }
+        public required Guid Id { get; set; }
     }
 }

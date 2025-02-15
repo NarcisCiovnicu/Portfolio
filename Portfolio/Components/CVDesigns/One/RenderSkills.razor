@@ -2,13 +2,13 @@
     <MudContainer Class="d-flex justify-content-around flex-wrap">
         @{
             bool isNotFirst = false;
-            foreach (string skill in Skills)
+            foreach (Skill skill in Skills)
             {
                 if (isNotFirst)
                 {
                     <MudText Class="mx-1">•</MudText>
                 }
-                <MudText>@skill</MudText>
+                <MudText>@skill.Name</MudText>
                 isNotFirst = true;
             }
         }

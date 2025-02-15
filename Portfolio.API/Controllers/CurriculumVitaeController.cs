@@ -1,23 +1,41 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Portfolio.API.Domain.DataTransferObjects;
+using Portfolio.API.Domain.ServiceInterfaces;
 
 namespace Portfolio.API.Controllers
 {
     [Route("api/cv")]
     [ApiController]
-    public class CurriculumVitaeController : ControllerBase
+    public class CurriculumVitaeController(ICVService cvService) : ControllerBase
     {
+        private readonly ICVService _cvService = cvService;
+
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            var json = GetCV();
-
-            return Ok(json);
+            CurriculumVitaeDTO cv = await _cvService.GetCV();
+            return Ok(cv);
         }
 
-        // TODO: To be removed
-        private static string GetCV()
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Update([FromBody] CurriculumVitaeDTO curriculumVitaeDTO)
         {
-            return System.IO.File.ReadAllText(@"./sample-data/cv.json");
+            CurriculumVitaeDTO updatedCV = await _cvService.Update(curriculumVitaeDTO);
+            return Ok(updatedCV);
         }
+
+        //[HttpGet]
+        //public IActionResult Get()
+        //{
+        //    return Ok(ReadSampleCV());
+        //}
+
+        //// For testing without DB
+        //private static string ReadSampleCV()
+        //{
+        //    return System.IO.File.ReadAllText(@"./sample-data/cv.json");
+        //}
     }
 }

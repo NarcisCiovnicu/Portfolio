@@ -13,5 +13,12 @@ namespace Portfolio.API.Controllers
         {
             return Ok($"Portfolio API is UP and Running ({_hostingEnv.EnvironmentName})");
         }
+
+        [Route("/admin/host/status")]
+        [HttpGet]
+        public IActionResult Status()
+        {
+            return Ok();
+        }
     }
 }

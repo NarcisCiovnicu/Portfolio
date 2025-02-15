@@ -4,13 +4,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Portfolio.API.DataAccess.Entities
 {
     [Table("Tracking")]
-    public class ApiTracker : BaseEntity<Guid>
+    public class ApiTracker : BaseEntity
     {
-        [Required, MaxLength(64)]
+        [MaxLength(64)]
         public required string IpAddress { get; set; }
-        [Required, MaxLength(64)]
+        [MaxLength(64)]
         public required string RoutePath { get; set; }
-        [Required]
         public DateTime Timestamp { get; set; } = DateTime.UtcNow;
         public string? UserAgent { get; set; }
         [MaxLength(32)]

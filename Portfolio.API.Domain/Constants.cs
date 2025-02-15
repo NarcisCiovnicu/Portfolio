@@ -21,5 +21,15 @@
             public const string JwtToken = "JwtToken";
             public const string RateLimit = "BucketRateLimit";
         }
+
+        public static class DbConverter
+        {
+            public const char SkillsDelimiter = '•';
+        }
+
+        public static class Database
+        {
+            public static readonly Guid DefaultCVId = new("00000000-0000-0000-0000-000000000001");
+        }
     }
 }

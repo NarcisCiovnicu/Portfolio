@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Portfolio.API.Domain.CustomExceptions;
 
 namespace Portfolio.API.Middlewares
@@ -24,6 +25,7 @@ namespace Portfolio.API.Middlewares
             ProblemDetails problem = exception switch
             {
                 ApiException apiException => ApiException(apiException),
+                DbUpdateException dbException => UnexpectedException("Database Update Error"),
                 Exception _ => UnexpectedException()
             };
 
@@ -45,11 +47,11 @@ namespace Portfolio.API.Middlewares
             };
         }
 
-        private static ProblemDetails UnexpectedException()
+        private static ProblemDetails UnexpectedException(string? title = null)
         {
             return new ProblemDetails()
             {
-                Title = "Internal Server Error",
+                Title = title ?? "Internal Server Error",
                 Detail = "There was an unexpected error processing your request. Please try again. If error persist contact me.",
                 Status = StatusCodes.Status500InternalServerError
             };
@@ -63,7 +65,7 @@ namespace Portfolio.API.Middlewares
 
             if (_environment.IsDevelopment())
             {
-                problem.Extensions.Add("stackTrace", ex.StackTrace);
+                problem.Extensions.Add("exception", ex.ToString());
             }
         }
 

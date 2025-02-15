@@ -19,7 +19,7 @@ namespace Portfolio.API.AppLogic.Services
         {
             try
             {
-                IpLocationResponseDTO? ipLocation = await _httpClient.GetFromJsonAsync<IpLocationResponseDTO>($"{ip}?fields={IncludeFields}").ConfigureAwait(false);
+                IpLocationResponseDTO? ipLocation = await _httpClient.GetFromJsonAsync<IpLocationResponseDTO>($"{ip}?fields={IncludeFields}");
 
                 return ipLocation ?? throw new ApiException(StatusCodes.Status404NotFound, $"{nameof(IpLocationResponseDTO)} was null");
             }

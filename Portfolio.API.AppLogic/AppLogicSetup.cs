@@ -23,6 +23,7 @@ namespace Portfolio.API.AppLogic
 
             services.AddScoped<ITrackingService, TrackingService>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<ICVService, CVService>();
         }
 
         public static void Initialize(IServiceProvider serviceProvider)

@@ -22,19 +22,28 @@ namespace Portfolio.API.DataAccess
                 options = dbProvider switch
                 {
                     "SQLServer" => options.UseSqlServer(connString,
-                        opt => opt.MigrationsAssembly("Portfolio.API.DataAccess.SQLServer")),
+                        opt =>
+                        {
+                            opt.MigrationsAssembly("Portfolio.API.DataAccess.SQLServer");
+                            opt.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);
+                        }),
 
                     "SQLite" => options.UseSqlite(connString,
-                        opt => opt.MigrationsAssembly("Portfolio.API.DataAccess.SQLite")),
+                        opt =>
+                        {
+                            opt.MigrationsAssembly("Portfolio.API.DataAccess.SQLite");
+                            opt.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);
+                        }),
 
                     _ => throw new ApiDbException($"Unsupported DB Provider [{dbProvider}]")
                 };
             });
 
-            services.AddAutoMapper(typeof(PortfolioDataAccessMappingProfile));
+            services.AddAutoMapper(typeof(DataAccessMappingProfile));
 
             services.AddScoped<ITrackingRepository, TrackingRepository>();
             services.AddScoped<IPasswordRepository, PasswordRepository>();
+            services.AddScoped<ICVRepository, CVRepository>();
         }
 
 

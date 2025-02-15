@@ -10,15 +10,15 @@ namespace Portfolio.API.AppLogic.Services
         private readonly ILogger<TrackingService> _logger = logger;
         private readonly ITrackingRepository _trackingRepository = trackingRepository;
 
-        public async Task Create(ApiTrackerDTO trackerDto)
+        public async Task Create(ApiTrackerDTO trackerDTO)
         {
             try
             {
-                await _trackingRepository.Create(trackerDto).ConfigureAwait(false);
+                await _trackingRepository.Create(trackerDTO);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to save [apiTracker] in DB");
+                _logger.LogCritical(ex, "Failed to save [apiTracker] in DB.");
             }
         }
     }

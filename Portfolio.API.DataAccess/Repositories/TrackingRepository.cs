@@ -13,8 +13,8 @@ namespace Portfolio.API.DataAccess.Repositories
         async Task ITrackingRepository.Create(ApiTrackerDTO apiTrackerDto)
         {
             ApiTracker apiTracker = _mapper.Map<ApiTracker>(apiTrackerDto);
-            await _dbContext.ApiTrackers.AddAsync(apiTracker).ConfigureAwait(false);
-            await _dbContext.SaveChangesAsync().ConfigureAwait(false);
+            _dbContext.ApiTrackers.Add(apiTracker);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

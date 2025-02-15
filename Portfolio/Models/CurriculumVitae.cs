@@ -15,11 +15,11 @@ namespace Portfolio.Models
 
         public string? About { get; set; }
 
-        public IList<WorkExperience>? WorkExperienceList { get; set; }
-        public IList<PersonalProject>? PersonalProjects { get; set; }
-        public IList<Education>? EducationHistory { get; set; }
+        public IList<WorkExperience> WorkExperienceList { get; set; } = [];
+        public IList<PersonalProject> PersonalProjects { get; set; } = [];
+        public IList<Education> EducationHistory { get; set; } = [];
 
-        public IList<string>? Skills { get; set; }
+        public IList<Skill> Skills { get; set; } = [];
     }
 
     public class WorkExperience
@@ -38,7 +38,7 @@ namespace Portfolio.Models
     public class PersonalProject
     {
         public required string Title { get; set; }
-        public string? Description { get; set; }
+        public required string Description { get; set; }
         public Link? ExternalLink { get; set; }
     }
 
@@ -54,6 +54,11 @@ namespace Portfolio.Models
     {
         public required string Label { get; set; }
         public required string Uri { get; set; }
+    }
+
+    public class Skill
+    {
+        public required string Name { get; set; }
     }
 
     public enum EmploymentType

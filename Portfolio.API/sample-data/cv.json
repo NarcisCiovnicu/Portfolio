@@ -83,15 +83,15 @@
     }
   ],
   "Skills": [
-    "Microsoft Office",
-    "Adobe Photoshop",
-    "Team Coordination",
-    "Public Speaking",
-    "Product Marketing",
-    "Social Media Marketing",
-    "Event Planning",
-    "Project Planning",
-    "Analytical Skills",
-    "Problem Solving"
+    { "Name": "Microsoft Office" },
+    { "Name": "Adobe Photoshop" },
+    { "Name": "Team Coordination" },
+    { "Name": "Public Speaking" },
+    { "Name": "Product Marketing" },
+    { "Name": "Social Media Marketing" },
+    { "Name": "Event Planning" },
+    { "Name": "Project Planning" },
+    { "Name": "Analytical Skills" },
+    { "Name": "Problem Solving" }
   ]
 }
