@@ -24,7 +24,7 @@ namespace Portfolio.API.Middlewares
         {
             IPAddress ipAddress = GetIp(context);
             string? userAgent = context.Request.Headers.UserAgent;
-            string path = context.Request.Path;
+            string path = $"{context.Request.Method} - {context.Request.Path}";
             IpLocationResponseDTO ipLocation;
 
             _logger.LogInformation("Request made by {ipAddress}", ipAddress);
