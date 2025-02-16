@@ -44,7 +44,7 @@ namespace Portfolio.API.Middlewares
             ApiTrackerDTO apiTracker = new(ipAddress.ToString(), path, userAgent, ipLocation.Country, ipLocation.City, ipLocation.ZipCode,
                 ipLocation.Latitude, ipLocation.Longitude, ipLocation.InternetProvider, ipLocation.IsMobile, ipLocation.IsProxy, ipLocation.ErrorMessage);
 
-            _trackingService.LogWithFireAndForget(apiTracker);
+            _ = _trackingService.LogWithFireAndForget(apiTracker);
         }
 
         private static IPAddress GetIp(HttpContext context)

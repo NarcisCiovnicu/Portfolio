@@ -4,6 +4,9 @@ namespace Portfolio.API.Domain.ServiceInterfaces
 {
     public interface ITrackingService
     {
-        void LogWithFireAndForget(ApiTrackerDTO apiTrackerDTO);
+        /// <summary>
+        /// Don't wait for the Task, but it's returned for unit tests
+        /// </summary>
+        Task LogWithFireAndForget(ApiTrackerDTO apiTrackerDTO);
     }
 }
