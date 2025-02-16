@@ -26,6 +26,7 @@ namespace Portfolio.API.DataAccess
                         {
                             opt.MigrationsAssembly("Portfolio.API.DataAccess.SQLServer");
                             opt.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);
+                            opt.EnableRetryOnFailure(maxRetryCount: 2, maxRetryDelay: TimeSpan.FromSeconds(20), errorNumbersToAdd: null);
                         }),
 
                     "SQLite" => options.UseSqlite(connString,
