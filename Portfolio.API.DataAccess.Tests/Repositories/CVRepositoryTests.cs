@@ -3,14 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using Portfolio.API.DataAccess.Entities;
 using Portfolio.API.DataAccess.Repositories;
 using Portfolio.API.Domain.DataTransferObjects;
-using Portfolio.API.Domain.RepositoryInterfaces;
 
-namespace Portfolio.API.DataAccess.Tests.Repositories;
+namespace Portfolio.API.DataAccess.Test.Repositories;
 
 public class CVRepositoryTests
 {
     private readonly DbContextFactory _dbContextFactory;
-    private readonly ICVRepository _cvRepository;
+    private readonly CVRepository _cvRepository;
     private readonly IMapper _mapper;
 
     public CVRepositoryTests()

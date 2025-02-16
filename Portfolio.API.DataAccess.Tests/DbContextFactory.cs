@@ -2,19 +2,32 @@
 using Microsoft.EntityFrameworkCore;
 using System.Data.Common;
 
-namespace Portfolio.API.DataAccess.Tests
+namespace Portfolio.API.DataAccess.Test
 {
     public sealed class DbContextFactory : IDisposable
     {
         private DbConnection? _connection;
 
-        public static PortfolioDbContext CreateInMemoryDbContext()
+        private static DbContextOptions<PortfolioDbContext> CreateInMemoryContextOptions()
         {
-            var options = new DbContextOptionsBuilder<PortfolioDbContext>()
+            return new DbContextOptionsBuilder<PortfolioDbContext>()
                 .UseInMemoryDatabase(databaseName: "Test")
                 .Options;
+        }
 
-            return new PortfolioDbContext(options);
+        private DbContextOptions<PortfolioDbContext> CreateSQLiteContextOptions()
+        {
+            if (_connection == null)
+            {
+                throw new InvalidOperationException("Connection is null");
+            }
+            return new DbContextOptionsBuilder<PortfolioDbContext>()
+                .UseSqlite(_connection).Options;
+        }
+
+        public static PortfolioDbContext CreateInMemoryDbContext()
+        {
+            return new PortfolioDbContext(CreateInMemoryContextOptions());
         }
 
         public PortfolioDbContext CreateSQLiteContext()
@@ -23,15 +36,12 @@ namespace Portfolio.API.DataAccess.Tests
             {
                 _connection = new SqliteConnection("DataSource=:memory:");
                 _connection.Open();
+
+                using var dbContext = new PortfolioDbContext(CreateSQLiteContextOptions());
+                dbContext.Database.EnsureCreated();
             }
 
-            var options = new DbContextOptionsBuilder<PortfolioDbContext>()
-                .UseSqlite(_connection).Options;
-
-            using var context = new PortfolioDbContext(options);
-            context.Database.EnsureCreated();
-
-            return new PortfolioDbContext(options);
+            return new PortfolioDbContext(CreateSQLiteContextOptions());
         }
 
         public void Dispose()
