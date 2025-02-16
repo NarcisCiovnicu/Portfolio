@@ -4,36 +4,41 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Portfolio.API.OptionsSetup
 {
-    public class SwaggerOptionsSetup : IConfigureOptions<SwaggerGenOptions>
+    public class SwaggerOptionsSetup(IWebHostEnvironment hostEnvironment) : IConfigureOptions<SwaggerGenOptions>
     {
+        private readonly IWebHostEnvironment _hostEnvironment = hostEnvironment;
+
         public void Configure(SwaggerGenOptions options)
         {
-            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+            if (_hostEnvironment.IsDevelopment())
             {
-                In = ParameterLocation.Header,
-                Description = "Bearer token",
-                Name = "Authorization",
-                Type = SecuritySchemeType.Http,
-                BearerFormat = "JWT",
-                Scheme = "bearer"
-            });
-
-            options.AddSecurityRequirement(new OpenApiSecurityRequirement()
-            {
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
-                    new OpenApiSecurityScheme()
+                    In = ParameterLocation.Header,
+                    Description = "Bearer token",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    BearerFormat = "JWT",
+                    Scheme = "bearer"
+                });
+
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
                     {
-                        Name = "Bearer",
-                        In = ParameterLocation.Header,
-                        Reference = new OpenApiReference()
+                        new OpenApiSecurityScheme()
                         {
-                            Id = "Bearer",
-                            Type = ReferenceType.SecurityScheme
-                        }
-                    },
-                    new List<string>()
-                }
-            });
+                            Name = "Bearer",
+                            In = ParameterLocation.Header,
+                            Reference = new OpenApiReference()
+                            {
+                                Id = "Bearer",
+                                Type = ReferenceType.SecurityScheme
+                            }
+                        },
+                        new List<string>()
+                    }
+                });
+            }
         }
     }
 }
