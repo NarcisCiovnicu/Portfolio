@@ -12,17 +12,17 @@ namespace Portfolio.API.Controllers
         private readonly ICVService _cvService = cvService;
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(CancellationToken cancellationToken)
         {
-            CurriculumVitaeDTO cv = await _cvService.GetCV();
+            CurriculumVitaeDTO cv = await _cvService.GetCV(cancellationToken);
             return Ok(cv);
         }
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Update([FromBody] CurriculumVitaeDTO curriculumVitaeDTO)
+        public async Task<IActionResult> Update([FromBody] CurriculumVitaeDTO curriculumVitaeDTO, CancellationToken cancellationToken)
         {
-            CurriculumVitaeDTO updatedCV = await _cvService.Update(curriculumVitaeDTO);
+            CurriculumVitaeDTO updatedCV = await _cvService.Update(curriculumVitaeDTO, cancellationToken);
             return Ok(updatedCV);
         }
 

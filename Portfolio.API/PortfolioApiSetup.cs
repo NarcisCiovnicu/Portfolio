@@ -39,6 +39,7 @@ namespace Portfolio.API
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
             services.AddHttpLogging(opt => { });
+            services.AddHttpLoggingInterceptor<HttpLoggingInterceptor>();
             services.AddRateLimiter(opt => { });
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
             services.AddCors();

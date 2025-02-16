@@ -4,22 +4,23 @@ using System.Net;
 
 namespace Portfolio.API.Middlewares
 {
-    public class TrackingMiddleware(RequestDelegate next, ILogger<TrackingMiddleware> logger, IIpLocationService ipLocationService)
+    public class TrackingMiddleware(RequestDelegate next, ILogger<TrackingMiddleware> logger, IIpLocationService ipLocationService, ITrackingService trackingService)
     {
         private readonly RequestDelegate _next = next;
         private readonly ILogger<TrackingMiddleware> _logger = logger;
         private readonly IIpLocationService _ipLocationService = ipLocationService;
+        private readonly ITrackingService _trackingService = trackingService;
 
-        public async Task InvokeAsync(HttpContext context, ITrackingService trackingService)
+        public async Task InvokeAsync(HttpContext context)
         {
-            Task task = LogTrackingInformation(context, trackingService);
+            Task task = LogTrackingInformation(context);
 
             await _next(context);
 
             await task;
         }
 
-        private async Task LogTrackingInformation(HttpContext context, ITrackingService trackingService)
+        private async Task LogTrackingInformation(HttpContext context)
         {
             IPAddress ipAddress = GetIp(context);
             string? userAgent = context.Request.Headers.UserAgent;
@@ -43,7 +44,7 @@ namespace Portfolio.API.Middlewares
             ApiTrackerDTO apiTracker = new(ipAddress.ToString(), path, userAgent, ipLocation.Country, ipLocation.City, ipLocation.ZipCode,
                 ipLocation.Latitude, ipLocation.Longitude, ipLocation.InternetProvider, ipLocation.IsMobile, ipLocation.IsProxy, ipLocation.ErrorMessage);
 
-            await trackingService.Create(apiTracker);
+            _trackingService.LogWithFireAndForget(apiTracker);
         }
 
         private static IPAddress GetIp(HttpContext context)

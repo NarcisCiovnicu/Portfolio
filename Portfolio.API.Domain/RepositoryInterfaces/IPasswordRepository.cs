@@ -2,6 +2,6 @@
 {
     public interface IPasswordRepository
     {
-        Task<bool> HasPassword(string hashValue);
+        Task<bool> HasPassword(string hashValue, CancellationToken cancellationToken);
     }
 }

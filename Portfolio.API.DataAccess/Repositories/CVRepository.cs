@@ -12,26 +12,26 @@ namespace Portfolio.API.DataAccess.Repositories
         private readonly PortfolioDbContext _dbContext = dbContext;
         private readonly IMapper _mapper = mapper;
 
-        public async Task<CurriculumVitaeDTO> Read()
+        public async Task<CurriculumVitaeDTO> Read(CancellationToken cancellationToken)
         {
             CurriculumVitae cv = await _dbContext.CurriculumVitae
                 .Include(p => p.LinkedInProfile).Include(p => p.Website)
                 .Include(p => p.WorkExperienceList).ThenInclude(p => p.ExternalLink)
                 .Include(p => p.PersonalProjects).ThenInclude(p => p.ExternalLink)
                 .Include(p => p.EducationHistory)
-                .AsNoTracking().FirstAsync(q => q.Id == Constants.Database.DefaultCVId);
+                .AsNoTracking().FirstAsync(q => q.Id == Constants.Database.DefaultCVId, cancellationToken);
 
             return _mapper.Map<CurriculumVitaeDTO>(cv);
         }
 
-        public async Task<CurriculumVitaeDTO> Update(CurriculumVitaeDTO cvDTO)
+        public async Task<CurriculumVitaeDTO> Update(CurriculumVitaeDTO cvDTO, CancellationToken cancellationToken)
         {
             CurriculumVitae cv = await _dbContext.CurriculumVitae
                 .Include(p => p.LinkedInProfile).Include(p => p.Website)
                 .Include(p => p.WorkExperienceList).ThenInclude(p => p.ExternalLink)
                 .Include(p => p.PersonalProjects).ThenInclude(p => p.ExternalLink)
                 .Include(p => p.EducationHistory)
-                .FirstAsync(q => q.Id == Constants.Database.DefaultCVId);
+                .FirstAsync(q => q.Id == Constants.Database.DefaultCVId, cancellationToken);
 
             RemoveLink(cv.LinkedInProfile, cvDTO.LinkedInProfile);
             RemoveLink(cv.Website, cvDTO.Website);
@@ -44,7 +44,7 @@ namespace Portfolio.API.DataAccess.Repositories
 
             _dbContext.CurriculumVitae.Update(cv);
 
-            await _dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync(cancellationToken);
 
             return _mapper.Map<CurriculumVitaeDTO>(cv);
         }

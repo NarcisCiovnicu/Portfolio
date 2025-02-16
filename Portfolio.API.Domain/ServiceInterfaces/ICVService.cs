@@ -4,7 +4,7 @@ namespace Portfolio.API.Domain.ServiceInterfaces
 {
     public interface ICVService
     {
-        Task<CurriculumVitaeDTO> GetCV();
-        Task<CurriculumVitaeDTO> Update(CurriculumVitaeDTO curriculumVitaeDTO);
+        Task<CurriculumVitaeDTO> GetCV(CancellationToken cancellationToken);
+        Task<CurriculumVitaeDTO> Update(CurriculumVitaeDTO curriculumVitaeDTO, CancellationToken cancellationToken);
     }
 }

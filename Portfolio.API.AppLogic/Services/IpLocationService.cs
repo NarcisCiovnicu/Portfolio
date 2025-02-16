@@ -25,7 +25,7 @@ namespace Portfolio.API.AppLogic.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Request to get location by ip failed.");
+                _logger.LogCritical(ex, "Request to get location by ip failed.");
                 return new IpLocationResponseDTO(ErrorMessage: ex.Message);
             }
         }

@@ -12,9 +12,9 @@ namespace Portfolio.API.Controllers
 
         [Route("authenticate")]
         [HttpPost]
-        public async Task<IActionResult> Authenticate([FromBody] AuthenticationDTO authDto)
+        public async Task<IActionResult> Authenticate([FromBody] AuthenticationDTO authDTO, CancellationToken cancellationToken)
         {
-            bool isValid = await _authService.IsValid(authDto);
+            bool isValid = await _authService.IsValid(authDTO, cancellationToken);
             return isValid ? Ok(_authService.GenerateJwtToken()) : BadRequest("Wrong password");
         }
     }

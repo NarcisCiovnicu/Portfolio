@@ -8,14 +8,14 @@ namespace Portfolio.API.AppLogic.Services
     {
         private readonly ICVRepository _cvRepository = cvRepository;
 
-        public Task<CurriculumVitaeDTO> GetCV()
+        public Task<CurriculumVitaeDTO> GetCV(CancellationToken cancellationToken)
         {
-            return _cvRepository.Read();
+            return _cvRepository.Read(cancellationToken);
         }
 
-        public Task<CurriculumVitaeDTO> Update(CurriculumVitaeDTO curriculumVitaeDTO)
+        public Task<CurriculumVitaeDTO> Update(CurriculumVitaeDTO curriculumVitaeDTO, CancellationToken cancellationToken)
         {
-            return _cvRepository.Update(curriculumVitaeDTO);
+            return _cvRepository.Update(curriculumVitaeDTO, cancellationToken);
         }
     }
 }

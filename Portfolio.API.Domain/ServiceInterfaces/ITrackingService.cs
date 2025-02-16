@@ -4,6 +4,6 @@ namespace Portfolio.API.Domain.ServiceInterfaces
 {
     public interface ITrackingService
     {
-        Task Create(ApiTrackerDTO trackerDto);
+        void LogWithFireAndForget(ApiTrackerDTO apiTrackerDTO);
     }
 }

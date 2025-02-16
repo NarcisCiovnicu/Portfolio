@@ -4,7 +4,7 @@ namespace Portfolio.API.Domain.ServiceInterfaces
 {
     public interface IAuthService
     {
-        Task<bool> IsValid(AuthenticationDTO authenticationDto);
+        Task<bool> IsValid(AuthenticationDTO authenticationDTO, CancellationToken cancellationToken);
 
         string GenerateJwtToken();
     }

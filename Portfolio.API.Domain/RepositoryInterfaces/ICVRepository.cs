@@ -4,7 +4,7 @@ namespace Portfolio.API.Domain.RepositoryInterfaces
 {
     public interface ICVRepository
     {
-        Task<CurriculumVitaeDTO> Read();
-        Task<CurriculumVitaeDTO> Update(CurriculumVitaeDTO curriculumVitaeDTO);
+        Task<CurriculumVitaeDTO> Read(CancellationToken cancellationToken);
+        Task<CurriculumVitaeDTO> Update(CurriculumVitaeDTO curriculumVitaeDTO, CancellationToken cancellationToken);
     }
 }

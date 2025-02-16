@@ -16,11 +16,11 @@ namespace Portfolio.API.AppLogic.Services
         private readonly JwtTokenOptions _tokenOptions = options.Value;
         private readonly IPasswordRepository _passwordRepository = passwordRepository;
 
-        public Task<bool> IsValid(AuthenticationDTO authenticationDto)
+        public Task<bool> IsValid(AuthenticationDTO authenticationDTO, CancellationToken cancellationToken)
         {
-            string hashValue = HashWithSHA256(authenticationDto.Password);
+            string hashValue = HashWithSHA256(authenticationDTO.Password);
 
-            return _passwordRepository.HasPassword(hashValue);
+            return _passwordRepository.HasPassword(hashValue, cancellationToken);
         }
 
         public string GenerateJwtToken()

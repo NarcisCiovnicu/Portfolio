@@ -7,9 +7,9 @@ namespace Portfolio.API.DataAccess.Repositories
     {
         private readonly PortfolioDbContext _dbContext = dbContext;
 
-        public Task<bool> HasPassword(string hashValue)
+        public Task<bool> HasPassword(string hashValue, CancellationToken cancellationToken)
         {
-            return _dbContext.Passwords.AnyAsync(password => password.HashValue.ToUpper() == hashValue.ToUpper());
+            return _dbContext.Passwords.AnyAsync(password => password.HashValue.ToUpper() == hashValue.ToUpper(), cancellationToken);
         }
     }
 }
