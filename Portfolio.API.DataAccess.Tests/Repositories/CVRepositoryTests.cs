@@ -28,7 +28,7 @@ public class CVRepositoryTests
     [Fact]
     public async Task Read_ShouldReturnOneDefaultCV_WhenDbIsFirstCreated()
     {
-        CurriculumVitaeDTO cv = await _cvRepository.Read();
+        CurriculumVitaeDTO cv = await _cvRepository.Read(default);
 
         Assert.NotNull(cv);
     }
@@ -43,7 +43,7 @@ public class CVRepositoryTests
         CurriculumVitaeDTO mockCV = CreateMockCVDTO();
 
         // execute
-        await _cvRepository.Update(mockCV);
+        await _cvRepository.Update(mockCV, default);
 
         // assert
         using var dbContext = _dbContextFactory.CreateSQLiteContext();
@@ -64,7 +64,7 @@ public class CVRepositoryTests
         };
 
         // execute
-        await _cvRepository.Update(mockCV);
+        await _cvRepository.Update(mockCV, default);
 
         // assert
         using PortfolioDbContext dbContext = _dbContextFactory.CreateSQLiteContext();
@@ -97,7 +97,7 @@ public class CVRepositoryTests
         };
 
         // execute
-        await _cvRepository.Update(mockCV);
+        await _cvRepository.Update(mockCV, default);
 
         // assert
         using (var dbContext = _dbContextFactory.CreateSQLiteContext())
@@ -132,7 +132,7 @@ public class CVRepositoryTests
         };
 
         // execute
-        await _cvRepository.Update(mockCV);
+        await _cvRepository.Update(mockCV, default);
 
         // assert
         using (var dbContext = _dbContextFactory.CreateSQLiteContext())
@@ -161,7 +161,7 @@ public class CVRepositoryTests
         };
 
         // execute
-        await _cvRepository.Update(mockCV);
+        await _cvRepository.Update(mockCV, default);
 
         // assert
         using var dbContext = _dbContextFactory.CreateSQLiteContext();
@@ -229,7 +229,7 @@ public class CVRepositoryTests
         };
 
         // execute
-        await _cvRepository.Update(mockCV);
+        await _cvRepository.Update(mockCV, default);
 
         // assert
         using (var dbContext = _dbContextFactory.CreateSQLiteContext())
@@ -297,7 +297,7 @@ public class CVRepositoryTests
         };
 
         // execute
-        await _cvRepository.Update(mockCV);
+        await _cvRepository.Update(mockCV, default);
 
         // assert
         using (var dbContext = _dbContextFactory.CreateSQLiteContext())
