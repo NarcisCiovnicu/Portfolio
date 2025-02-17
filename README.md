@@ -28,13 +28,9 @@ For Client Prod/Stage deployment:
     }
   }
   ```
-- For Staging:
-  - update
-    - `Portfolio/wwwroot/staticwebapp.config.json`
-  - and set
-    - `"Blazor-Environment": "Staging"`
 - az login
 - swa deploy
+  - `swa deploy --subscription-id [sub-id] --tenant-id [tenant-id] --app-name [app-name] --resource-group [group-name] --app-location ".\PublishClient\wwwroot" --env [production / preview] --output-location "." --swa-config-location "./Portfolio/Properties/[Prod / Stage]"`
 
 ## API
 ### 1. Run migrations
