@@ -36,8 +36,6 @@ namespace Portfolio.API
             services.ConfigureOptions<SwaggerOptionsSetup>();
 
             services.AddControllers();
-            services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
             services.AddHttpLogging(opt => { });
             services.AddHttpLoggingInterceptor<HttpLoggingInterceptor>();
             services.AddRateLimiter(opt => { });

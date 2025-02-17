@@ -10,7 +10,7 @@ namespace Portfolio.API.OptionsSetup
 
         public void Configure(SwaggerGenOptions options)
         {
-            if (_hostEnvironment.IsDevelopment())
+            if (_hostEnvironment.IsDevelopment() || _hostEnvironment.IsStaging())
             {
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
