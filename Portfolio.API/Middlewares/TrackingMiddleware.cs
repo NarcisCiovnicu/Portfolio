@@ -49,12 +49,14 @@ namespace Portfolio.API.Middlewares
 
         private static IPAddress GetIp(HttpContext context)
         {
+#if DEBUG
+            // This is used to test on local
             string? forwarded = context.Request.Headers["HTTP_X_FORWARDED_FOR"];
             if (IPAddress.TryParse(forwarded, out IPAddress? ip))
             {
                 return ip;
             }
-
+#endif
             return context.Connection.RemoteIpAddress ?? IPAddress.Any;
         }
     }

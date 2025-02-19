@@ -29,13 +29,18 @@ namespace Portfolio.API.Controllers
         //[HttpGet]
         //public IActionResult Get()
         //{
-        //    return Ok(ReadSampleCV());
+        //    return Ok(System.IO.File.ReadAllText("./sample-data/cv.json"));
         //}
 
-        //// For testing without DB
-        //private static string ReadSampleCV()
-        //{
-        //    return System.IO.File.ReadAllText(@"./sample-data/cv.json");
-        //}
+#if DEBUG
+        [Route("/api/mockCvDebugOnly")]
+        [HttpPost]
+        public async Task<IActionResult> MockCV(CancellationToken cancellationToken)
+        {
+            CurriculumVitaeDTO cvDTO = System.Text.Json.JsonSerializer.Deserialize<CurriculumVitaeDTO>(System.IO.File.ReadAllText("./sample-data/cv.json"))!;
+            await _cvService.Update(cvDTO, cancellationToken);
+            return Ok("CV was mocked");
+        }
+#endif
     }
 }

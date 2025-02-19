@@ -6,6 +6,6 @@ namespace Portfolio.API.Domain.ServiceInterfaces
     {
         Task<bool> IsValid(AuthenticationDTO authenticationDTO, CancellationToken cancellationToken);
 
-        string GenerateJwtToken();
+        AuthTokenDTO GenerateJwtToken();
     }
 }

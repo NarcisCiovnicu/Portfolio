@@ -6,8 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.ConfigureLogging();
 
-/// MUST add here in this file for Azure deployment to generate swagger.json
-/// Otherwise it will skip that saying "AddSwaggerGen was not detected" if it's called in a different file
+/// MUST be added here in this file for Azure deployment to generate swagger.json
+/// Otherwise it will skip that saying "AddSwaggerGen was not detected" if it's called from a different file
 /// ¯\_(•_•)_/¯
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

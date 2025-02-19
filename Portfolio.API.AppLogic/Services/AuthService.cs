@@ -23,7 +23,7 @@ namespace Portfolio.API.AppLogic.Services
             return _passwordRepository.HasPassword(hashValue, cancellationToken);
         }
 
-        public string GenerateJwtToken()
+        public AuthTokenDTO GenerateJwtToken()
         {
             SigningCredentials signingCredentials = new(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenOptions.SecretKey)),
                 SecurityAlgorithms.HmacSha256);
@@ -31,7 +31,9 @@ namespace Portfolio.API.AppLogic.Services
             JwtSecurityToken token = new(_tokenOptions.Issuer, _tokenOptions.Audience, null, null,
                 DateTime.UtcNow.AddHours(_tokenOptions.ExpireAfterH), signingCredentials);
 
-            return _jwtTokenHandler.WriteToken(token);
+            string tokenValue = _jwtTokenHandler.WriteToken(token);
+
+            return new AuthTokenDTO(tokenValue, _tokenOptions.ExpireAfterH * 60 * 60);
         }
 
         private static string HashWithSHA256(string value)
