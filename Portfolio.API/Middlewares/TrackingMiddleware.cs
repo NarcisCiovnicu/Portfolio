@@ -27,8 +27,6 @@ namespace Portfolio.API.Middlewares
             string path = $"{context.Request.Method} - {context.Request.Path}";
             IpLocationResponseDTO ipLocation;
 
-            _logger.LogInformation("Request made by {ipAddress}", ipAddress);
-
             bool isAnyIp = ipAddress == IPAddress.Any;
             if (IPAddress.IsLoopback(ipAddress) || isAnyIp)
             {
@@ -38,13 +36,14 @@ namespace Portfolio.API.Middlewares
             else
             {
                 ipLocation = await _ipLocationService.GetLocation(ipAddress.ToString());
-                _logger.LogInformation("Request from {location}, with error {errorMessage}", $"{ipLocation.Country} {ipLocation.City}", ipLocation.ErrorMessage);
             }
 
             ApiTrackerDTO apiTracker = new(ipAddress.ToString(), path, userAgent, ipLocation.Country, ipLocation.City, ipLocation.ZipCode,
                 ipLocation.Latitude, ipLocation.Longitude, ipLocation.InternetProvider, ipLocation.IsMobile, ipLocation.IsProxy, ipLocation.ErrorMessage);
 
             _ = _trackingService.LogWithFireAndForget(apiTracker);
+
+            _logger.LogInformation("Tracking Info: {apiTracker}", apiTracker);
         }
 
         private static IPAddress GetIp(HttpContext context)
