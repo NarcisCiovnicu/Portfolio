@@ -1,16 +1,17 @@
 ﻿using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using Portfolio.API.Extensions;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Portfolio.API.OptionsSetup
 {
-    public class SwaggerOptionsSetup(IWebHostEnvironment hostEnvironment) : IConfigureOptions<SwaggerGenOptions>
+    public class SwaggerOptionsSetup(IWebHostEnvironment environment) : IConfigureOptions<SwaggerGenOptions>
     {
-        private readonly IWebHostEnvironment _hostEnvironment = hostEnvironment;
+        private readonly IWebHostEnvironment _environment = environment;
 
         public void Configure(SwaggerGenOptions options)
         {
-            if (_hostEnvironment.IsDevelopment() || _hostEnvironment.IsStaging())
+            if (_environment.IsStagingOrDevelopment())
             {
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {

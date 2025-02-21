@@ -2,5 +2,5 @@
 
 namespace Portfolio.API.Domain.DataTransferObjects
 {
-    public record AuthenticationDTO([Required] string Password);
+    public record AuthenticationDTO([Required, MaxLength(30)] string Password);
 }

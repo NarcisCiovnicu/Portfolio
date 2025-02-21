@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Portfolio.API.Domain;
 using Portfolio.API.Domain.CustomExceptions;
+using Portfolio.API.Extensions;
 
 namespace Portfolio.API.Middlewares
 {
@@ -60,10 +61,10 @@ namespace Portfolio.API.Middlewares
         private void AddMoreDetails(ProblemDetails problem, Exception ex, HttpContext httpContext)
         {
             problem.Type = GetProblemType(problem.Status ?? 0);
-            problem.Instance = $"{httpContext.Request.Method} {httpContext.Request.GetEncodedPathAndQuery()}";
+            problem.Instance = httpContext.Request.GetInstance();
             problem.Extensions.Add("traceId", httpContext.TraceIdentifier);
 
-            if (_environment.IsDevelopment())
+            if (_environment.IsStagingOrDevelopment())
             {
                 problem.Extensions.Add("exception", ex.ToString());
             }
@@ -73,29 +74,29 @@ namespace Portfolio.API.Middlewares
         {
             if (statusCode < 100)
             {
-                return "about:blank";
+                return Constants.ProblemDetailsType.Default;
             }
             else if (statusCode < 200)
             {
-                return "https://datatracker.ietf.org/doc/html/rfc9110#section-15.2";
+                return Constants.ProblemDetailsType.Status100;
             }
             else if (statusCode < 300)
             {
-                return "https://datatracker.ietf.org/doc/html/rfc9110#section-15.3";
+                return Constants.ProblemDetailsType.Status200;
             }
             else if (statusCode < 400)
             {
-                return "https://datatracker.ietf.org/doc/html/rfc9110#section-15.4";
+                return Constants.ProblemDetailsType.Status300;
             }
             else if (statusCode < 500)
             {
-                return "https://datatracker.ietf.org/doc/html/rfc9110#section-15.5";
+                return Constants.ProblemDetailsType.Status400;
             }
             else if (statusCode < 600)
             {
-                return "https://datatracker.ietf.org/doc/html/rfc9110#section-15.6";
+                return Constants.ProblemDetailsType.Status500;
             }
-            return "about:blank";
+            return Constants.ProblemDetailsType.Default;
         }
     }
 }

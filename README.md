@@ -44,7 +44,7 @@ dotnet ef database update --project Portfolio.API.DataAccess --startup-project P
 ```
 
 ### 2. Setup DB
-Add a password for authentication in DB using SHA-256 encryption  
+Add a password (length <= 30) for authentication in DB using SHA-256 encryption  
 https://emn178.github.io/online-tools/sha256.html  
 #### Run query:
 ```SQL

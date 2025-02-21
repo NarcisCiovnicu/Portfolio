@@ -1,5 +1,6 @@
 using Portfolio.API;
 using Portfolio.API.AppLogic;
+using Portfolio.API.Extensions;
 using Portfolio.API.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,7 +22,7 @@ AppLogicSetup.Initialize(app.Services);
 app.UseRateLimiter();
 app.UseHttpLogging();
 
-if (app.Environment.IsDevelopment() || app.Environment.IsStaging())
+if (app.Environment.IsStagingOrDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
