@@ -2,6 +2,13 @@ html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
+@media (prefers-color-scheme: dark) {
+    html {
+        background-color: black;
+        color: white;
+    }
+}
+
 #blazor-error-ui {
     color-scheme: light only;
     background: lightyellow;
