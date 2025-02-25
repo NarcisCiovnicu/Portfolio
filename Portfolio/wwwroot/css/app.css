@@ -3,7 +3,7 @@ html, body {
 }
 
 @media (prefers-color-scheme: dark) {
-    html {
+    html:has(svg.loading-progress) {
         background-color: black;
         color: white;
     }
