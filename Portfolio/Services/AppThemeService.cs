@@ -1,12 +1,13 @@
 ﻿using Blazored.LocalStorage;
+using Blazored.LocalStorage.Exceptions;
 using MudBlazor;
 
 namespace Portfolio.Services
 {
     public interface IAppThemeService
     {
-        Task<bool?> IsDarkModePreferred();
-        Task SaveDarkMode(bool isDarkMode);
+        Task<bool?> IsDarkModePreferredAsync();
+        Task SaveDarkModeAsync(bool isDarkMode);
     }
 
     public class AppThemeService(ILocalStorageService localStorage, ILogger<AppThemeService> logger, ISnackbar snackbar) : IAppThemeService
@@ -15,11 +16,11 @@ namespace Portfolio.Services
         private readonly ILogger<AppThemeService> _logger = logger;
         private readonly ISnackbar _snackbar = snackbar;
 
-        public async Task<bool?> IsDarkModePreferred()
+        public async Task<bool?> IsDarkModePreferredAsync()
         {
             try
             {
-                return await _localStorage.GetItemAsync<bool?>(Constants.LocalStorage.IsDarkThemeKey);
+                return await _localStorage.GetItemAsync<bool?>(Constants.LocalStorage.IsDarkThemeKey).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -28,16 +29,19 @@ namespace Portfolio.Services
             }
         }
 
-        public async Task SaveDarkMode(bool isDarkMode)
+        public async Task SaveDarkModeAsync(bool isDarkMode)
         {
             try
             {
-                await _localStorage.SetItemAsync(Constants.LocalStorage.IsDarkThemeKey, isDarkMode);
+                await _localStorage.SetItemAsync(Constants.LocalStorage.IsDarkThemeKey, isDarkMode).ConfigureAwait(false);
+            }
+            catch (BrowserStorageDisabledException)
+            {
+                _snackbar.Add("Failed to save preferred theme. Local storage is disabled.", Severity.Warning);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to save [theme] to [local storage]");
-                _snackbar.Add("Failed to save preferred theme.", Severity.Error);
             }
         }
     }

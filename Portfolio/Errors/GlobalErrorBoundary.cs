@@ -9,7 +9,7 @@ namespace Portfolio.Errors
 
         protected override Task OnErrorAsync(Exception exception)
         {
-            if (_environment.IsDevelopment())
+            if (_environment.IsDevelopment() || _environment.IsStaging())
             {
                 return base.OnErrorAsync(exception);
             }

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Portfolio.API.Domain;
+using Shared;
 
 namespace Portfolio.API.Extensions
 {
@@ -9,7 +9,7 @@ namespace Portfolio.API.Extensions
         {
             return controller.Problem(detail, controller.HttpContext.Request.GetInstance(),
                 StatusCodes.Status401Unauthorized, "Unauthorized",
-                Constants.ProblemDetailsType.Status400);
+                ProblemDetailsHelper.GetProblemDetailsType(StatusCodes.Status401Unauthorized));
         }
     }
 }

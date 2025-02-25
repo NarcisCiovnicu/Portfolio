@@ -1,10 +1,16 @@
-﻿@using Microsoft.Extensions.Options
-@inject IOptions<ClientAppConfig> appConfig
+﻿@inject IOptions<ClientAppConfig> appConfig
 
 <Router AppAssembly="@typeof(App).Assembly">
     <Found Context="routeData">
         <PageTitle>@appConfig.Value.OwnerName</PageTitle>
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+            <NotAuthorized>
+                <MudContainer Class="d-flex flex-column align-items-center">
+                    <MudText>Not authorized.</MudText>
+                    <MudLink href="/login" Class="mt-5"> Login </MudLink>
+                </MudContainer>
+            </NotAuthorized>
+        </AuthorizeRouteView>
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
     </Found>
     <NotFound>

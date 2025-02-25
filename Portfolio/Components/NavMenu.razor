@@ -9,7 +9,13 @@
 
     <MudDivider Class="my-1" />
     
-    <MudNavLink Href="/cv" Class="mt-3" Icon="@Icons.Material.Outlined.Article">CV</MudNavLink>
+    <MudNavLink Href="/cv" Class="mt-3" Match="NavLinkMatch.All" Icon="@Icons.Material.Outlined.Article">CV</MudNavLink>
+
+    <AuthorizeView>
+        <Authorized>
+            <MudNavLink Href="/cv/edit" Class="mt-3" Icon="@Icons.Material.Outlined.EditNote">Edit CV</MudNavLink>
+        </Authorized>
+    </AuthorizeView>
     
     <MudDivider Class="my-2" />
     
@@ -21,6 +27,6 @@
 
     <MudDivider Class="my-2" />
 
-    <MudNavLink Href="/contact"> Contact </MudNavLink>
+    <MudNavLink Href="/contact" Icon="@Icons.Material.Outlined.ContactPage"> Contact </MudNavLink>
 
 </MudNavMenu>

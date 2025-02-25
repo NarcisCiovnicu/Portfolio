@@ -1,0 +1,45 @@
+﻿@page "/login"
+
+<SectionContent SectionName="page-name">
+    <MudText>Login</MudText>
+</SectionContent>
+
+<div class="login-form-container d-flex">
+    <MudContainer Class="d-flex flex-column align-items-center">
+
+        <h2 class="mb-10"> Login </h2>
+
+        <MudForm Class="col-sm-6 login-form" @ref="MudForm" Model="@LoginModel">
+            <PasswordInputComponent OnKeyUp="@Enter" @bind-Value="@LoginModel.Password" For="@(() => LoginModel.Password)" />
+        </MudForm>
+
+        <MudSpacer></MudSpacer>
+
+        <MudButton Class="mt-5" Variant="Variant.Filled"
+                   OnClick="Submit"
+                   Disabled="IsAuthenticating"
+                   DropShadow="false"
+                   Color="Color.Primary" Size="Size.Large"
+                   IconColor="Color.Default"
+                   EndIcon="@(IsAuthenticating ? null : Icons.Material.Sharp.EditNote)"
+                   StartIcon="@(IsAuthenticating ? null : Icons.Material.Rounded.LockOpen)">
+            @if (IsAuthenticating)
+            {
+                <MudProgressCircular Class="ms-n2 me-2" Size="Size.Small" Indeterminate="true" />
+                <MudText> Authenticating </MudText>
+            }
+            else
+            {
+                <MudText> Authenticate </MudText>
+            }
+        </MudButton>
+
+    </MudContainer>
+</div>
+
+<MudContainer Class="d-flex flex-column align-items-center mt-10">
+    @if (Error is not null)
+    {
+        <ErrorAlert Error="Error" class="col-sm-8"></ErrorAlert>
+    }
+</MudContainer>

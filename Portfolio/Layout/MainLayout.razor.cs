@@ -1,15 +1,21 @@
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor;
 using Portfolio.Errors;
+using Portfolio.Providers;
 using Portfolio.Services;
 
 namespace Portfolio.Layout
 {
-    public partial class MainLayout(IWebAssemblyHostEnvironment hostEnvironment, ILogger<MainLayout> logger, IAppThemeService appThemeService)
+    public partial class MainLayout(IWebAssemblyHostEnvironment hostEnvironment, ILogger<MainLayout> logger, IAppThemeService appThemeService,
+        IAuthService authService, ClientAuthStateProvider authStateProvider, NavigationManager navManager)
     {
         private readonly IWebAssemblyHostEnvironment _hostEnvironment = hostEnvironment;
         private readonly ILogger<MainLayout> _logger = logger;
         private readonly IAppThemeService _appThemeService = appThemeService;
+        private readonly IAuthService _authService = authService;
+        private readonly ClientAuthStateProvider _authStateProvider = authStateProvider;
+        private readonly NavigationManager _navManager = navManager;
 
         private bool IsNavMenuOpen { get; set; } = false;
         private bool IsDarkMode { get; set; } = false;
@@ -31,10 +37,20 @@ namespace Portfolio.Layout
             }
         }
 
+        protected async Task LogOut()
+        {
+            bool wasLoggedOut = await _authService.LogOutAsync();
+            if (wasLoggedOut)
+            {
+                _authStateProvider.MarkUserAsLoggedOut();
+                _navManager.NavigateTo("/");
+            }
+        }
+
         private async Task DarkModeChanged(bool isDarkMode)
         {
             IsDarkMode = isDarkMode;
-            await _appThemeService.SaveDarkMode(isDarkMode);
+            await _appThemeService.SaveDarkModeAsync(isDarkMode);
         }
 
         private void ToggleNavMenu()
@@ -49,7 +65,7 @@ namespace Portfolio.Layout
 
         private async Task SetTheme()
         {
-            bool? savedDarkMode = await _appThemeService.IsDarkModePreferred();
+            bool? savedDarkMode = await _appThemeService.IsDarkModePreferredAsync();
             if (savedDarkMode == null)
             {
                 IsDarkMode = await MudThemeProvider!.GetSystemPreference();

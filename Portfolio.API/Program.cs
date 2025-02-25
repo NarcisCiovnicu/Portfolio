@@ -16,6 +16,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddServices(builder.Configuration);
 
 var app = builder.Build();
+app.UseExceptionHandler();
 
 AppLogicSetup.Initialize(app.Services);
 
@@ -34,6 +35,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.UseMiddleware<TrackingMiddleware>();
-app.UseExceptionHandler();
 
 await app.RunAsync();

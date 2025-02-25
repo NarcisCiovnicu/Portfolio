@@ -14,6 +14,7 @@
         {
             public const string CvKey = "CurriculumVitae";
             public const string IsDarkThemeKey = "IsDarkThemePreferred";
+            public const string AccessTokenKey = "AccessToken";
         }
     }
 }

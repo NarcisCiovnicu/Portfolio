@@ -6,31 +6,31 @@
     <MudText>CV</MudText>
 </SectionContent>
 
-@if (_curriculumVitae != null)
+@if (CurriculumVitae != null)
 {
-    if (_warningMessage != null)
+    if (WarningMessage != null)
     {
-        <WarningAlert Message="@_warningMessage"></WarningAlert>
+        <WarningAlert Message="@WarningMessage"></WarningAlert>
     }
 
-    switch (_cvDesignType)
+    switch (CvDesignType)
     {
         case CVDesignType.DesignOne:
-            <RenderDesignOne CurriculumVitae="@_curriculumVitae"></RenderDesignOne>
+            <RenderDesignOne CurriculumVitae="@CurriculumVitae"></RenderDesignOne>
             break;
         case CVDesignType.DesignTwo:
-            <RenderDesignTwo CurriculumVitae="@_curriculumVitae"></RenderDesignTwo>
+            <RenderDesignTwo CurriculumVitae="@CurriculumVitae"></RenderDesignTwo>
             break;
         default:
-            <RenderDesignOne CurriculumVitae="@_curriculumVitae"></RenderDesignOne>
+            <RenderDesignOne CurriculumVitae="@CurriculumVitae"></RenderDesignOne>
             break;
     }
 }
-else if (_isCvLoading)
+else if (IsCvLoading)
 {
     <LoadingSpinner Message="Loading CV"></LoadingSpinner>
 }
-else if (_errorMessage != null)
+else if (Error != null)
 {
-    <ErrorAlert Message="@_errorMessage"></ErrorAlert>
+    <ErrorAlert Error="@Error"></ErrorAlert>
 }

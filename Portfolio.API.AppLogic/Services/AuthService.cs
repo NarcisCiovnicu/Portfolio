@@ -28,12 +28,13 @@ namespace Portfolio.API.AppLogic.Services
             SigningCredentials signingCredentials = new(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenOptions.SecretKey)),
                 SecurityAlgorithms.HmacSha256);
 
-            JwtSecurityToken token = new(_tokenOptions.Issuer, _tokenOptions.Audience, null, null,
-                DateTime.UtcNow.AddHours(_tokenOptions.ExpireAfterH), signingCredentials);
+            DateTime expirationTime = DateTime.UtcNow.AddHours(_tokenOptions.ExpireAfterH);
+
+            JwtSecurityToken token = new(_tokenOptions.Issuer, _tokenOptions.Audience, null, null, expirationTime, signingCredentials);
 
             string tokenValue = _jwtTokenHandler.WriteToken(token);
 
-            return new AuthTokenDTO(tokenValue, _tokenOptions.ExpireAfterH * 60 * 60);
+            return new AuthTokenDTO(tokenValue, expirationTime);
         }
 
         private static string HashWithSHA256(string value)

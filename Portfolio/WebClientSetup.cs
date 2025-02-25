@@ -1,8 +1,11 @@
 ﻿using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Options;
 using MudBlazor;
 using MudBlazor.Services;
+using Portfolio.Handlers;
 using Portfolio.Models;
+using Portfolio.Providers;
 using Portfolio.Services;
 
 namespace Portfolio
@@ -11,6 +14,8 @@ namespace Portfolio
     {
         public static void AddServices(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddAuthorizationCore();
+            services.AddCascadingAuthenticationState();
             services.AddMudServices(config =>
             {
                 config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomCenter;
@@ -25,11 +30,17 @@ namespace Portfolio
             services.AddBlazoredLocalStorage();
             services.AddOptionsWithValidateOnStart<ClientAppConfig>().BindConfiguration(Constants.Config.ClientAppConfig).ValidateDataAnnotations();
 
+            services.AddScoped<ClientAuthStateProvider>();
+            services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredService<ClientAuthStateProvider>());
+            services.AddScoped<AuthorizationHandler>();
             services.AddScoped(sp =>
             {
                 string apiUrl = sp.GetRequiredService<IOptions<ClientAppConfig>>().Value.ApiUrl;
-                return new HttpClient { BaseAddress = new Uri(apiUrl) };
+                AuthorizationHandler handler = sp.GetRequiredService<AuthorizationHandler>();
+                return new HttpClient(handler) { BaseAddress = new Uri(apiUrl), Timeout = TimeSpan.FromSeconds(70) };
             });
+            services.AddScoped<IAuthTokenService, AuthTokenService>();
+            services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ICurriculumVitaeService, CurriculumVitaeService>();
             services.AddScoped<IAppThemeService, AppThemeService>();
         }

@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Portfolio.Models.Responses;
 
 namespace Portfolio.Components
 {
     public partial class ErrorAlert
     {
-        [Parameter]
-        public string? Title { get; set; } = "Sorry, something went wrong 🙈";
         [Parameter, EditorRequired]
-        public required string Message { get; set; }
+        public required ProblemDetails Error { get; set; }
+
+        [Parameter]
+        public string? Class { get; set; }
     }
 }

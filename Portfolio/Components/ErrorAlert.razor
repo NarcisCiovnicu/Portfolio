@@ -1,4 +1,12 @@
-﻿<MudAlert Severity="Severity.Error" ContentAlignment="HorizontalAlignment.Start" Class="mt-3">
-    <MudText>@Title</MudText>
-    <MudText>@Message</MudText>
+﻿<MudAlert Severity="Severity.Error" ContentAlignment="HorizontalAlignment.Start" Class="@Class">
+    <MudText>@Error.Title</MudText>
+    <MudText>@Error.Detail</MudText>
+    @if (Error.Status != 0)
+    {
+        <MudText> (Status Code: @Error.Status) </MudText>
+    }
+    @if (Error.Type is not null && Error.Type != "about:blank")
+    {
+        <MudLink Href="@Error.Type" Target="_blank"> More details </MudLink>
+    }
 </MudAlert>

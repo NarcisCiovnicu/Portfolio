@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Portfolio.API.Domain;
 using Portfolio.API.Domain.CustomExceptions;
 using Portfolio.API.Extensions;
+using Shared;
+using System.Text.Json;
 
 namespace Portfolio.API.Middlewares
 {
@@ -11,6 +12,8 @@ namespace Portfolio.API.Middlewares
     {
         private readonly ILogger<GlobalExceptionHandler> _logger = logger;
         private readonly IWebHostEnvironment _environment = environment;
+
+        private static readonly JsonSerializerOptions _serializerOptions = new(JsonSerializerDefaults.Web);
 
         public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
         {
@@ -33,7 +36,7 @@ namespace Portfolio.API.Middlewares
             AddMoreDetails(problem, exception, httpContext);
 
             httpContext.Response.StatusCode = problem.Status ?? StatusCodes.Status500InternalServerError;
-            await httpContext.Response.WriteAsJsonAsync(problem, cancellationToken);
+            await httpContext.Response.WriteAsJsonAsync(problem, _serializerOptions, contentType: "application/problem+json", cancellationToken);
 
             return true;
         }
@@ -60,7 +63,7 @@ namespace Portfolio.API.Middlewares
 
         private void AddMoreDetails(ProblemDetails problem, Exception ex, HttpContext httpContext)
         {
-            problem.Type = GetProblemType(problem.Status ?? 0);
+            problem.Type = ProblemDetailsHelper.GetProblemDetailsType(problem.Status ?? 0);
             problem.Instance = httpContext.Request.GetInstance();
             problem.Extensions.Add("traceId", httpContext.TraceIdentifier);
 
@@ -68,35 +71,6 @@ namespace Portfolio.API.Middlewares
             {
                 problem.Extensions.Add("exception", ex.ToString());
             }
-        }
-
-        private static string GetProblemType(int statusCode)
-        {
-            if (statusCode < 100)
-            {
-                return Constants.ProblemDetailsType.Default;
-            }
-            else if (statusCode < 200)
-            {
-                return Constants.ProblemDetailsType.Status100;
-            }
-            else if (statusCode < 300)
-            {
-                return Constants.ProblemDetailsType.Status200;
-            }
-            else if (statusCode < 400)
-            {
-                return Constants.ProblemDetailsType.Status300;
-            }
-            else if (statusCode < 500)
-            {
-                return Constants.ProblemDetailsType.Status400;
-            }
-            else if (statusCode < 600)
-            {
-                return Constants.ProblemDetailsType.Status500;
-            }
-            return Constants.ProblemDetailsType.Default;
         }
     }
 }

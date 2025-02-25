@@ -31,15 +31,5 @@
         {
             public static readonly Guid DefaultCVId = new("00000000-0000-0000-0000-000000000001");
         }
-
-        public static class ProblemDetailsType
-        {
-            public const string Default = "about:blank";
-            public const string Status100 = "https://datatracker.ietf.org/doc/html/rfc9110#section-15.2";
-            public const string Status200 = "https://datatracker.ietf.org/doc/html/rfc9110#section-15.3";
-            public const string Status300 = "https://datatracker.ietf.org/doc/html/rfc9110#section-15.4";
-            public const string Status400 = "https://datatracker.ietf.org/doc/html/rfc9110#section-15.5";
-            public const string Status500 = "https://datatracker.ietf.org/doc/html/rfc9110#section-15.6";
-        }
     }
 }

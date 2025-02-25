@@ -18,6 +18,16 @@
                              ToggledColor="@Color.Inherit"
                              title="@ThemeName" />
         <MudText>@ThemeName mode </MudText>
+        <AuthorizeView>
+            <NotAuthorized>
+                <MudIconButton Class="ms-3" Icon="@Icons.Material.Outlined.LockPerson"
+                               Href="/login" Size="Size.Small"
+                               Color="Color.Default" Variant="Variant.Text" aria-label="Login" />
+            </NotAuthorized>
+            <Authorized>
+                <MudButton Class="ms-3" OnClick="LogOut" Variant="Variant.Outlined" Color="Color.Secondary" Size="Size.Small">Log Out</MudButton>
+            </Authorized>
+        </AuthorizeView>
     </MudAppBar>
 
     <MudDrawer Elevation="2" @bind-Open="@IsNavMenuOpen" Breakpoint="Breakpoint.Xxl" ClipMode="DrawerClipMode.Always">
@@ -25,14 +35,14 @@
     </MudDrawer>
 
     <MudMainContent>
-        <MudContainer Class="mb-15" MaxWidth="MaxWidth.Medium">
+        <MudContainer Class="mb-15 mt-5" MaxWidth="MaxWidth.Medium">
             <GlobalErrorBoundary @ref="@GlobalErrorBoundary">
                 <ChildContent>
                     @Body
                 </ChildContent>
                 <ErrorContent>
                     <MudAlert Severity="Severity.Error" Elevation="10" Class="mt-4" ShowCloseIcon="true" CloseIconClicked="() => GlobalErrorBoundary?.Recover()">
-                        <MudText>Critical error! Sorry, 🐀🐁🐀 are eating my website...</MudText>
+                        <MudText>Critical error! Sorry, the 🐀🐁🐀 are eating my website...</MudText>
                     </MudAlert>
                 </ErrorContent>
             </GlobalErrorBoundary>

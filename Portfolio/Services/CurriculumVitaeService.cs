@@ -1,67 +1,50 @@
 ﻿using Blazored.LocalStorage;
-using Portfolio.Errors;
 using Portfolio.Models;
+using Portfolio.Models.Responses;
 using Portfolio.Utils;
-using System.Net;
-using System.Net.Http.Json;
-using System.Text;
 
 namespace Portfolio.Services
 {
     public interface ICurriculumVitaeService
     {
-        Task<Response<CurriculumVitae>> GetCVAsync();
-        Task<Response<bool>> SaveCVAsync(CurriculumVitae cv);
+        Task<ResponseWithWarning<CurriculumVitae>> GetCVAsync();
+        Task<Response<bool, ProblemDetails>> SaveCVAsync(CurriculumVitae cv);
     }
 
-    internal class CurriculumVitaeService(ILogger<CurriculumVitaeService> logger, HttpClient httpClient, ILocalStorageService localStorage) : ICurriculumVitaeService
+    internal class CurriculumVitaeService(ILogger<CurriculumVitaeService> logger, HttpClient httpClient, ILocalStorageService localStorage)
+        : BaseApiService<ProblemDetails>(logger, httpClient), ICurriculumVitaeService
     {
         private readonly ILogger<CurriculumVitaeService> _logger = logger;
-        private readonly HttpClient _httpClient = httpClient;
         private readonly ILocalStorageService _localStorage = localStorage;
 
-        public async Task<Response<CurriculumVitae>> GetCVAsync()
+        public async Task<ResponseWithWarning<CurriculumVitae>> GetCVAsync()
         {
-            CurriculumVitae? cv = await TryToGetFromLocalStorageAsync();
+            CurriculumVitae? cachedCV = await TryToGetFromLocalStorageAsync().ConfigureAwait(false);
 
-            if (cv != null && cv.LastUpdate == DateHelper.Today())
+            if (cachedCV != null && cachedCV.LastUpdate == DateHelper.Today())
             {
-                return new Response<CurriculumVitae>(cv);
+                return new ResponseWithWarning<CurriculumVitae>(cachedCV);
             }
 
-            StringBuilder? errorMessage = null;
-            string? warningMessage = null;
-            try
+            Response<CurriculumVitae, ProblemDetails> response = await HttpGetAsync<CurriculumVitae>("cv?query=1").ConfigureAwait(false);
+
+            if (response.IsSuccessful)
             {
-                CurriculumVitae? latestCV = await _httpClient.GetFromJsonAsync<CurriculumVitae>("cv");
-
-                if (latestCV == null)
-                {
-                    throw new ClientAppException("Retrieved CV was null");
-                }
-                else
-                {
-                    await SaveToLocalStorageAsync(latestCV);
-                    cv = latestCV;
-                }
+                await SaveToLocalStorageAsync(response.Result!).ConfigureAwait(false);
+                return new ResponseWithWarning<CurriculumVitae>(response);
             }
-            catch (Exception ex)
+            else
             {
-                errorMessage = new("Request failed to load the CV.");
-                TryAddStatusCodeToErrorMessage(ex, ref errorMessage);
-                _logger.LogError(ex, "[Request failed] to [GET] CV");
-
-                if (cv != null)
-                {
-                    warningMessage = "Failed to retrieved the latest CV version. Displaying an older version viewed before.";
-                }
+                string? warningMessage = cachedCV is not null
+                    ? "Failed to retrieved the latest CV version. Displaying an older version viewed before."
+                    : null;
+                return new ResponseWithWarning<CurriculumVitae>(cachedCV, response.Error, warningMessage);
             }
-
-            return new Response<CurriculumVitae>(cv, errorMessage?.ToString(), warningMessage);
         }
 
-        public Task<Response<bool>> SaveCVAsync(CurriculumVitae cv)
+        public Task<Response<bool, ProblemDetails>> SaveCVAsync(CurriculumVitae cv)
         {
+            // TODO
             throw new NotImplementedException();
         }
 
@@ -70,7 +53,7 @@ namespace Portfolio.Services
             try
             {
                 cv.LastUpdate = DateHelper.Today();
-                await _localStorage.SetItemAsync(Constants.LocalStorage.CvKey, cv);
+                await _localStorage.SetItemAsync(Constants.LocalStorage.CvKey, cv).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -82,24 +65,12 @@ namespace Portfolio.Services
         {
             try
             {
-                return await _localStorage.GetItemAsync<CurriculumVitae>(Constants.LocalStorage.CvKey);
+                return await _localStorage.GetItemAsync<CurriculumVitae>(Constants.LocalStorage.CvKey).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to read [CV] form [local storage]");
                 return null;
-            }
-        }
-
-        private static void TryAddStatusCodeToErrorMessage(Exception ex, ref StringBuilder errorMessage)
-        {
-            if (ex is HttpRequestException)
-            {
-                HttpStatusCode? statusCode = (ex as HttpRequestException)?.StatusCode;
-                if (statusCode != null)
-                {
-                    errorMessage.Append($" (Status code: {(int)statusCode})");
-                }
             }
         }
     }
