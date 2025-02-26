@@ -10,7 +10,7 @@
 {
     if (WarningMessage != null)
     {
-        <WarningAlert Message="@WarningMessage"></WarningAlert>
+        <WarningAlert Message="@WarningMessage" OnCloseEvent="LoadCVAsync" CloseIcon="@Icons.Material.Filled.Refresh"></WarningAlert>
     }
 
     switch (CvDesignType)
@@ -28,9 +28,9 @@
 }
 else if (IsCvLoading)
 {
-    <FriendlyLoadingSpinner Message="Loading CV"></FriendlyLoadingSpinner>
+    <FriendlyLoadingSpinner Message="Loading CV" CancellationTokenSource="CancellationTokenSource"></FriendlyLoadingSpinner>
 }
 else if (Error != null)
 {
-    <ErrorAlert Error="@Error"></ErrorAlert>
+    <ErrorAlert Error="Error" OnCloseEvent="LoadCVAsync" CloseIcon="@Icons.Material.Filled.Refresh"></ErrorAlert>
 }

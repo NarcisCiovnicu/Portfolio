@@ -7,6 +7,8 @@ namespace Portfolio.Components.Shared
     {
         [Parameter]
         public string? Message { get; set; }
+        [Parameter]
+        public CancellationTokenSource? CancellationTokenSource { get; set; }
 
         protected Color LoadingColor
         {

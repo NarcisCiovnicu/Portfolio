@@ -33,6 +33,7 @@ namespace Portfolio.API.Controllers
         //}
 
 #if DEBUG
+        [Authorize]
         [Route("/api/mockCvDebugOnly")]
         [HttpPost]
         public async Task<IActionResult> MockCV(CancellationToken cancellationToken)

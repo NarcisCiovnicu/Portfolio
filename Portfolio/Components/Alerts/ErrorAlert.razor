@@ -1,4 +1,5 @@
-﻿<MudAlert Severity="Severity.Error" ContentAlignment="HorizontalAlignment.Start" Class="@Class">
+﻿<MudAlert Class="@Class" Severity="Severity.Error" ContentAlignment="HorizontalAlignment.Start"
+          CloseIcon="@CloseIcon" ShowCloseIcon="OnCloseEvent.HasDelegate" CloseIconClicked="OnCloseEvent">
     <MudText>@Error.Title</MudText>
     <MudText>@Error.Detail</MudText>
     @if (Error.Status != 0)

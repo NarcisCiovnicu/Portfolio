@@ -48,6 +48,15 @@ namespace Portfolio.Services
             throw new NotImplementedException();
         }
 
+        protected override ProblemDetails CreateProblemDetails(TimeoutException exception)
+        {
+            return new ProblemDetails()
+            {
+                Title = "Request timeout.",
+                Detail = "The request took too long to complete. You can try again."
+            };
+        }
+
         private async Task SaveToLocalStorageAsync(CurriculumVitae cv)
         {
             try

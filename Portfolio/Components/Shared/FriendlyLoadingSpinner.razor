@@ -20,5 +20,12 @@
             }
         </MudContainer>
         <MudProgressLinear Color="LoadingColor" Buffer="true" Rounded="true" Size="Size.Small" Value="LoadingPercentage" Class="my-7" />
+
+        @if (CancellationTokenSource != null)
+        {
+            <MudContainer Class="d-flex justify-content-center">
+                <MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="CancellationTokenSource.Cancel">Cancel</MudButton>
+            </MudContainer>
+        }
     }
 </MudContainer>

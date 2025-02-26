@@ -57,7 +57,7 @@ namespace Portfolio.Services
             return new ProblemType()
             {
                 Title = "Request timeout.",
-                Detail = "The request took too long to complete. Please try again."
+                Detail = "The request took too long to complete. Try again later."
             };
         }
 
