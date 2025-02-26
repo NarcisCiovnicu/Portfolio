@@ -16,5 +16,10 @@
             public const string IsDarkThemeKey = "IsDarkThemePreferred";
             public const string AccessTokenKey = "AccessToken";
         }
+
+        public static class Request
+        {
+            public const int DefaultTimeoutSeconds = 70;
+        }
     }
 }

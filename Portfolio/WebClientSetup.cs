@@ -37,7 +37,11 @@ namespace Portfolio
             {
                 string apiUrl = sp.GetRequiredService<IOptions<ClientAppConfig>>().Value.ApiUrl;
                 AuthorizationHandler handler = sp.GetRequiredService<AuthorizationHandler>();
-                return new HttpClient(handler) { BaseAddress = new Uri(apiUrl), Timeout = TimeSpan.FromSeconds(70) };
+                return new HttpClient(handler)
+                {
+                    BaseAddress = new Uri(apiUrl),
+                    Timeout = TimeSpan.FromSeconds(Constants.Request.DefaultTimeoutSeconds)
+                };
             });
             services.AddScoped<IAuthTokenService, AuthTokenService>();
             services.AddScoped<IAuthService, AuthService>();

@@ -1,0 +1,24 @@
+﻿<MudContainer>
+    <LoadingSpinner Message="@Message" Color="LoadingColor"></LoadingSpinner>
+    @if (LoadingPercentage > 0)
+    {
+        <MudContainer Class="d-flex justify-content-center">
+            @switch ((int)LoadingPercentage / Breakpoint)
+            {
+                case 0:
+                    <MudImage Height="ImageHeight" Src="img/loadings/hamster-wheel-1.gif"></MudImage>
+                    break;
+                case 1:
+                    <MudImage Height="ImageHeight" Src="img/loadings/hamster-wheel-2.gif"></MudImage>
+                    break;
+                case 2:
+                    <MudImage Height="ImageHeight" Src="img/loadings/hamster-wheel-3.gif"></MudImage>
+                    break;
+                default:
+                    <MudImage Height="ImageHeight"></MudImage>
+                    break;
+            }
+        </MudContainer>
+        <MudProgressLinear Color="LoadingColor" Buffer="true" Rounded="true" Size="Size.Small" Value="LoadingPercentage" Class="my-7" />
+    }
+</MudContainer>

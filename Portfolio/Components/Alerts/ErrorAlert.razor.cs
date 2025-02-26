@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Portfolio.Models.Responses;
 
-namespace Portfolio.Components
+namespace Portfolio.Components.Alerts
 {
     public partial class ErrorAlert
     {

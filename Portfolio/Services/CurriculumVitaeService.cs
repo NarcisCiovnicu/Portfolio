@@ -7,7 +7,7 @@ namespace Portfolio.Services
 {
     public interface ICurriculumVitaeService
     {
-        Task<ResponseWithWarning<CurriculumVitae>> GetCVAsync();
+        Task<ResponseWithWarning<CurriculumVitae>> GetCVAsync(CancellationToken cancellationToken);
         Task<Response<bool, ProblemDetails>> SaveCVAsync(CurriculumVitae cv);
     }
 
@@ -17,7 +17,7 @@ namespace Portfolio.Services
         private readonly ILogger<CurriculumVitaeService> _logger = logger;
         private readonly ILocalStorageService _localStorage = localStorage;
 
-        public async Task<ResponseWithWarning<CurriculumVitae>> GetCVAsync()
+        public async Task<ResponseWithWarning<CurriculumVitae>> GetCVAsync(CancellationToken cancellationToken)
         {
             CurriculumVitae? cachedCV = await TryToGetFromLocalStorageAsync().ConfigureAwait(false);
 
@@ -26,7 +26,7 @@ namespace Portfolio.Services
                 return new ResponseWithWarning<CurriculumVitae>(cachedCV);
             }
 
-            Response<CurriculumVitae, ProblemDetails> response = await HttpGetAsync<CurriculumVitae>("cv?query=1").ConfigureAwait(false);
+            Response<CurriculumVitae, ProblemDetails> response = await HttpGetAsync<CurriculumVitae>("cv", cancellationToken).ConfigureAwait(false);
 
             if (response.IsSuccessful)
             {
@@ -36,7 +36,7 @@ namespace Portfolio.Services
             else
             {
                 string? warningMessage = cachedCV is not null
-                    ? "Failed to retrieved the latest CV version. Displaying an older version viewed before."
+                    ? "Failed to retrieved the latest CV version (try again later). Displaying an older version viewed before."
                     : null;
                 return new ResponseWithWarning<CurriculumVitae>(cachedCV, response.Error, warningMessage);
             }

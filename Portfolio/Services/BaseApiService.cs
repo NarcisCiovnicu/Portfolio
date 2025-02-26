@@ -1,6 +1,8 @@
-﻿using Portfolio.Models.Responses;
+﻿using Portfolio.Extensions;
+using Portfolio.Models.Responses;
 using Shared;
 using System.Net.Http.Json;
+using System.Text.Json;
 
 namespace Portfolio.Services
 {
@@ -10,25 +12,26 @@ namespace Portfolio.Services
         private readonly ILogger _logger = logger;
         private readonly HttpClient _httpClient = httpClient;
 
-        protected Task<Response<ResultType, ProblemType>> HttpGetAsync<ResultType>(string url)
+        protected Task<Response<ResultType, ProblemType>> HttpGetAsync<ResultType>(string url, CancellationToken cancellationToken = default)
         {
-            return SendHttpRequest<ResultType>(() => _httpClient.GetAsync(url));
+            return SendHttpRequest<ResultType>(() => _httpClient.GetAsync(url, cancellationToken));
         }
 
-        protected Task<Response<ResultType, ProblemType>> HttpPostAsync<T, ResultType>(string url, T value)
+        protected Task<Response<ResultType, ProblemType>> HttpPostAsync<T, ResultType>(string url, T value, CancellationToken cancellationToken = default)
         {
-            return SendHttpRequest<ResultType>(() => _httpClient.PostAsJsonAsync(url, value));
+            return SendHttpRequest<ResultType>(() => _httpClient.PostAsJsonAsync(url, value, cancellationToken));
         }
 
         protected virtual ProblemType CreateProblemDetails(HttpResponseMessage failedResponse)
         {
+            int statusCode = (int)failedResponse.StatusCode;
             return new ProblemType()
             {
-                Status = (int)failedResponse.StatusCode,
+                Status = statusCode,
                 Title = "Sorry, something went wrong.",
                 Detail = failedResponse.ReasonPhrase ?? string.Empty,
-                Type = ProblemDetailsHelper.GetProblemDetailsType((int)failedResponse.StatusCode),
-                Instance = $"{failedResponse.RequestMessage?.Method.ToString()} {failedResponse.RequestMessage?.RequestUri?.AbsolutePath}"
+                Type = ProblemDetailsHelper.GetProblemDetailsType(statusCode),
+                Instance = failedResponse.RequestMessage?.GetRequestInstance(),
             };
         }
 
@@ -41,6 +44,32 @@ namespace Portfolio.Services
             };
         }
 
+        protected virtual ProblemType CreateProblemDetails(OperationCanceledException exception)
+        {
+            return new ProblemType()
+            {
+                Title = "Request was cancelled.",
+            };
+        }
+
+        protected virtual ProblemType CreateProblemDetails(TimeoutException exception)
+        {
+            return new ProblemType()
+            {
+                Title = "Request timeout.",
+                Detail = "The request took too long to complete. Please try again."
+            };
+        }
+
+        protected virtual ProblemType CreateProblemDetails(JsonException exception)
+        {
+            return new ProblemType()
+            {
+                Title = "Unexpected error.",
+                Detail = "Failed to parse JSON response."
+            };
+        }
+
         private async Task<Response<ResultType, ProblemType>> SendHttpRequest<ResultType>(Func<Task<HttpResponseMessage>> requestFunction)
         {
             try
@@ -48,7 +77,25 @@ namespace Portfolio.Services
                 HttpResponseMessage response = await requestFunction().ConfigureAwait(false);
 
                 return await CreateResponseAsync<ResultType>(response).ConfigureAwait(false);
-
+            }
+            catch (TimeoutException ex)
+            {
+                _logger.LogWarning("API request timed out. {message}", ex.Message);
+                return new Response<ResultType, ProblemType>(default, CreateProblemDetails(ex));
+            }
+            catch (OperationCanceledException ex)
+            {
+                _logger.LogWarning("API request was cancelled. {message}", ex.Message);
+                if (ex.InnerException is TimeoutException timeoutException)
+                {
+                    return new Response<ResultType, ProblemType>(default, CreateProblemDetails(timeoutException));
+                }
+                return new Response<ResultType, ProblemType>(default, CreateProblemDetails(ex));
+            }
+            catch (JsonException ex)
+            {
+                _logger.LogError(ex, "Failed to parse JSON response.");
+                return new Response<ResultType, ProblemType>(default, CreateProblemDetails(ex));
             }
             catch (Exception ex)
             {

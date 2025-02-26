@@ -6,9 +6,10 @@ using Portfolio.Services;
 
 namespace Portfolio.Pages
 {
-    public partial class ViewCurriculumVitae(ICurriculumVitaeService cvService, IOptions<ClientAppConfig> appConfig)
+    public partial class ViewCurriculumVitae(ICurriculumVitaeService cvService, IOptions<ClientAppConfig> appConfig) : IDisposable
     {
         private readonly ICurriculumVitaeService _cvService = cvService;
+        private readonly CancellationTokenSource _cancellationTokenSource = new();
 
         protected readonly CVDesignType CvDesignType = appConfig.Value.CVDesignType;
 
@@ -20,8 +21,15 @@ namespace Portfolio.Pages
         protected override async Task OnInitializedAsync()
         {
             IsCvLoading = true;
-            (CurriculumVitae, Error, WarningMessage) = await _cvService.GetCVAsync();
+            (CurriculumVitae, Error, WarningMessage) = await _cvService.GetCVAsync(_cancellationTokenSource.Token);
             IsCvLoading = false;
+        }
+
+        public void Dispose()
+        {
+            _cancellationTokenSource.Cancel();
+            _cancellationTokenSource.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }
