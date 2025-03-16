@@ -5,7 +5,7 @@
         public R? Result { get; } = result;
         public ProblemType? Error { get; } = error;
 
-        public bool IsSuccessful { get { return Error is null; } }
+        public bool IsSuccessful => Error is null;
 
         public void Deconstruct(out R? result, out ProblemDetails? error)
         {

@@ -16,9 +16,9 @@ namespace Portfolio.API.DataAccess.Repositories
         {
             CurriculumVitae cv = await _dbContext.CurriculumVitae
                 .Include(p => p.LinkedInProfile).Include(p => p.Website)
-                .Include(p => p.WorkExperienceList).ThenInclude(p => p.ExternalLink)
+                .Include(p => p.WorkExperienceList.OrderByDescending(work => work.StartDate)).ThenInclude(p => p.ExternalLink)
                 .Include(p => p.PersonalProjects).ThenInclude(p => p.ExternalLink)
-                .Include(p => p.EducationHistory)
+                .Include(p => p.EducationHistory.OrderBy(education => education.StartDate))
                 .AsNoTracking().FirstAsync(q => q.Id == Constants.Database.DefaultCVId, cancellationToken);
 
             return _mapper.Map<CurriculumVitaeDTO>(cv);
