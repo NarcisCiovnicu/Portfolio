@@ -1,19 +1,15 @@
-using Microsoft.Extensions.Options;
 using MudBlazor;
 using Portfolio.Components.Alerts;
 using Portfolio.Models;
-using Portfolio.Models.Enums;
 using Portfolio.Models.Responses;
 using Portfolio.Services;
 
 namespace Portfolio.Pages
 {
-    public partial class ViewCurriculumVitae(ICurriculumVitaeService cvService, IOptions<ClientAppConfig> appConfig, ISnackbar snackbar) : IDisposable
+    public partial class ViewCurriculumVitae(ICurriculumVitaeService cvService, ISnackbar snackbar) : IDisposable
     {
         private readonly ICurriculumVitaeService _cvService = cvService;
         private readonly ISnackbar _snackbar = snackbar;
-
-        protected readonly CVDesignType CvDesignType = appConfig.Value.CVDesignType;
 
         protected CancellationTokenSource? CancellationTokenSource;
         protected bool IsCvLoading = false;

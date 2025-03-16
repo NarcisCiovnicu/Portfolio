@@ -1,6 +1,4 @@
 ﻿@page "/cv"
-@using Portfolio.Components.CVDesigns.One
-@using Portfolio.Components.CVDesigns.Two
 
 <SectionContent SectionName="page-name">
     <MudText>CV</MudText>
@@ -13,18 +11,14 @@
         <WarningAlert Message="@WarningMessage" OnCloseEvent="LoadCVAsync" CloseIcon="@Icons.Material.Filled.Refresh"></WarningAlert>
     }
 
-    switch (CvDesignType)
-    {
-        case CVDesignType.DesignOne:
-            <RenderDesignOne CurriculumVitae="@CurriculumVitae"></RenderDesignOne>
-            break;
-        case CVDesignType.DesignTwo:
-            <RenderDesignTwo CurriculumVitae="@CurriculumVitae"></RenderDesignTwo>
-            break;
-        default:
-            <RenderDesignOne CurriculumVitae="@CurriculumVitae"></RenderDesignOne>
-            break;
-    }
+    <div class="d-flex justify-content-end">
+        <MudButton Disabled="true" Variant="Variant.Filled"
+                   StartIcon="@Icons.Custom.FileFormats.FilePdf" IconColor="Color.Secondary">
+            Download PDF (TBD)
+        </MudButton>
+    </div>
+
+    <RenderCV CurriculumVitae="@CurriculumVitae" />
 }
 else if (IsCvLoading)
 {

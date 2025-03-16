@@ -1,4 +1,51 @@
 ﻿@page "/cv/edit"
 @attribute [Authorize]
 
-<h3>EditCurriculumVitae - TODO</h3>
+@if (Error is not null)
+{
+    <ErrorAlert Error="Error"></ErrorAlert>
+}
+
+@if (IsCvLoading)
+{
+    <LoadingSpinner Message="Loading CV"></LoadingSpinner>
+}
+
+@if (CurriculumVitae is not null)
+{
+    <div>*[WIP]</div>
+    <MudContainer Class="d-flex justify-content-end">
+        <SubmitButton Label="Save Changes"
+                      SubmittingLabel="Saving..."
+                      IsSubmitting="IsCvSaving"
+                      StartIcon="@Icons.Material.Filled.Save"
+                      OnClick="SaveCVAsync" />
+    </MudContainer>
+    <MudContainer Class="mb-5">
+        <MudForm @ref="MudForm" Model="CurriculumVitae">
+            <MudTextField @bind-Value="@CurriculumVitae.Name" Label="Name" Required="true" Variant="Variant.Outlined" For="() => CurriculumVitae.Name"></MudTextField>
+            <MudTextField @bind-Value="@CurriculumVitae.Location" Label="Location" Required="true" Variant="Variant.Outlined" For="() => CurriculumVitae.Location"></MudTextField>
+            <MudTextField @bind-Value="@CurriculumVitae.Phone" Label="Phone" Required="true" Variant="Variant.Outlined" For="() => CurriculumVitae.Phone"></MudTextField>
+            <MudTextField @bind-Value="@CurriculumVitae.Email" Label="Email" Required="true" Variant="Variant.Outlined" For="() => CurriculumVitae.Email"></MudTextField>
+            <MudTextField @bind-Value="@CurriculumVitae.About" Label="About" Lines="10" Variant="Variant.Outlined" For="() => CurriculumVitae.About"></MudTextField>
+            <MudDivider />
+            <MudButton Class="mt-1" Color="Color.Success" Variant="Variant.Outlined">Edit Work Experience</MudButton>
+            <MudButton Class="mt-2" Color="Color.Success" Variant="Variant.Outlined">Edit Personal Projects</MudButton>
+            <MudButton Class="mt-2" Color="Color.Success" Variant="Variant.Outlined">Edit Education History</MudButton>
+            <MudButton Class="mt-2" Color="Color.Success" Variant="Variant.Outlined">Edit Skills</MudButton>
+            <MudDivider />
+            @*
+            @foreach (Skill skill in CurriculumVitae.Skills)
+            {
+                <MudTextField @bind-Value="@skill.Name" Label="Skill" Required="true" Variant="Variant.Outlined"></MudTextField>
+            }
+            <MudButton OnClick="() => CurriculumVitae.Skills.Add(new Skill() {Name = string.Empty})">Add new</MudButton>
+            *@
+        </MudForm>
+    </MudContainer>
+
+    <MudContainer Class="p-2 border-3 rounded-2 dahsed-border">
+        <h3 class="d-flex justify-content-center"> Preview </h3>
+        <RenderCV CurriculumVitae="CurriculumVitae"></RenderCV>
+    </MudContainer>
+}

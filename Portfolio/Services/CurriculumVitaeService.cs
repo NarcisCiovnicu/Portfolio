@@ -8,7 +8,8 @@ namespace Portfolio.Services
     public interface ICurriculumVitaeService
     {
         Task<ResponseWithWarning<CurriculumVitae>> GetCVAsync(CancellationToken cancellationToken);
-        Task<Response<bool, ProblemDetails>> SaveCVAsync(CurriculumVitae cv);
+        Task<Response<CurriculumVitae, ProblemDetails>> GetLatestCVAsync(CancellationToken cancellationToken);
+        Task<Response<CurriculumVitae, ProblemDetails>> SaveCVAsync(CurriculumVitae cv, CancellationToken cancellationToken = default);
     }
 
     internal class CurriculumVitaeService(ILogger<CurriculumVitaeService> logger, HttpClient httpClient, ILocalStorageService localStorage)
@@ -16,6 +17,11 @@ namespace Portfolio.Services
     {
         private readonly ILogger<CurriculumVitaeService> _logger = logger;
         private readonly ILocalStorageService _localStorage = localStorage;
+
+        public Task<Response<CurriculumVitae, ProblemDetails>> GetLatestCVAsync(CancellationToken cancellationToken)
+        {
+            return HttpGetAsync<CurriculumVitae>("cv", cancellationToken);
+        }
 
         public async Task<ResponseWithWarning<CurriculumVitae>> GetCVAsync(CancellationToken cancellationToken)
         {
@@ -26,7 +32,7 @@ namespace Portfolio.Services
                 return new ResponseWithWarning<CurriculumVitae>(cachedCV);
             }
 
-            Response<CurriculumVitae, ProblemDetails> response = await HttpGetAsync<CurriculumVitae>("cv", cancellationToken).ConfigureAwait(false);
+            Response<CurriculumVitae, ProblemDetails> response = await GetLatestCVAsync(cancellationToken).ConfigureAwait(false);
 
             if (response.IsSuccessful)
             {
@@ -42,10 +48,9 @@ namespace Portfolio.Services
             }
         }
 
-        public Task<Response<bool, ProblemDetails>> SaveCVAsync(CurriculumVitae cv)
+        public Task<Response<CurriculumVitae, ProblemDetails>> SaveCVAsync(CurriculumVitae cv, CancellationToken cancellationToken = default)
         {
-            // TODO
-            throw new NotImplementedException();
+            return HttpPostAsync<CurriculumVitae, CurriculumVitae>("cv", cv, cancellationToken);
         }
 
         protected override ProblemDetails CreateProblemDetails(TimeoutException exception)

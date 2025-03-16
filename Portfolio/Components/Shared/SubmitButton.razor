@@ -1,0 +1,18 @@
+﻿<MudButton Class="@Class"
+           Color="Color"
+           Variant="Variant"
+           Disabled="IsSubmitting || Disabled"
+           OnClick="OnClick"
+           StartIcon="@(IsSubmitting ? null : StartIcon)"
+           EndIcon="@(IsSubmitting ? null : EndIcon)"
+           Size="Size">
+    @if (IsSubmitting)
+    {
+        <MudProgressCircular Class="ms-n2 me-2" Size="Size.Small" Indeterminate="true" />
+        <MudText>@SubmittingLabel</MudText>
+    }
+    else
+    {
+        <MudText>@Label</MudText>
+    }
+</MudButton>

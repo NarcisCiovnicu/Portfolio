@@ -9,31 +9,18 @@
 
         <h2 class="mb-10"> Login </h2>
 
-        <MudForm Class="col-sm-6 login-form" @ref="MudForm" Model="@LoginModel">
-            <PasswordInputComponent OnKeyUp="@Enter" @bind-Value="@LoginModel.Password" For="@(() => LoginModel.Password)" />
+        <MudForm Class="col-sm-6 login-form" @ref="MudForm" Model="LoginModel">
+            <PasswordInputComponent OnKeyUp="Enter" @bind-Value="LoginModel.Password" For="() => LoginModel.Password" />
         </MudForm>
 
         <MudSpacer></MudSpacer>
 
-        <MudButton Class="mt-5" Variant="Variant.Filled"
-                   OnClick="Submit"
-                   Disabled="IsAuthenticating"
-                   DropShadow="false"
-                   Color="Color.Primary" Size="Size.Large"
-                   IconColor="Color.Default"
-                   EndIcon="@(IsAuthenticating ? null : Icons.Material.Sharp.EditNote)"
-                   StartIcon="@(IsAuthenticating ? null : Icons.Material.Rounded.LockOpen)">
-            @if (IsAuthenticating)
-            {
-                <MudProgressCircular Class="ms-n2 me-2" Size="Size.Small" Indeterminate="true" />
-                <MudText> Authenticating </MudText>
-            }
-            else
-            {
-                <MudText> Authenticate </MudText>
-            }
-        </MudButton>
-
+        <SubmitButton Class="mt-5"
+                      Label="Authenticate" SubmittingLabel="Authenticating" IsSubmitting="IsAuthenticating"
+                      StartIcon="@Icons.Material.Rounded.LockOpen"
+                      EndIcon="@Icons.Material.Sharp.EditNote"
+                      Size="Size.Large"
+                      OnClick="Submit" />
     </MudContainer>
 </div>
 
