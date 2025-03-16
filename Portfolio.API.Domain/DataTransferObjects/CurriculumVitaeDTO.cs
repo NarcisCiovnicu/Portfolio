@@ -3,9 +3,9 @@
 namespace Portfolio.API.Domain.DataTransferObjects
 {
     public record CurriculumVitaeDTO(
-        [Required, MaxLength(50)] string Name,
-        [Required, MaxLength(30)] string Location,
-        [Required, MaxLength(25)] string Phone,
+        [Required, Length(2, 50)] string Name,
+        [Required, Length(2, 30)] string Location,
+        [Required, Length(9, 25)] string Phone,
         [Required, EmailAddress, MaxLength(50)] string Email,
         LinkDTO? LinkedInProfile,
         LinkDTO? Website,
