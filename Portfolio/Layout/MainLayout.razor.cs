@@ -22,10 +22,7 @@ namespace Portfolio.Layout
 
         private bool IsNavMenuOpen { get; set; } = false;
         private bool IsDarkMode { get; set; } = false;
-        private string ThemeName
-        {
-            get { return IsDarkMode ? "Dark" : "Light"; }
-        }
+        private string ThemeName => IsDarkMode ? "Dark" : "Light";
 
         private MudThemeProvider? MudThemeProvider { get; set; }
         private GlobalErrorBoundary? GlobalErrorBoundary { get; set; }
