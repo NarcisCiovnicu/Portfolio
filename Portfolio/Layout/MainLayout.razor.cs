@@ -18,7 +18,7 @@ namespace Portfolio.Layout
         private readonly ClientAuthStateProvider _authStateProvider = authStateProvider;
         private readonly NavigationManager _navManager = navManager;
 
-        protected static string? AppVersion => Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
+        protected static string? AppVersion => Assembly.GetExecutingAssembly().GetName().Version?.ToString(3);
 
         private bool IsNavMenuOpen { get; set; } = false;
         private bool IsDarkMode { get; set; } = false;
