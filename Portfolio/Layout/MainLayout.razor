@@ -34,7 +34,7 @@
         <NavMenu OnClose="CloseNavMenu"></NavMenu>
     </MudDrawer>
 
-    <MudMainContent>
+    <MudMainContent Class="d-flex flex-column vh-100">
         <MudContainer Class="mb-15 mt-5" MaxWidth="MaxWidth.Medium">
             <GlobalErrorBoundary @ref="@GlobalErrorBoundary">
                 <ChildContent>
@@ -46,6 +46,16 @@
                     </MudAlert>
                 </ErrorContent>
             </GlobalErrorBoundary>
+        </MudContainer>
+
+        <MudSpacer />
+
+        <MudContainer MaxWidth="MaxWidth.False">
+            <footer>
+                <div class="opacity-50">
+                    App version: @AppVersion
+                </div>
+            </footer>
         </MudContainer>
     </MudMainContent>
 

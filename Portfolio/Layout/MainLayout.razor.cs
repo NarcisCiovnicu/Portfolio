@@ -4,6 +4,7 @@ using MudBlazor;
 using Portfolio.Errors;
 using Portfolio.Providers;
 using Portfolio.Services;
+using System.Reflection;
 
 namespace Portfolio.Layout
 {
@@ -16,6 +17,8 @@ namespace Portfolio.Layout
         private readonly IAuthService _authService = authService;
         private readonly ClientAuthStateProvider _authStateProvider = authStateProvider;
         private readonly NavigationManager _navManager = navManager;
+
+        protected static string? AppVersion => Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
 
         private bool IsNavMenuOpen { get; set; } = false;
         private bool IsDarkMode { get; set; } = false;
