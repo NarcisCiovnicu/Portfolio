@@ -3,7 +3,7 @@
     @if (LoadingPercentage > 0)
     {
         <MudContainer Class="d-flex justify-content-center">
-            @switch ((int)LoadingPercentage / Breakpoint)
+            @switch ((int)LoadingPercentage / BreakpointProc)
             {
                 case 0:
                     <MudImage Height="ImageHeight" Src="img/loadings/hamster-wheel-1.gif"></MudImage>

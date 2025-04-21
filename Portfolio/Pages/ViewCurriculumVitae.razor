@@ -22,7 +22,10 @@
 }
 else if (IsCvLoading)
 {
-    <FriendlyLoadingSpinner Message="Loading CV" CancellationTokenSource="CancellationTokenSource"></FriendlyLoadingSpinner>
+    <FriendlyLoadingSpinner Message="Loading CV"
+                            StartAnimationAfterXSec="5"
+                            EndAnimationAfterXSec="Constants.Request.DefaultTimeoutSeconds - 2"
+                            CancellationTokenSource="CancellationTokenSource" />
 }
 else if (Error != null)
 {

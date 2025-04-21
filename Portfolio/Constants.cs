@@ -19,7 +19,7 @@
 
         public static class Request
         {
-            public const int DefaultTimeoutSeconds = 70;
+            public const int DefaultTimeoutSeconds = 60;
         }
     }
 }
