@@ -4,11 +4,11 @@
 
 ### Prerequisites
 - To run the project
-  - .Net 9 - for Client
-  - .Net 8 - for API
-  - (Visual Studio 2022)
+  - .Net 10 - for Client
+  - .Net 10 - for API
+  - (Visual Studio 2026)
 - To generate and run migrations
-  - `dotnet tool install --global dotnet-ef --version 8.0.12`
+  - `dotnet tool install --global dotnet-ef --version 10.0.7`
 
 ---
 

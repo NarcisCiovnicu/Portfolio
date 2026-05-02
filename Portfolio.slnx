@@ -1,0 +1,21 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitignore" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="Portfolio.API.AppLogic.Test/Portfolio.API.AppLogic.Test.csproj" />
+    <Project Path="Portfolio.API.DataAccess.Tests/Portfolio.API.DataAccess.Test.csproj" />
+    <Project Path="Portfolio.Test/Portfolio.Test.csproj" />
+    <Project Path="Shared.Test/Shared.Test.csproj" />
+  </Folder>
+  <Project Path="Portfolio.API.AppLogic/Portfolio.API.AppLogic.csproj" />
+  <Project Path="Portfolio.API.DataAccess.SQLite/Portfolio.API.DataAccess.SQLite.csproj" />
+  <Project Path="Portfolio.API.DataAccess.SQLServer/Portfolio.API.DataAccess.SQLServer.csproj" />
+  <Project Path="Portfolio.API.DataAccess/Portfolio.API.DataAccess.csproj" />
+  <Project Path="Portfolio.API.Domain/Portfolio.API.Domain.csproj" />
+  <Project Path="Portfolio.API/Portfolio.API.csproj" />
+  <Project Path="Portfolio/Portfolio.csproj" />
+  <Project Path="Shared/Shared.csproj" />
+</Solution>
