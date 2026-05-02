@@ -1,6 +1,8 @@
-﻿using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
+using Microsoft.OpenApi;
 using Portfolio.API.Extensions;
+using Portfolio.API.Filters;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Portfolio.API.OptionsSetup
@@ -13,7 +15,7 @@ namespace Portfolio.API.OptionsSetup
         {
             if (_environment.IsStagingOrDevelopment())
             {
-                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme()
                 {
                     In = ParameterLocation.Header,
                     Description = "Bearer token",
@@ -23,22 +25,7 @@ namespace Portfolio.API.OptionsSetup
                     Scheme = "bearer"
                 });
 
-                options.AddSecurityRequirement(new OpenApiSecurityRequirement()
-                {
-                    {
-                        new OpenApiSecurityScheme()
-                        {
-                            Name = "Bearer",
-                            In = ParameterLocation.Header,
-                            Reference = new OpenApiReference()
-                            {
-                                Id = "Bearer",
-                                Type = ReferenceType.SecurityScheme
-                            }
-                        },
-                        new List<string>()
-                    }
-                });
+                options.OperationFilter<SecurityRequirementsOperationFilter>();
             }
         }
     }

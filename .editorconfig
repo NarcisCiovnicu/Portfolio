@@ -1,0 +1,27 @@
+# Rules
+root=true
+
+# Private readonly fields must use _ prefix
+[*.cs]
+dotnet_naming_symbols.private_readonly_fields.applicable_kinds = field
+dotnet_naming_symbols.private_readonly_fields.applicable_accessibilities = private
+dotnet_naming_symbols.private_readonly_fields.required_modifiers = readonly
+
+dotnet_naming_style.private_readonly_prefix_style.required_prefix = _
+dotnet_naming_style.private_readonly_prefix_style.capitalization = camel_case
+
+dotnet_naming_rule.private_readonly_fields_must_have_prefix.symbols = private_readonly_fields
+dotnet_naming_rule.private_readonly_fields_must_have_prefix.style = private_readonly_prefix_style
+dotnet_naming_rule.private_readonly_fields_must_have_prefix.severity = warning
+
+# ------------------------------
+
+# JSON files formatting
+[*.json]
+indent_style = space
+indent_size = 2
+
+# CSPROJ files formatting
+[*.csproj]
+indent_style = space
+indent_size = 2
