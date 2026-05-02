@@ -68,7 +68,7 @@ namespace Portfolio.Layout
             bool? savedDarkMode = await _appThemeService.IsDarkModePreferredAsync();
             if (savedDarkMode == null)
             {
-                IsDarkMode = await MudThemeProvider!.GetSystemPreference();
+                IsDarkMode = await MudThemeProvider!.GetSystemDarkModeAsync();
             }
             else
             {
