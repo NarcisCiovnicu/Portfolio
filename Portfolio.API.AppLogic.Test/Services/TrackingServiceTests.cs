@@ -42,7 +42,7 @@ namespace Portfolio.API.AppLogic.Test.Services
 
             // execute
             Task serviceTask = trackingService.LogWithFireAndForget(_mockApiTrackerDTO);
-            Task timeout = Task.Delay(100);
+            Task timeout = Task.Delay(100, TestContext.Current.CancellationToken);
             Task finishedTask = await Task.WhenAny(serviceTask, timeout);
 
             // assert
@@ -64,7 +64,7 @@ namespace Portfolio.API.AppLogic.Test.Services
 
             // execute
             Task serviceTask = trackingService.LogWithFireAndForget(_mockApiTrackerDTO);
-            Task timeout = Task.Delay(100);
+            Task timeout = Task.Delay(100, TestContext.Current.CancellationToken);
             Task finishedTask = await Task.WhenAny(serviceTask, timeout);
 
             // assert
@@ -103,7 +103,7 @@ namespace Portfolio.API.AppLogic.Test.Services
 
             // execute
             Task serviceTask = trackingService.LogWithFireAndForget(_mockApiTrackerDTO);
-            Task timeout = Task.Delay(100);
+            Task timeout = Task.Delay(100, TestContext.Current.CancellationToken);
             Task finishedTask = await Task.WhenAny(serviceTask, timeout);
 
             // assert
@@ -125,7 +125,7 @@ namespace Portfolio.API.AppLogic.Test.Services
 
             // execute
             Task serviceTask = trackingService.LogWithFireAndForget(_mockApiTrackerDTO);
-            Task timeout = Task.Delay(100);
+            Task timeout = Task.Delay(100, TestContext.Current.CancellationToken);
             Task finishedTask = await Task.WhenAny(serviceTask, timeout);
 
             // assert

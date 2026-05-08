@@ -28,7 +28,7 @@ namespace Portfolio.Pages
 
         private async Task SaveCVAsync()
         {
-            await MudForm!.Validate();
+            await MudForm!.ValidateAsync();
 
             if (MudForm.IsValid && IsCvSaving == false)
             {

@@ -27,7 +27,7 @@ namespace Portfolio.Pages
 
         protected async Task Submit()
         {
-            await MudForm!.Validate();
+            await MudForm!.ValidateAsync();
 
             if (MudForm.IsValid && IsAuthenticating == false)
             {
