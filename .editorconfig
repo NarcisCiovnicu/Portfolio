@@ -14,12 +14,23 @@ dotnet_naming_rule.private_readonly_fields_must_have_prefix.symbols = private_re
 dotnet_naming_rule.private_readonly_fields_must_have_prefix.style = private_readonly_prefix_style
 dotnet_naming_rule.private_readonly_fields_must_have_prefix.severity = warning
 
+dotnet_naming_style.private_field_style.required_prefix = _
+dotnet_naming_style.private_field_style.capitalization = camel_case
+
+# File-scoped namespaces
+csharp_namespace_declarations_block_scope = false
+
+# Require primary constructors for classes and structs
+csharp_style_require_primary_constructors = true:warning
+
 # ------------------------------
 
 # JSON files formatting
 [*.json]
 indent_style = space
 indent_size = 2
+
+# ------------------------------
 
 # CSPROJ files formatting
 [*.csproj]

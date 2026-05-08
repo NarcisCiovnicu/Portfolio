@@ -1,7 +1,10 @@
-using AutoMapper;
+using Mapster;
+using MapsterMapper;
 using Microsoft.EntityFrameworkCore;
 using Portfolio.API.DataAccess.Entities;
+using Portfolio.API.DataAccess.MappingConfigs;
 using Portfolio.API.DataAccess.Repositories;
+using Portfolio.API.DataAccess.Test.TestHelpers;
 using Portfolio.API.Domain.DataTransferObjects;
 
 namespace Portfolio.API.DataAccess.Test.Repositories;
@@ -10,24 +13,21 @@ public class CVRepositoryTests
 {
     private readonly DbContextFactory _dbContextFactory;
     private readonly CVRepository _cvRepository;
-    private readonly IMapper _mapper;
 
     public CVRepositoryTests()
     {
         _dbContextFactory = new DbContextFactory();
-        var config = new MapperConfiguration(opts =>
-        {
-            opts.AddProfile(new DataAccessMappingProfile());
-        });
-        _mapper = config.CreateMapper();
-        _cvRepository = new CVRepository(_dbContextFactory.CreateSQLiteContext(), _mapper);
+
+        IMapper mapper = MapperUtils.CreateMapper(new CurriculumVitaeMapConfigs());
+
+        _cvRepository = new CVRepository(_dbContextFactory.CreateSQLiteContext(), mapper);
     }
 
     #region Read
     [Fact]
     public async Task Read_ShouldReturnOneDefaultCV_WhenDbIsFirstCreated()
     {
-        CurriculumVitaeDTO cv = await _cvRepository.Read(default);
+        CurriculumVitaeDTO cv = await _cvRepository.Read(TestContext.Current.CancellationToken);
 
         Assert.NotNull(cv);
     }
@@ -35,20 +35,25 @@ public class CVRepositoryTests
 
     #region Update
     [Fact]
-    public async Task Update_ShouldUpdateStringProperties()
+    public async Task Update_ShouldUpdateSimpleProperties()
     {
         // setup
         InitializeMockCV();
         CurriculumVitaeDTO mockCV = CreateMockCVDTO();
 
         // execute
-        await _cvRepository.Update(mockCV, default);
+        _ = await _cvRepository.Update(mockCV, TestContext.Current.CancellationToken);
 
         // assert
         using var dbContext = _dbContextFactory.CreateSQLiteContext();
-        CurriculumVitaeDTO updatedCV = _mapper.Map<CurriculumVitaeDTO>(dbContext.CurriculumVitae.First());
+        CurriculumVitae updatedCV = dbContext.CurriculumVitae.First();
 
-        Assert.Equivalent(mockCV, updatedCV, true);
+        Assert.Equal(mockCV.Name, updatedCV.Name);
+        Assert.Equal(mockCV.Location, updatedCV.Location);
+        Assert.Equal(mockCV.Phone, updatedCV.Phone);
+        Assert.Equal(mockCV.Email, updatedCV.Email);
+        Assert.Equal(mockCV.About, updatedCV.About);
+        Assert.Equal(mockCV.Skills.Select(s => s.Name), updatedCV.Skills);
     }
 
     [Fact]
@@ -63,17 +68,18 @@ public class CVRepositoryTests
         };
 
         // execute
-        await _cvRepository.Update(mockCV, default);
+        _ = await _cvRepository.Update(mockCV, TestContext.Current.CancellationToken);
 
         // assert
         using PortfolioDbContext dbContext = _dbContextFactory.CreateSQLiteContext();
-        var cv = dbContext.CurriculumVitae.Include(p => p.LinkedInProfile).Include(p => p.Website).First();
-        CurriculumVitaeDTO updatedCV = _mapper.Map<CurriculumVitaeDTO>(cv);
+        var updatedCV = dbContext.CurriculumVitae.Include(p => p.LinkedInProfile).Include(p => p.Website).First();
         int linksCount = dbContext.Links.Count();
 
-        Assert.Equivalent(mockCV, updatedCV, true);
+        Assert.Equivalent(mockCV.LinkedInProfile, updatedCV.LinkedInProfile);
+        Assert.Equivalent(mockCV.Website, updatedCV.Website);
         Assert.Equal(2, linksCount);
     }
+
 
     [Fact]
     public async Task Update_ShouldOnlyUpdateLinksInDB_WhenTheyAlreadyExists()
@@ -96,16 +102,16 @@ public class CVRepositoryTests
         };
 
         // execute
-        await _cvRepository.Update(mockCV, default);
+        _ = await _cvRepository.Update(mockCV, TestContext.Current.CancellationToken);
 
         // assert
         using (var dbContext = _dbContextFactory.CreateSQLiteContext())
         {
-            var cv = dbContext.CurriculumVitae.Include(p => p.LinkedInProfile).Include(p => p.Website).First();
-            CurriculumVitaeDTO updatedCV = _mapper.Map<CurriculumVitaeDTO>(cv);
+            var updatedCV = dbContext.CurriculumVitae.Include(p => p.LinkedInProfile).Include(p => p.Website).First();
             int linksCount = dbContext.Links.Count();
 
-            Assert.Equivalent(mockCV, updatedCV, true);
+            Assert.Equivalent(mockCV.LinkedInProfile, updatedCV.LinkedInProfile);
+            Assert.Equivalent(mockCV.Website, updatedCV.Website);
             Assert.Equal(2, linksCount);
         }
     }
@@ -131,15 +137,16 @@ public class CVRepositoryTests
         };
 
         // execute
-        await _cvRepository.Update(mockCV, default);
+        _ = await _cvRepository.Update(mockCV, TestContext.Current.CancellationToken);
 
         // assert
         using (var dbContext = _dbContextFactory.CreateSQLiteContext())
         {
-            var cv = dbContext.CurriculumVitae.Include(p => p.LinkedInProfile).Include(p => p.Website).First();
-            CurriculumVitaeDTO updatedCV = _mapper.Map<CurriculumVitaeDTO>(cv);
+            var updatedCV = dbContext.CurriculumVitae.Include(p => p.LinkedInProfile).Include(p => p.Website).First();
             int linksCount = dbContext.Links.Count();
-            Assert.Equivalent(mockCV, updatedCV, true);
+
+            Assert.Null(updatedCV.LinkedInProfile);
+            Assert.Null(updatedCV.Website);
             Assert.Equal(0, linksCount);
         }
     }
@@ -160,24 +167,28 @@ public class CVRepositoryTests
         };
 
         // execute
-        await _cvRepository.Update(mockCV, default);
+        _ = await _cvRepository.Update(mockCV, TestContext.Current.CancellationToken);
 
         // assert
         using var dbContext = _dbContextFactory.CreateSQLiteContext();
-        var cv = dbContext.CurriculumVitae
+        var updatedCV = dbContext.CurriculumVitae
             .Include(p => p.WorkExperienceList).ThenInclude(p => p.ExternalLink)
             .Include(p => p.PersonalProjects).ThenInclude(p => p.ExternalLink)
             .Include(p => p.EducationHistory).First();
-        CurriculumVitaeDTO updatedCV = _mapper.Map<CurriculumVitaeDTO>(cv);
+
         int linksCount = dbContext.Links.Count();
         int workExperiencesCount = dbContext.WorkExperiences.Count();
         int personalProjectsCount = dbContext.PersonalProjects.Count();
         int educationHistoryCount = dbContext.EducationHistory.Count();
 
-        Assert.Equivalent(mockCV, updatedCV, true);
         Assert.Equal(1, workExperiencesCount);
         Assert.Equal(2, personalProjectsCount);
         Assert.Equal(1, educationHistoryCount);
+
+        Assert.Equivalent(mockCV.WorkExperienceList, updatedCV.WorkExperienceList);
+        Assert.Equivalent(mockCV.PersonalProjects, updatedCV.PersonalProjects);
+        Assert.Equivalent(mockCV.EducationHistory, updatedCV.EducationHistory);
+        
         Assert.Equal(3, linksCount);
     }
 
@@ -228,25 +239,29 @@ public class CVRepositoryTests
         };
 
         // execute
-        await _cvRepository.Update(mockCV, default);
+        _ = await _cvRepository.Update(mockCV, TestContext.Current.CancellationToken);
 
         // assert
         using (var dbContext = _dbContextFactory.CreateSQLiteContext())
         {
-            var cv = dbContext.CurriculumVitae
+            var updatedCV = dbContext.CurriculumVitae
                 .Include(p => p.WorkExperienceList).ThenInclude(p => p.ExternalLink)
                 .Include(p => p.PersonalProjects).ThenInclude(p => p.ExternalLink)
                 .Include(p => p.EducationHistory).First();
-            CurriculumVitaeDTO updatedCV = _mapper.Map<CurriculumVitaeDTO>(cv);
+            
             int linksCount = dbContext.Links.Count();
             int workExperiencesCount = dbContext.WorkExperiences.Count();
             int personalProjectsCount = dbContext.PersonalProjects.Count();
             int educationHistoryCount = dbContext.EducationHistory.Count();
 
-            Assert.Equivalent(mockCV, updatedCV, true);
             Assert.Equal(1, workExperiencesCount);
             Assert.Equal(2, personalProjectsCount);
             Assert.Equal(1, educationHistoryCount);
+
+            Assert.Equivalent(mockCV.WorkExperienceList, updatedCV.WorkExperienceList);
+            Assert.Equivalent(mockCV.PersonalProjects, updatedCV.PersonalProjects);
+            Assert.Equivalent(mockCV.EducationHistory, updatedCV.EducationHistory);
+            
             Assert.Equal(3, linksCount);
         }
     }
@@ -274,6 +289,13 @@ public class CVRepositoryTests
                 Title = "a",
                 ExternalLink = new Link() { Id = Guid.Empty, Label = "a", Uri = "a" }
             });
+            dbCV.PersonalProjects.Add(new PersonalProject()
+            {
+                Id = Guid.Empty,
+                Description = "a",
+                Title = "a",
+                ExternalLink = new Link() { Id = Guid.Empty, Label = "a", Uri = "a" }
+            });
             dbCV.EducationHistory.Add(new Education()
             {
                 Id = Guid.Empty,
@@ -289,35 +311,79 @@ public class CVRepositoryTests
 
         CurriculumVitaeDTO mockCV = CreateMockCVDTO() with
         {
-            Website = new("a", "a"),
             WorkExperienceList = [],
-            PersonalProjects = [],
+            PersonalProjects = [new("Ttile1", "Desc1", new("Label1", "Uri1"))],
             EducationHistory = [],
         };
 
         // execute
-        await _cvRepository.Update(mockCV, default);
+        _ = await _cvRepository.Update(mockCV, TestContext.Current.CancellationToken);
 
         // assert
         using (var dbContext = _dbContextFactory.CreateSQLiteContext())
         {
-            var cv = dbContext.CurriculumVitae.Include(p => p.Website)
+            var updatedCV = dbContext.CurriculumVitae
                 .Include(p => p.WorkExperienceList).ThenInclude(p => p.ExternalLink)
                 .Include(p => p.PersonalProjects).ThenInclude(p => p.ExternalLink)
                 .Include(p => p.EducationHistory).First();
-            CurriculumVitaeDTO updatedCV = _mapper.Map<CurriculumVitaeDTO>(cv);
+
             int linksCount = dbContext.Links.Count();
             int workExperiencesCount = dbContext.WorkExperiences.Count();
             int personalProjectsCount = dbContext.PersonalProjects.Count();
             int educationHistoryCount = dbContext.EducationHistory.Count();
 
-            Assert.Equivalent(mockCV, updatedCV, true);
             Assert.Equal(0, workExperiencesCount);
-            Assert.Equal(0, personalProjectsCount);
+            Assert.Equal(1, personalProjectsCount);
+            Assert.Equivalent(mockCV.PersonalProjects, updatedCV.PersonalProjects, false);
             Assert.Equal(0, educationHistoryCount);
             Assert.Equal(1, linksCount);
         }
     }
+
+    [Fact]
+    public async Task Update_ShouldRemoveLinkFromPersonalProject_WhenTheNewOneIsNull()
+    {
+        // setup
+        InitializeMockCV();
+        using (var dbContext = _dbContextFactory.CreateSQLiteContext())
+        {
+            var dbCV = dbContext.CurriculumVitae.First();
+            dbCV.PersonalProjects.Add(new PersonalProject()
+            {
+                Id = Guid.Empty,
+                Description = "a",
+                Title = "a",
+                ExternalLink = new Link() { Id = Guid.Empty, Label = "a", Uri = "a" }
+            });
+
+            dbContext.Update(dbCV);
+            dbContext.SaveChanges();
+        }
+
+        CurriculumVitaeDTO mockCV = CreateMockCVDTO() with
+        {
+            PersonalProjects = [new("Title1", "Desc1", null)]
+        };
+
+        // execute
+        _ = await _cvRepository.Update(mockCV, TestContext.Current.CancellationToken);
+
+        // assert
+        using (var dbContext = _dbContextFactory.CreateSQLiteContext())
+        {
+            var updatedCV = dbContext.CurriculumVitae
+                .Include(p => p.PersonalProjects).ThenInclude(p => p.ExternalLink)
+                .First();
+
+            int linksCount = dbContext.Links.Count();
+            int personalProjectsCount = dbContext.PersonalProjects.Count();
+
+            Assert.Equivalent(mockCV.PersonalProjects, updatedCV.PersonalProjects);
+            Assert.Equal(1, personalProjectsCount);
+            Assert.Equal(0, linksCount);
+        }
+    }
+
     #endregion
 
     private void InitializeMockCV()

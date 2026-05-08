@@ -1,34 +1,32 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Portfolio.API.AppLogic.Services;
 using Portfolio.API.DataAccess;
 using Portfolio.API.Domain;
 using Portfolio.API.Domain.ServiceInterfaces;
 
-namespace Portfolio.API.AppLogic
+namespace Portfolio.API.AppLogic;
+
+public static class AppLogicSetup
 {
-    public static class AppLogicSetup
+    public static void AddServices(IServiceCollection services)
     {
-        public static void AddServices(IServiceCollection services, IConfiguration configuration)
+        DataAccessSetup.AddServices(services);
+
+        services.AddHttpClient(Constants.IpLocationApi.Name, (_, httpClient) =>
         {
-            DataAccessSetup.AddServices(services, configuration);
+            httpClient.BaseAddress = new Uri(Constants.IpLocationApi.BaseUrl);
+            httpClient.Timeout = TimeSpan.FromSeconds(10);
+        });
 
-            services.AddHttpClient(Constants.IpLocationApi.Name, (_, httpClient) =>
-            {
-                httpClient.BaseAddress = new Uri(Constants.IpLocationApi.BaseUrl);
-                httpClient.Timeout = TimeSpan.FromSeconds(10);
-            });
+        services.AddSingleton<IIpLocationService, IpLocationService>();
+        services.AddSingleton<ITrackingService, TrackingService>();
 
-            services.AddSingleton<IIpLocationService, IpLocationService>();
-            services.AddSingleton<ITrackingService, TrackingService>();
+        services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<ICVService, CVService>();
+    }
 
-            services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<ICVService, CVService>();
-        }
-
-        public static void Initialize(IServiceProvider serviceProvider)
-        {
-            DataAccessSetup.InitializeDB(serviceProvider);
-        }
+    public static void Initialize(IServiceProvider serviceProvider)
+    {
+        DataAccessSetup.InitializeDB(serviceProvider);
     }
 }
