@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Portfolio.API.AppLogic;
-using Portfolio.API.Domain;
 using Portfolio.API.Domain.ConfigOptions;
+using Portfolio.API.Domain.Constants;
 using Portfolio.API.Logging;
 using Portfolio.API.Middlewares;
 using Portfolio.API.OptionsSetup;
@@ -16,18 +16,19 @@ public static class PortfolioApiSetup
         logging.AddAzureWebAppDiagnostics();
         logging.AddConsole(opt =>
         {
-            opt.FormatterName = Constants.Logging.ConsoleFormatterName;
+            opt.FormatterName = ConstLogFormaterNames.ApiConsoleFormatter;
         });
         logging.AddConsoleFormatter<ApiConsoleFormatter, ApiLogFormatterOptions>();
     }
 
-    public static void AddServices(this IServiceCollection services, IConfiguration configuration)
+    public static void AddServices(IServiceCollection services)
     {
-        services.AddOptionsWithValidateOnStart<JwtTokenOptions>().BindConfiguration(Constants.Config.JwtToken).ValidateDataAnnotations();
-        services.AddOptionsWithValidateOnStart<RateLimitOptions>().BindConfiguration(Constants.Config.RateLimit).ValidateDataAnnotations();
-        services.AddOptionsWithValidateOnStart<DatabaseOptions>().Bind(configuration).ValidateDataAnnotations()
+        services.AddOptionsWithValidateOnStart<JwtTokenOptions>().BindConfiguration(ConstConfigSections.JwtToken).ValidateDataAnnotations();
+        services.AddOptionsWithValidateOnStart<RateLimitOptions>().BindConfiguration(ConstConfigSections.RateLimit).ValidateDataAnnotations();
+        services.AddOptionsWithValidateOnStart<DatabaseOptions>().BindConfiguration(ConstConfigSections.Root).ValidateDataAnnotations()
             .Validate((options) => options.Validate(), DatabaseOptionsValidation.ErrorMessage);
-        services.AddOptionsWithValidateOnStart<CorsConfigOptions>().BindConfiguration(Constants.Config.Cors).ValidateDataAnnotations();
+        services.AddOptionsWithValidateOnStart<CorsConfigOptions>().BindConfiguration(ConstConfigSections.Cors).ValidateDataAnnotations();
+        services.AddOptionsWithValidateOnStart<ExternalAPIsOptions>().BindConfiguration(ConstConfigSections.ExternalAPIs).ValidateDataAnnotations();
 
         services.ConfigureOptions<RateLimiterOptionsSetup>();
         services.ConfigureOptions<JwtBearerOptionsSetup>();

@@ -15,9 +15,5 @@ internal class WorkExperienceConfiguration : IEntityTypeConfiguration<WorkExperi
         builder.Property(p => p.LocationType)
             .HasConversion<string>()
             .HasMaxLength(16);
-
-        //builder.HasOne(p => p.ExternalLink)
-        //    .WithOne()
-        //    .OnDelete(DeleteBehavior.Cascade);
     }
 }

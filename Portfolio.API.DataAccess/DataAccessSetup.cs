@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 using Portfolio.API.DataAccess.MappingConfigs;
 using Portfolio.API.DataAccess.Repositories;
 using Portfolio.API.Domain.ConfigOptions;
+using Portfolio.API.Domain.Constants;
 using Portfolio.API.Domain.CustomExceptions;
 using Portfolio.API.Domain.RepositoryInterfaces;
 
@@ -33,7 +34,7 @@ public static class DataAccessSetup
 
             options = dbProvider switch
             {
-                "SQLServer" => options.UseSqlServer(connString,
+                ConstDataProviders.SQLServer => options.UseSqlServer(connString,
                     opt =>
                     {
                         opt.MigrationsAssembly("Portfolio.API.DataAccess.SQLServer");
@@ -41,7 +42,7 @@ public static class DataAccessSetup
                         opt.EnableRetryOnFailure(maxRetryCount: 2, maxRetryDelay: TimeSpan.FromSeconds(20), errorNumbersToAdd: null);
                     }),
 
-                "SQLite" => options.UseSqlite(connString,
+                ConstDataProviders.SQLite => options.UseSqlite(connString,
                     opt =>
                     {
                         opt.MigrationsAssembly("Portfolio.API.DataAccess.SQLite");
@@ -51,8 +52,6 @@ public static class DataAccessSetup
                 _ => throw new ApiDbException($"Unsupported DB Provider [{dbProvider}]")
             };
         });
-
-        //services.AddAutoMapper(typeof(DataAccessMappingProfile));
 
         services.RegisterMappings();
 

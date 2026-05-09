@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Portfolio.API.DataAccess.Entities;
-using Portfolio.API.Domain;
+using Portfolio.API.Domain.Constants;
 
 namespace Portfolio.API.DataAccess.EntityConfigurations;
 
@@ -28,7 +28,7 @@ internal class CurriculumVitaeConfiguration : IEntityTypeConfiguration<Curriculu
 
         builder.HasData(new CurriculumVitae()
         {
-            Id = Constants.Database.DefaultCVId,
+            Id = ConstDefaults.DefaultCVId,
             Name = "Name",
             Email = "email@email",
             Location = "Location",
@@ -38,12 +38,12 @@ internal class CurriculumVitaeConfiguration : IEntityTypeConfiguration<Curriculu
 
     private static string ToString(List<string> skills)
     {
-        return string.Join(Constants.DbConverter.SkillsDelimiter, skills);
+        return string.Join(ConstStringDelimiters.SkillsDelimiter, skills);
     }
 
     private static List<string> ToList(string value)
     {
-        return [.. value.Split(Constants.DbConverter.SkillsDelimiter, StringSplitOptions.RemoveEmptyEntries)];
+        return [.. value.Split(ConstStringDelimiters.SkillsDelimiter, StringSplitOptions.RemoveEmptyEntries)];
     }
 
     private static ValueComparer<List<string>> GetSkillsValueComparer()

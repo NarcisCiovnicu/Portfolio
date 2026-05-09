@@ -13,7 +13,7 @@ builder.Logging.ConfigureLogging();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddServices(builder.Configuration);
+PortfolioApiSetup.AddServices(builder.Services);
 
 var app = builder.Build();
 app.UseExceptionHandler();

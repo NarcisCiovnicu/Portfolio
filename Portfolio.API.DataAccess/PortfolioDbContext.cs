@@ -27,6 +27,5 @@ public class PortfolioDbContext(DbContextOptions options) : DbContext(options)
         new ApiTrackerConfiguration(Database).Configure(modelBuilder.Entity<ApiTracker>());
         new CurriculumVitaeConfiguration().Configure(modelBuilder.Entity<CurriculumVitae>());
         new WorkExperienceConfiguration().Configure(modelBuilder.Entity<WorkExperience>());
-        new PersonalProjectConfiguration().Configure(modelBuilder.Entity<PersonalProject>());
     }
 }

@@ -2,7 +2,7 @@
 using MapsterMapper;
 using Microsoft.EntityFrameworkCore;
 using Portfolio.API.DataAccess.Entities;
-using Portfolio.API.Domain;
+using Portfolio.API.Domain.Constants;
 using Portfolio.API.Domain.DataTransferObjects;
 using Portfolio.API.Domain.RepositoryInterfaces;
 
@@ -20,7 +20,7 @@ internal class CVRepository(PortfolioDbContext dbContext, IMapper mapper) : ICVR
             .Include(p => p.WorkExperienceList.OrderByDescending(work => work.StartDate)).ThenInclude(p => p.ExternalLink)
             .Include(p => p.PersonalProjects).ThenInclude(p => p.ExternalLink)
             .Include(p => p.EducationHistory.OrderBy(education => education.StartDate))
-            .AsNoTracking().FirstAsync(q => q.Id == Constants.Database.DefaultCVId, cancellationToken);
+            .AsNoTracking().FirstAsync(q => q.Id == ConstDefaults.DefaultCVId, cancellationToken);
 
         return _mapper.Map<CurriculumVitaeDTO>(cv);
     }
@@ -32,7 +32,7 @@ internal class CVRepository(PortfolioDbContext dbContext, IMapper mapper) : ICVR
             .Include(p => p.WorkExperienceList).ThenInclude(p => p.ExternalLink)
             .Include(p => p.PersonalProjects).ThenInclude(p => p.ExternalLink)
             .Include(p => p.EducationHistory)
-            .FirstAsync(q => q.Id == Constants.Database.DefaultCVId, cancellationToken);
+            .FirstAsync(q => q.Id == ConstDefaults.DefaultCVId, cancellationToken);
 
         RemoveLinkIfDtoNull(cv.LinkedInProfile, cvDTO.LinkedInProfile);
         RemoveLinkIfDtoNull(cv.Website, cvDTO.Website);
@@ -83,15 +83,17 @@ internal class CVRepository(PortfolioDbContext dbContext, IMapper mapper) : ICVR
         where D : ExternalLinkCVDTO
     {
         int index = 0;
+
+        // Updated
         while (index < entities.Count && index < DTOs.Count)
         {
-            // "Update" (if necessary)
             RemoveLinkIfDtoNull(entities[index].ExternalLink, DTOs[index].ExternalLink);
             index++;
         }
+
+        // Deleted
         while (index < entities.Count)
         {
-            // Delete (if exists)
             RemoveLinkIfDtoNull(entities[index].ExternalLink, null);
             index++;
         }

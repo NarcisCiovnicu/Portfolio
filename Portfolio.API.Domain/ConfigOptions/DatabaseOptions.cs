@@ -1,37 +1,45 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.Extensions.Options;
+using Portfolio.API.Domain.Constants;
+using System.ComponentModel.DataAnnotations;
 
-namespace Portfolio.API.Domain.ConfigOptions
+namespace Portfolio.API.Domain.ConfigOptions;
+
+public class DatabaseOptions
 {
-    public class DatabaseOptions
-    {
-        [AllowedValues("SQLite", "SQLServer", ErrorMessage = "Database provider must be one of: SQLite / SQLServer")]
-        public required string DatabaseProvider { get; init; }
-        [Required]
-        public required ConnectionStrings ConnectionStrings { get; init; }
-    }
+    [AllowedValues(ConstDataProviders.SQLite, ConstDataProviders.SQLServer,
+        ErrorMessage = $"[{nameof(DatabaseProvider)}] not supported or missing from configuration.")]
+    public required string DatabaseProvider { get; init; }
 
-    public class ConnectionStrings
-    {
-        [Required]
-        public required string PortfolioDB { get; init; }
-    }
+    [Required]
+    [ValidateObjectMembers]
+    public required ConnectionStrings ConnectionStrings { get; init; }
+}
 
-    public static class DatabaseOptionsValidation
+public class ConnectionStrings
+{
+    [Required]
+    public required string PortfolioDB { get; init; }
+}
+
+public static class DatabaseOptionsValidation
+{
+    public static bool Validate(this DatabaseOptions options)
     {
-        public static bool Validate(this DatabaseOptions options)
+        string portfolioConnString = options.ConnectionStrings.PortfolioDB;
+
+        if (string.IsNullOrWhiteSpace(portfolioConnString))
         {
-            string portfolioConnString = options.ConnectionStrings.PortfolioDB;
-            if (options.DatabaseProvider == "SQLite")
-            {
-                return portfolioConnString.StartsWith("Data Source=");
-            }
-            else
-            {
-                //return true; // Hack - to generate SQLServer migrations
-                return portfolioConnString.StartsWith("Server=");
-            }
+            return false;
         }
 
-        public static readonly string ErrorMessage = "[DatabaseProvider] and [ConnectionStrings] are not configured correctly.";
+        return options.DatabaseProvider switch
+        {
+            ConstDataProviders.SQLite => portfolioConnString.StartsWith("Data Source="),
+            ConstDataProviders.SQLServer => portfolioConnString.StartsWith("Server="),
+            _ => true // Return true because of separate validation for DatabaseProvider
+        };
     }
+
+    public const string ErrorMessage = 
+        $"[{nameof(DatabaseOptions.DatabaseProvider)}] and [{nameof(DatabaseOptions.ConnectionStrings)}] are not configured correctly.";
 }

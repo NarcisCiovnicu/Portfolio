@@ -1,33 +1,32 @@
 ﻿using Microsoft.Extensions.Logging;
-using Portfolio.API.Domain;
+using Portfolio.API.Domain.Constants;
 using Portfolio.API.Domain.CustomExceptions;
 using Portfolio.API.Domain.DataTransferObjects;
 using Portfolio.API.Domain.ServiceInterfaces;
 using System.Net;
 using System.Net.Http.Json;
 
-namespace Portfolio.API.AppLogic.Services
+namespace Portfolio.API.AppLogic.Services;
+
+internal class IpLocationService(ILogger<IpLocationService> logger, IHttpClientFactory httpClientFactory) : IIpLocationService
 {
-    internal class IpLocationService(ILogger<IpLocationService> logger, IHttpClientFactory httpClientFactory) : IIpLocationService
+    private const string REQ_FIELDS = "message,country,city,zip,lat,lon,isp,mobile,proxy";
+
+    private readonly HttpClient _httpClient = httpClientFactory.CreateClient(ConstHttpClientNames.IpLocationApi);
+    private readonly ILogger<IpLocationService> _logger = logger;
+
+    public async Task<IpLocationResponseDTO> GetLocation(string ip)
     {
-        private const string IncludeFields = "message,country,city,zip,lat,lon,isp,mobile,proxy";
-
-        private readonly HttpClient _httpClient = httpClientFactory.CreateClient(Constants.IpLocationApi.Name);
-        private readonly ILogger<IpLocationService> _logger = logger;
-
-        public async Task<IpLocationResponseDTO> GetLocation(string ip)
+        try
         {
-            try
-            {
-                IpLocationResponseDTO? ipLocation = await _httpClient.GetFromJsonAsync<IpLocationResponseDTO>($"{ip}?fields={IncludeFields}");
+            IpLocationResponseDTO? ipLocation = await _httpClient.GetFromJsonAsync<IpLocationResponseDTO>($"{ip}?fields={REQ_FIELDS}");
 
-                return ipLocation ?? throw new ApiException(HttpStatusCode.NotFound, $"{nameof(IpLocationResponseDTO)} was null");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogCritical(ex, "Request to get location by ip failed.");
-                return new IpLocationResponseDTO(ErrorMessage: ex.Message);
-            }
+            return ipLocation ?? throw new ApiException(HttpStatusCode.NotFound, $"{nameof(IpLocationResponseDTO)} was null");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogCritical(ex, "Request to get location by ip failed.");
+            return new IpLocationResponseDTO(ErrorMessage: ex.Message);
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Portfolio.API.AppLogic.Services;
 using Portfolio.API.DataAccess;
-using Portfolio.API.Domain;
+using Portfolio.API.Domain.ConfigOptions;
+using Portfolio.API.Domain.Constants;
 using Portfolio.API.Domain.ServiceInterfaces;
 
 namespace Portfolio.API.AppLogic;
@@ -12,9 +14,10 @@ public static class AppLogicSetup
     {
         DataAccessSetup.AddServices(services);
 
-        services.AddHttpClient(Constants.IpLocationApi.Name, (_, httpClient) =>
+        services.AddHttpClient(ConstHttpClientNames.IpLocationApi, (sp, httpClient) =>
         {
-            httpClient.BaseAddress = new Uri(Constants.IpLocationApi.BaseUrl);
+            IpLocationAPIOptions options = sp.GetRequiredService<IOptions<ExternalAPIsOptions>>().Value.IpLocationAPI;
+            httpClient.BaseAddress = new Uri(options.BaseUrl);
             httpClient.Timeout = TimeSpan.FromSeconds(10);
         });
 
