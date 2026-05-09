@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Portfolio.API.AppLogic;
-using Portfolio.API.Domain.ConfigOptions;
-using Portfolio.API.Domain.Constants;
+using Portfolio.API.Contracts.ConfigOptions;
+using Portfolio.API.Contracts.Constants;
 using Portfolio.API.Logging;
 using Portfolio.API.Middlewares;
 using Portfolio.API.OptionsSetup;

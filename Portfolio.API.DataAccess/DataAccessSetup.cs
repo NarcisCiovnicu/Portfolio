@@ -5,10 +5,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Portfolio.API.DataAccess.MappingConfigs;
 using Portfolio.API.DataAccess.Repositories;
-using Portfolio.API.Domain.ConfigOptions;
-using Portfolio.API.Domain.Constants;
-using Portfolio.API.Domain.CustomExceptions;
-using Portfolio.API.Domain.RepositoryInterfaces;
+using Portfolio.API.Contracts.ConfigOptions;
+using Portfolio.API.Contracts.Constants;
+using Portfolio.API.Contracts.CustomExceptions;
+using Portfolio.API.Contracts.RepositoryInterfaces;
 
 namespace Portfolio.API.DataAccess;
 

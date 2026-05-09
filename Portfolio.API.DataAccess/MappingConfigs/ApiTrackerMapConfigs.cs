@@ -1,6 +1,6 @@
 ﻿using Mapster;
 using Portfolio.API.DataAccess.Entities;
-using Portfolio.API.Domain.DataTransferObjects;
+using Portfolio.API.Contracts.DataTransferObjects;
 
 namespace Portfolio.API.DataAccess.MappingConfigs;
 

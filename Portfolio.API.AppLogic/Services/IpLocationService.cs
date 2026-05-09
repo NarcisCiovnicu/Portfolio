@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
-using Portfolio.API.Domain.Constants;
-using Portfolio.API.Domain.CustomExceptions;
-using Portfolio.API.Domain.DataTransferObjects;
-using Portfolio.API.Domain.ServiceInterfaces;
+using Portfolio.API.Contracts.Constants;
+using Portfolio.API.Contracts.CustomExceptions;
+using Portfolio.API.Contracts.DataTransferObjects;
+using Portfolio.API.Contracts.ServiceInterfaces;
 using System.Net;
 using System.Net.Http.Json;
 

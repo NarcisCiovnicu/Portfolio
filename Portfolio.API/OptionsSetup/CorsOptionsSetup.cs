@@ -1,20 +1,19 @@
 ﻿using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.Extensions.Options;
-using Portfolio.API.Domain.ConfigOptions;
+using Portfolio.API.Contracts.ConfigOptions;
 
-namespace Portfolio.API.OptionsSetup
+namespace Portfolio.API.OptionsSetup;
+
+public class CorsOptionsSetup(IOptions<CorsConfigOptions> options) : IConfigureOptions<CorsOptions>
 {
-    public class CorsOptionsSetup(IOptions<CorsConfigOptions> options) : IConfigureOptions<CorsOptions>
-    {
-        private readonly CorsConfigOptions _options = options.Value;
+    private readonly CorsConfigOptions _options = options.Value;
 
-        public void Configure(CorsOptions options)
+    public void Configure(CorsOptions options)
+    {
+        options.AddDefaultPolicy(policyBuilder =>
         {
-            options.AddDefaultPolicy(policyBuilder =>
-            {
-                policyBuilder.AllowAnyHeader().AllowAnyMethod();
-                policyBuilder.WithOrigins(_options.WebClientOrigin);
-            });
-        }
+            policyBuilder.AllowAnyHeader().AllowAnyMethod();
+            policyBuilder.WithOrigins(_options.WebClientOrigin);
+        });
     }
 }

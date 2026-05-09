@@ -2,9 +2,9 @@
 using Microsoft.Extensions.Options;
 using Portfolio.API.AppLogic.Services;
 using Portfolio.API.DataAccess;
-using Portfolio.API.Domain.ConfigOptions;
-using Portfolio.API.Domain.Constants;
-using Portfolio.API.Domain.ServiceInterfaces;
+using Portfolio.API.Contracts.ConfigOptions;
+using Portfolio.API.Contracts.Constants;
+using Portfolio.API.Contracts.ServiceInterfaces;
 
 namespace Portfolio.API.AppLogic;
 

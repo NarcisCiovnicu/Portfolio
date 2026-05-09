@@ -1,21 +1,20 @@
-﻿using Portfolio.API.Domain.DataTransferObjects;
-using Portfolio.API.Domain.RepositoryInterfaces;
-using Portfolio.API.Domain.ServiceInterfaces;
+﻿using Portfolio.API.Contracts.DataTransferObjects;
+using Portfolio.API.Contracts.RepositoryInterfaces;
+using Portfolio.API.Contracts.ServiceInterfaces;
 
-namespace Portfolio.API.AppLogic.Services
+namespace Portfolio.API.AppLogic.Services;
+
+internal class CVService(ICVRepository cvRepository) : ICVService
 {
-    internal class CVService(ICVRepository cvRepository) : ICVService
+    private readonly ICVRepository _cvRepository = cvRepository;
+
+    public Task<CurriculumVitaeDTO> GetCV(CancellationToken cancellationToken)
     {
-        private readonly ICVRepository _cvRepository = cvRepository;
+        return _cvRepository.Read(cancellationToken);
+    }
 
-        public Task<CurriculumVitaeDTO> GetCV(CancellationToken cancellationToken)
-        {
-            return _cvRepository.Read(cancellationToken);
-        }
-
-        public Task<CurriculumVitaeDTO> Update(CurriculumVitaeDTO curriculumVitaeDTO, CancellationToken cancellationToken)
-        {
-            return _cvRepository.Update(curriculumVitaeDTO, cancellationToken);
-        }
+    public Task<CurriculumVitaeDTO> Update(CurriculumVitaeDTO curriculumVitaeDTO, CancellationToken cancellationToken)
+    {
+        return _cvRepository.Update(curriculumVitaeDTO, cancellationToken);
     }
 }

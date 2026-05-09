@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Logging.Console;
 using Microsoft.Extensions.Options;
-using Portfolio.API.Domain.Constants;
+using Portfolio.API.Contracts.Constants;
 
 namespace Portfolio.API.Logging;
 

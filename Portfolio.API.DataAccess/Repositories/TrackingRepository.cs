@@ -1,7 +1,7 @@
 ﻿using MapsterMapper;
 using Portfolio.API.DataAccess.Entities;
-using Portfolio.API.Domain.DataTransferObjects;
-using Portfolio.API.Domain.RepositoryInterfaces;
+using Portfolio.API.Contracts.DataTransferObjects;
+using Portfolio.API.Contracts.RepositoryInterfaces;
 
 namespace Portfolio.API.DataAccess.Repositories;
 

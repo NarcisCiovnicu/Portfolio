@@ -1,39 +1,38 @@
 ﻿using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.Extensions.Options;
-using Portfolio.API.Domain.ConfigOptions;
+using Portfolio.API.Contracts.ConfigOptions;
 using System.Net;
 using System.Threading.RateLimiting;
 
-namespace Portfolio.API.OptionsSetup
+namespace Portfolio.API.OptionsSetup;
+
+public class RateLimiterOptionsSetup(IOptions<RateLimitOptions> options) : IConfigureOptions<RateLimiterOptions>
 {
-    public class RateLimiterOptionsSetup(IOptions<RateLimitOptions> options) : IConfigureOptions<RateLimiterOptions>
+    private readonly RateLimitOptions _options = options.Value;
+
+    public void Configure(RateLimiterOptions options)
     {
-        private readonly RateLimitOptions _options = options.Value;
-
-        public void Configure(RateLimiterOptions options)
+        options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, IPAddress>(context =>
         {
-            options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, IPAddress>(context =>
+            IPAddress remoteIpAddress = context.Connection.RemoteIpAddress ?? IPAddress.Any;
+
+            if (IPAddress.IsLoopback(remoteIpAddress))
             {
-                IPAddress remoteIpAddress = context.Connection.RemoteIpAddress ?? IPAddress.Any;
+                return RateLimitPartition.GetNoLimiter(IPAddress.Loopback);
+            }
 
-                if (IPAddress.IsLoopback(remoteIpAddress))
+            return RateLimitPartition.GetTokenBucketLimiter
+                (remoteIpAddress, _ => new TokenBucketRateLimiterOptions
                 {
-                    return RateLimitPartition.GetNoLimiter(IPAddress.Loopback);
-                }
+                    TokenLimit = _options.TokenLimit,
+                    QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+                    QueueLimit = _options.QueueLimit,
+                    ReplenishmentPeriod = TimeSpan.FromSeconds(_options.ReplenishmentPeriod),
+                    TokensPerPeriod = _options.TokensPerPeriod,
+                    AutoReplenishment = true
+                });
+        });
 
-                return RateLimitPartition.GetTokenBucketLimiter
-                    (remoteIpAddress, _ => new TokenBucketRateLimiterOptions
-                    {
-                        TokenLimit = _options.TokenLimit,
-                        QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
-                        QueueLimit = _options.QueueLimit,
-                        ReplenishmentPeriod = TimeSpan.FromSeconds(_options.ReplenishmentPeriod),
-                        TokensPerPeriod = _options.TokensPerPeriod,
-                        AutoReplenishment = true
-                    });
-            });
-
-            options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
-        }
+        options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
     }
 }

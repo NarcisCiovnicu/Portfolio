@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Portfolio.API.Domain\Portfolio.API.Domain.csproj" />
+    <ProjectReference Include="..\Portfolio.API.Contracts\Portfolio.API.Contracts.csproj" />
   </ItemGroup>
 
   <ItemGroup>

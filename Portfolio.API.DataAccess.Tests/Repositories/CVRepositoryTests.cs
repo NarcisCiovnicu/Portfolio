@@ -5,7 +5,7 @@ using Portfolio.API.DataAccess.Entities;
 using Portfolio.API.DataAccess.MappingConfigs;
 using Portfolio.API.DataAccess.Repositories;
 using Portfolio.API.DataAccess.Test.TestHelpers;
-using Portfolio.API.Domain.DataTransferObjects;
+using Portfolio.API.Contracts.DataTransferObjects;
 
 namespace Portfolio.API.DataAccess.Test.Repositories;
 

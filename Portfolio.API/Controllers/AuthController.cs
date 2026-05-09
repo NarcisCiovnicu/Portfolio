@@ -1,25 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Portfolio.API.Domain.DataTransferObjects;
-using Portfolio.API.Domain.ServiceInterfaces;
+using Portfolio.API.Contracts.DataTransferObjects;
+using Portfolio.API.Contracts.ServiceInterfaces;
 using Portfolio.API.Extensions;
 
-namespace Portfolio.API.Controllers
+namespace Portfolio.API.Controllers;
+
+[Route("api/")]
+[ApiController]
+public class AuthController(IAuthService authService) : ControllerBase
 {
-    [Route("api/")]
-    [ApiController]
-    public class AuthController(IAuthService authService) : ControllerBase
+    private readonly IAuthService _authService = authService;
+
+    [Route("authenticate")]
+    [HttpPost]
+    public async Task<IActionResult> Authenticate([FromBody] AuthenticationDTO authDTO, CancellationToken cancellationToken)
     {
-        private readonly IAuthService _authService = authService;
+        bool isValid = await _authService.IsValid(authDTO, cancellationToken);
 
-        [Route("authenticate")]
-        [HttpPost]
-        public async Task<IActionResult> Authenticate([FromBody] AuthenticationDTO authDTO, CancellationToken cancellationToken)
-        {
-            bool isValid = await _authService.IsValid(authDTO, cancellationToken);
-
-            return isValid
-                ? Ok(_authService.GenerateJwtToken())
-                : this.UnauthorizedProblem("Wrong password");
-        }
+        return isValid
+            ? Ok(_authService.GenerateJwtToken())
+            : this.UnauthorizedProblem("Wrong password");
     }
 }
