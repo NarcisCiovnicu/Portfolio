@@ -1,10 +1,10 @@
 ﻿using Mapster;
-using Portfolio.API.DataAccess.Entities;
 using Portfolio.API.Contracts.DataTransferObjects;
+using Portfolio.API.DataAccess.DatabaseEntities;
 
 namespace Portfolio.API.DataAccess.MappingConfigs;
 
-public class CurriculumVitaeMapConfigs : IRegister
+internal class CurriculumVitaeMapConfigs : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {

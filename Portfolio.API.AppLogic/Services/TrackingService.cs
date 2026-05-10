@@ -12,7 +12,7 @@ internal class TrackingService(ILogger<TrackingService> logger, IServiceScopeFac
 {
     private readonly ILogger<TrackingService> _logger = logger;
     private readonly IServiceScopeFactory _serviceScopeFactory = serviceScopeFactory;
-    private const int _maxAttempts = 3;
+    private const int MAX_ATTEMPTS = 3;
 
     internal int RetryDelay { get; init; } = Math.Clamp(retryDelay, 1, 60_000);
 
@@ -26,7 +26,7 @@ internal class TrackingService(ILogger<TrackingService> logger, IServiceScopeFac
         try
         {
             ITrackingRepository trackingRepository = GetScopedTrackingRepository();
-            int retriesCount = _maxAttempts;
+            int retriesCount = MAX_ATTEMPTS;
             while (retriesCount > 0)
             {
                 /// Reason for this custom implementation:
@@ -41,7 +41,7 @@ internal class TrackingService(ILogger<TrackingService> logger, IServiceScopeFac
                 }
                 catch (InvalidOperationException ex)
                 {
-                    int attempt = _maxAttempts - retriesCount + 1;
+                    int attempt = MAX_ATTEMPTS - retriesCount + 1;
                     _logger.LogWarning(ex, "Attempt #{count} failed to save [apiTracker] in DB.", attempt);
 
                     retriesCount--;

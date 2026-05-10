@@ -1,10 +1,10 @@
 ﻿using Mapster;
 using MapsterMapper;
 using Microsoft.EntityFrameworkCore;
-using Portfolio.API.DataAccess.Entities;
 using Portfolio.API.Contracts.Constants;
 using Portfolio.API.Contracts.DataTransferObjects;
 using Portfolio.API.Contracts.RepositoryInterfaces;
+using Portfolio.API.DataAccess.DatabaseEntities;
 
 namespace Portfolio.API.DataAccess.Repositories;
 

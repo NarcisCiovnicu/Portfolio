@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Portfolio.API.DataAccess.Entities;
+using Portfolio.API.DataAccess.DatabaseEntities;
 using Portfolio.API.DataAccess.EntityConfigurations;
 
 namespace Portfolio.API.DataAccess;

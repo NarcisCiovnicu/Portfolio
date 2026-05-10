@@ -1,13 +1,13 @@
 ﻿using Mapster;
 using Portfolio.API.Contracts.DataTransferObjects;
-using Portfolio.API.DataAccess.DatabaseEntities;
+using Portfolio.API.DataAccess.ProviderModels;
 
 namespace Portfolio.API.DataAccess.MappingConfigs;
 
-internal class ApiTrackerMapConfigs : IRegister
+internal class IpLocationConfigs : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {
-        config.NewConfig<ApiTrackerDTO, ApiTracker>();
+        config.NewConfig<IpLocationResponse, IpLocationDTO>();
     }
 }

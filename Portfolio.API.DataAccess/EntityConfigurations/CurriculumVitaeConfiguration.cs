@@ -2,8 +2,8 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Portfolio.API.DataAccess.Entities;
 using Portfolio.API.Contracts.Constants;
+using Portfolio.API.DataAccess.DatabaseEntities;
 
 namespace Portfolio.API.DataAccess.EntityConfigurations;
 

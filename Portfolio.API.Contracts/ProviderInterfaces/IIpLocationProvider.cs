@@ -1,8 +1,8 @@
 ﻿using Portfolio.API.Contracts.DataTransferObjects;
 
-namespace Portfolio.API.Contracts.ServiceInterfaces;
+namespace Portfolio.API.Contracts.ProviderInterfaces;
 
-public interface IIpLocationService
+public interface IIpLocationProvider
 {
     Task<IpLocationDTO> GetLocation(string ip);
 }

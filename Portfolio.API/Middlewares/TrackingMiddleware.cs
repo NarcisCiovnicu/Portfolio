@@ -25,13 +25,13 @@ public class TrackingMiddleware(RequestDelegate next, ILogger<TrackingMiddleware
         IPAddress ipAddress = GetIp(context);
         string? userAgent = context.Request.Headers.UserAgent;
         string path = $"{context.Request.Method} - {context.Request.Path}";
-        IpLocationResponseDTO ipLocation;
+        IpLocationDTO ipLocation;
 
         bool isAnyIp = ipAddress == IPAddress.Any;
         if (IPAddress.IsLoopback(ipAddress) || isAnyIp)
         {
-            string ipType = isAnyIp ? "Any" : "Loopback";
-            ipLocation = new IpLocationResponseDTO(ErrorMessage: $"Ip address is {ipType}");
+            string ipType = isAnyIp ? "Any (0.0.0.0)" : "Loopback (127.0.0.0)";
+            ipLocation = new IpLocationDTO(ErrorMessage: $"Ip address is {ipType}");
         }
         else
         {

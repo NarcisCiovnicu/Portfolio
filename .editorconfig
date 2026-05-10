@@ -1,18 +1,18 @@
 # Rules
 root=true
 
-# Private readonly fields must use _ prefix
+# C# files formatting	===============================
 [*.cs]
-dotnet_naming_symbols.private_readonly_fields.applicable_kinds = field
-dotnet_naming_symbols.private_readonly_fields.applicable_accessibilities = private
-dotnet_naming_symbols.private_readonly_fields.required_modifiers = readonly
-dotnet_naming_style.private_readonly_prefix_style.required_prefix = _
-dotnet_naming_style.private_readonly_prefix_style.capitalization = camel_case
-dotnet_naming_rule.private_readonly_fields_must_have_prefix.symbols = private_readonly_fields
-dotnet_naming_rule.private_readonly_fields_must_have_prefix.style = private_readonly_prefix_style
-dotnet_naming_rule.private_readonly_fields_must_have_prefix.severity = warning
-dotnet_naming_style.private_field_style.required_prefix = _
-dotnet_naming_style.private_field_style.capitalization = camel_case
+
+# Private readonly fields must use _ prefix
+dotnet_naming_style.private_readonly_style.capitalization = camel_case
+dotnet_naming_style.private_readonly_style.required_prefix = _
+dotnet_naming_symbols.private_readonly_symbols.applicable_kinds = field
+dotnet_naming_symbols.private_readonly_symbols.applicable_accessibilities = private
+dotnet_naming_symbols.private_readonly_symbols.required_modifiers = readonly
+dotnet_naming_rule.private_readonly_fields_should_have_prefix.symbols = private_readonly_symbols
+dotnet_naming_rule.private_readonly_fields_should_have_prefix.style = private_readonly_style
+dotnet_naming_rule.private_readonly_fields_should_have_prefix.severity = warning
 
 # Private const fields must be uppercase with _ separator
 dotnet_naming_style.uppercase_style.capitalization = all_upper
@@ -25,21 +25,21 @@ dotnet_naming_rule.private_constants_should_be_uppercase.style = uppercase_style
 dotnet_naming_rule.private_constants_should_be_uppercase.severity = warning
 
 # File-scoped namespaces
-csharp_namespace_declarations_block_scope = false
+csharp_style_namespace_declarations = file_scoped:warning
 
 # Require primary constructors for classes and structs
 csharp_style_require_primary_constructors = true:warning
 
 # ------------------------------
 
-# JSON files formatting
+# JSON files formatting		===============================
 [*.json]
 indent_style = space
 indent_size = 2
 
 # ------------------------------
 
-# CSPROJ files formatting
+# CSPROJ files formatting	===============================
 [*.csproj]
 indent_style = space
 indent_size = 2

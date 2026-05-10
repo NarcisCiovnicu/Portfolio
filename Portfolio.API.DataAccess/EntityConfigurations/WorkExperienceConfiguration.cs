@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Portfolio.API.DataAccess.Entities;
+using Portfolio.API.DataAccess.DatabaseEntities;
 
 namespace Portfolio.API.DataAccess.EntityConfigurations;
 

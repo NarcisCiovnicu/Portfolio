@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Portfolio.API.DataAccess.Entities;
+namespace Portfolio.API.DataAccess.DatabaseEntities;
 
 public class CurriculumVitae : BaseEntity
 {

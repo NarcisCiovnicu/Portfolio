@@ -3,12 +3,14 @@ using MapsterMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Portfolio.API.DataAccess.MappingConfigs;
-using Portfolio.API.DataAccess.Repositories;
 using Portfolio.API.Contracts.ConfigOptions;
 using Portfolio.API.Contracts.Constants;
 using Portfolio.API.Contracts.CustomExceptions;
+using Portfolio.API.Contracts.ProviderInterfaces;
 using Portfolio.API.Contracts.RepositoryInterfaces;
+using Portfolio.API.DataAccess.MappingConfigs;
+using Portfolio.API.DataAccess.Providers;
+using Portfolio.API.DataAccess.Repositories;
 
 namespace Portfolio.API.DataAccess;
 
@@ -58,6 +60,8 @@ public static class DataAccessSetup
         services.AddScoped<ITrackingRepository, TrackingRepository>();
         services.AddScoped<IPasswordRepository, PasswordRepository>();
         services.AddScoped<ICVRepository, CVRepository>();
+
+        services.AddSingleton<IIpLocationProvider, IpLocationProvider>();
     }
 
     private static void RegisterMappings(this IServiceCollection services)
@@ -67,6 +71,7 @@ public static class DataAccessSetup
 
         new CurriculumVitaeMapConfigs().Register(config);
         new ApiTrackerMapConfigs().Register(config);
+        new IpLocationConfigs().Register(config);
 
         config.Compile();
 
