@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Portfolio.API.Contracts.CustomExceptions;
 using Portfolio.API.Extensions;
 using Shared;
+using System.Net.Mime;
 using System.Text.Json;
 
 namespace Portfolio.API.Middlewares;
@@ -36,7 +37,7 @@ public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger, IWeb
         AddMoreDetails(problem, exception, httpContext);
 
         httpContext.Response.StatusCode = problem.Status ?? StatusCodes.Status500InternalServerError;
-        await httpContext.Response.WriteAsJsonAsync(problem, _serializerOptions, contentType: "application/problem+json", cancellationToken);
+        await httpContext.Response.WriteAsJsonAsync(problem, _serializerOptions, MediaTypeNames.Application.ProblemJson, cancellationToken);
 
         return true;
     }

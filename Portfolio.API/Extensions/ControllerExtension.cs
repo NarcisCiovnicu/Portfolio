@@ -1,15 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Shared;
 
-namespace Portfolio.API.Extensions
+namespace Portfolio.API.Extensions;
+
+public static class ControllerExtension
 {
-    public static class ControllerExtension
+    public static ProblemDetails UnauthorizedProblem(this ControllerBase controller, string detail)
     {
-        public static IActionResult UnauthorizedProblem(this ControllerBase controller, string detail)
+        return new ProblemDetails()
         {
-            return controller.Problem(detail, controller.HttpContext.Request.GetInstance(),
-                StatusCodes.Status401Unauthorized, "Unauthorized",
-                ProblemDetailsHelper.GetProblemDetailsType(StatusCodes.Status401Unauthorized));
-        }
+            Detail = detail,
+            Title = "Unauthorized",
+            Instance = controller.HttpContext.Request.GetInstance(),
+            Status = StatusCodes.Status401Unauthorized,
+            Type = ProblemDetailsHelper.GetProblemDetailsType(StatusCodes.Status401Unauthorized)
+        };
     }
 }

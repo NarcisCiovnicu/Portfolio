@@ -12,18 +12,15 @@ public class CurriculumVitaeController(ICVService cvService) : ControllerBase
     private readonly ICVService _cvService = cvService;
 
     [HttpGet]
-    public async Task<IActionResult> Get(CancellationToken cancellationToken)
+    public Task<CurriculumVitaeDTO> Get(CancellationToken cancellationToken)
     {
-        CurriculumVitaeDTO cv = await _cvService.GetCV(cancellationToken);
-        return Ok(cv);
+        return _cvService.GetCV(cancellationToken);
     }
 
-    [Authorize]
-    [HttpPost]
-    public async Task<IActionResult> Update([FromBody] CurriculumVitaeDTO curriculumVitaeDTO, CancellationToken cancellationToken)
+    [HttpPost, Authorize]
+    public Task<CurriculumVitaeDTO> Update([FromBody] CurriculumVitaeDTO curriculumVitaeDTO, CancellationToken cancellationToken)
     {
-        CurriculumVitaeDTO updatedCV = await _cvService.Update(curriculumVitaeDTO, cancellationToken);
-        return Ok(updatedCV);
+        return _cvService.Update(curriculumVitaeDTO, cancellationToken);
     }
 
     //[HttpGet]
@@ -33,14 +30,11 @@ public class CurriculumVitaeController(ICVService cvService) : ControllerBase
     //}
 
 #if DEBUG
-    [Authorize]
-    [Route("/api/updateCvWithMockData_DebugOnly")]
-    [HttpPost]
-    public async Task<IActionResult> MockCV(CancellationToken cancellationToken)
+    [HttpPost, Authorize, Route("/api/update-cv-with-mock-data_DebugOnly")]
+    public Task<CurriculumVitaeDTO> MockCV(CancellationToken cancellationToken)
     {
         CurriculumVitaeDTO cvDTO = System.Text.Json.JsonSerializer.Deserialize<CurriculumVitaeDTO>(System.IO.File.ReadAllText("./sample-data/cv.json"))!;
-        await _cvService.Update(cvDTO, cancellationToken);
-        return Ok("CV was mocked");
+        return _cvService.Update(cvDTO, cancellationToken);
     }
 #endif
 }

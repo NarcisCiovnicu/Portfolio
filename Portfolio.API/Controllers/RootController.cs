@@ -1,24 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Portfolio.API.Controllers
+namespace Portfolio.API.Controllers;
+
+[Route("/")]
+[ApiController]
+public class RootController(IWebHostEnvironment hostingEnv) : ControllerBase
 {
-    [Route("/")]
-    [ApiController]
-    public class RootController(IWebHostEnvironment hostingEnv) : ControllerBase
+    private readonly IWebHostEnvironment _hostingEnv = hostingEnv;
+
+    [HttpGet]
+    public Ok<string> Index()
     {
-        private readonly IWebHostEnvironment _hostingEnv = hostingEnv;
+        return TypedResults.Ok($"Portfolio API is UP and Running ({_hostingEnv.EnvironmentName})");
+    }
 
-        [HttpGet]
-        public IActionResult Index()
-        {
-            return Ok($"Portfolio API is UP and Running ({_hostingEnv.EnvironmentName})");
-        }
-
-        [Route("/admin/host/status")]
-        [HttpGet]
-        public IActionResult Status()
-        {
-            return Ok();
-        }
+    [HttpGet, Route("/admin/host/status")]
+    public Ok Status()
+    {
+        return TypedResults.Ok();
     }
 }
