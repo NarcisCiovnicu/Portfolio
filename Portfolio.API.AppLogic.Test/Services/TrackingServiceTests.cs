@@ -13,7 +13,7 @@ public class TrackingServiceTests
     private readonly Mock<ITrackingRepository> _mockTrackingRepo = new();
     private readonly Mock<IServiceScopeFactory> _mockServiceScopeFactory = new();
 
-    private readonly ApiTrackerDTO _mockApiTrackerDTO = new("1.1.1.1", "a", "a", "a", "a", "a", 1.2, 1.2, "a", false, false, "a");
+    private readonly ApiTrackerDTO _mockApiTrackerDTO = new("1.1.1.1", "a", "a", "a", "a","a", "a", 1.2, 1.2, "a", false, false, "a");
 
     #region RetryDelay
     [Theory]

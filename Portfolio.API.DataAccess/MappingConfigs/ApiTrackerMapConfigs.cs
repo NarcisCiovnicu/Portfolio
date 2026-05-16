@@ -9,5 +9,8 @@ internal class ApiTrackerMapConfigs : IRegister
     public void Register(TypeAdapterConfig config)
     {
         config.NewConfig<ApiTrackerDTO, ApiTracker>();
+
+        config.NewConfig<TrackingExceptionRuleDTO, TrackingExceptionRule>()
+            .TwoWays();
     }
 }

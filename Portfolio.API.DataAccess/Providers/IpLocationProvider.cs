@@ -13,7 +13,7 @@ namespace Portfolio.API.DataAccess.Providers;
 internal class IpLocationProvider(ILogger<IpLocationProvider> logger, IMapper mapper, IHttpClientFactory httpClientFactory)
     : IIpLocationProvider
 {
-    private const string REQ_FIELDS = "message,country,city,zip,lat,lon,isp,mobile,proxy";
+    private const string REQ_FIELDS = "message,country,regionName,city,zip,lat,lon,isp,mobile,proxy";
 
     private readonly ILogger<IpLocationProvider> _logger = logger;
     private readonly IMapper _mapper = mapper;

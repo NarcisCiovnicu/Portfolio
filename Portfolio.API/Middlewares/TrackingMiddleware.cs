@@ -4,7 +4,8 @@ using System.Net;
 
 namespace Portfolio.API.Middlewares;
 
-public class TrackingMiddleware(RequestDelegate next, ILogger<TrackingMiddleware> logger, IIpLocationService ipLocationService, ITrackingService trackingService)
+public class TrackingMiddleware(RequestDelegate next, ILogger<TrackingMiddleware> logger,
+    IIpLocationService ipLocationService, ITrackingService trackingService)
 {
     private readonly RequestDelegate _next = next;
     private readonly ILogger<TrackingMiddleware> _logger = logger;
@@ -38,7 +39,7 @@ public class TrackingMiddleware(RequestDelegate next, ILogger<TrackingMiddleware
             ipLocation = await _ipLocationService.GetLocation(ipAddress.ToString());
         }
 
-        ApiTrackerDTO apiTracker = new(ipAddress.ToString(), path, userAgent, ipLocation.Country, ipLocation.City, ipLocation.ZipCode,
+        ApiTrackerDTO apiTracker = new(ipAddress.ToString(), path, userAgent, ipLocation.Country, ipLocation.Region, ipLocation.City, ipLocation.ZipCode,
             ipLocation.Latitude, ipLocation.Longitude, ipLocation.InternetProvider, ipLocation.IsMobile, ipLocation.IsProxy, ipLocation.ErrorMessage);
 
         _ = _trackingService.LogWithFireAndForget(apiTracker);

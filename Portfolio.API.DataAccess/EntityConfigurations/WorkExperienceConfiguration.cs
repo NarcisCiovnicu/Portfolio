@@ -10,10 +10,10 @@ internal class WorkExperienceConfiguration : IEntityTypeConfiguration<WorkExperi
     {
         builder.Property(p => p.EmploymentType)
             .HasConversion<string>()
-            .HasMaxLength(16);
+            .HasMaxLength(32);
 
         builder.Property(p => p.LocationType)
             .HasConversion<string>()
-            .HasMaxLength(16);
+            .HasMaxLength(32);
     }
 }

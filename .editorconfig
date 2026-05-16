@@ -30,6 +30,8 @@ csharp_style_namespace_declarations = file_scoped:warning
 # Require primary constructors for classes and structs
 csharp_style_require_primary_constructors = true:warning
 
+# Code smell
+dotnet_diagnostic.CA1502.severity = warning
 # ------------------------------
 
 # JSON files formatting		===============================

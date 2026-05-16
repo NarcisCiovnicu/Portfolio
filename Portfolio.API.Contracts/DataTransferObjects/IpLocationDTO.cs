@@ -2,6 +2,7 @@
 
 public record IpLocationDTO(
     string? Country = null,
+    string? Region = null,
     string? City = null,
     string? ZipCode = null,
     double? Latitude = null,

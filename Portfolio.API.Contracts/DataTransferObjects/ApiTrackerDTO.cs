@@ -5,6 +5,7 @@ public record ApiTrackerDTO(
     string RoutePath,
     string? UserAgent,
     string? Country,
+    string? Region,
     string? City,
     string? ZipCode,
     double? Latitude,

@@ -10,7 +10,7 @@ internal class TrackingRepository(PortfolioDbContext dbContext, IMapper mapper) 
     private readonly PortfolioDbContext _dbContext = dbContext;
     private readonly IMapper _mapper = mapper;
 
-    async Task ITrackingRepository.Create(ApiTrackerDTO apiTrackerDto)
+    public async Task Create(ApiTrackerDTO apiTrackerDto)
     {
         ApiTracker apiTracker = _mapper.Map<ApiTracker>(apiTrackerDto);
 

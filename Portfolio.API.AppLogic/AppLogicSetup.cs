@@ -23,9 +23,10 @@ public static class AppLogicSetup
 
         services.AddSingleton<IIpLocationService, IpLocationService>();
         services.AddSingleton<ITrackingService, TrackingService>();
-
+        
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<ICVService, CVService>();
+        services.AddScoped<ITrackingExceptionRuleService, TrackingExceptionRuleService>();
     }
 
     public static void Initialize(IServiceProvider serviceProvider)

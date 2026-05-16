@@ -60,6 +60,7 @@ public static class DataAccessSetup
         services.AddScoped<ITrackingRepository, TrackingRepository>();
         services.AddScoped<IPasswordRepository, PasswordRepository>();
         services.AddScoped<ICVRepository, CVRepository>();
+        services.AddScoped<ITrackingExceptionRuleRepository, TrackingExceptionRuleRepository>();
 
         services.AddSingleton<IIpLocationProvider, IpLocationProvider>();
     }

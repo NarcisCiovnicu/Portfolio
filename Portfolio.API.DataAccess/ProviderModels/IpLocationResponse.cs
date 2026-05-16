@@ -4,6 +4,7 @@ namespace Portfolio.API.DataAccess.ProviderModels;
 
 internal record IpLocationResponse(
     [property: JsonPropertyName("country")] string? Country,
+    [property: JsonPropertyName("regionName")] string? Region,
     [property: JsonPropertyName("city")] string? City,
     [property: JsonPropertyName("zip")] string? ZipCode,
     [property: JsonPropertyName("lat")] double? Latitude,
